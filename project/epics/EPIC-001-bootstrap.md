@@ -1,0 +1,72 @@
+---
+id: EPIC-001
+title: Phase A bootstrap — repo, skills, tracking, GitHub
+type: epic
+status: in-progress
+priority: P0
+phase: scaffolding
+tags: [bootstrap, scaffolding, phase-a]
+created: 2026-04-25
+updated: 2026-04-25
+---
+
+## Goal
+
+Stand up the StarterSaaS repo with a clean Claude Code working surface: project conventions, the three-skill housekeeping chain (`harvest-knowledge` → `work-tracking` → `auto-pr`), JIRA-style in-repo tracking, the GitHub remote (private), MIT license, and one validated end-to-end auto-PR cycle. After this Epic closes, the repo can host the Phase B grooming session without further infrastructure work.
+
+## Scope
+
+- Folder skeleton (`docs/`, `project/`, `.claude/`, `.github/`, `scripts/` shells)
+- `CLAUDE.md` as the session entry point
+- Three Claude Code skills under `.claude/skills/` with the Stop hook to remind about them
+- `project/` tracking system (README + templates + seeded epics/stories + BOARD)
+- `LICENSE` (MIT) and root `README.md`
+- `.gitignore`, `.gitattributes`, `.github/PULL_REQUEST_TEMPLATE.md`, `.github/workflows/ci.yml`
+- Vision capture: verbatim user message in `docs/vision/RAW_VISION.md`
+- Decisions log seeded with D-1…D-11 from the bootstrap session
+- ADR-0001 locking the MIT license choice
+- Stub docs for architecture, MVP, roadmap (filled in Phase B/C)
+- `git init` + first bootstrap commit on `main`
+- GitHub private repo creation via `gh` + first push
+- One end-to-end validation of the auto-pr skill (small doc edit → PR → auto-merge)
+
+## Out of scope
+
+- Any product code (apps, services, packages)
+- Tech stack selection (deferred to Phase B grooming)
+- Cloud target selection (AWS / GCP — Phase B/C)
+- Multi-tenancy model (Phase B/C)
+- Deployment scripts (Phase D)
+- ADRs beyond ADR-0001 (later ADRs come out of Phase B grooming)
+- Subsystem implementation (auth, RBAC, gateway, billing, etc.)
+- Marketing site
+- ML / data platform / observability stack
+
+## Stories under this Epic
+
+- STORY-001 — Folder skeleton + bootstrap directory tree (in-progress)
+- STORY-002 — CLAUDE.md + vision capture (in-progress)
+- STORY-003 — Three Claude Code skills + Stop hook (in-progress)
+- STORY-004 — In-repo tracking system (project/ + templates + seeded items) (in-progress)
+- STORY-005 — License, README, .gitignore, .gitattributes, .github files (in-progress)
+- STORY-006 — GitHub remote: `gh repo create khoks/StarterSaaS --private` (todo)
+- STORY-007 — End-to-end auto-PR validation cycle (todo)
+
+## Exit criteria
+
+- [ ] All 7 Phase A stories are `status: done`
+- [ ] `git log --oneline` shows the bootstrap commit + at least one auto-PR cycle commit
+- [ ] `gh repo view khoks/StarterSaaS` opens the private GitHub repo
+- [ ] At least one PR has been opened by the `auto-pr` skill and auto-merged
+- [ ] `BOARD.md` reflects EPIC-001 closed and EPIC-002 ready
+- [ ] Starting a new session in this folder triggers the Stop hook with the 3-skill reminder
+
+## Related
+
+- Plan: this session's plan file (saved to `~/.claude/plans/i-want-to-build-happy-cocke.md`; rename/delete after Phase A merges)
+- ADR: [`docs/architecture/ADR-0001-license-mit.md`](../../docs/architecture/ADR-0001-license-mit.md)
+- Decisions log: [`docs/decisions/DECISIONS_LOG.md`](../../docs/decisions/DECISIONS_LOG.md) (D-1…D-11)
+
+## Activity log
+
+- 2026-04-25 — created; status → in-progress (Phase A execution underway)
