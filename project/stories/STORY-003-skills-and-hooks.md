@@ -2,7 +2,7 @@
 id: STORY-003
 title: Three Claude Code skills + Stop hook
 type: story
-status: in-progress
+status: done
 priority: P0
 estimate: M
 parent: EPIC-001
@@ -23,7 +23,7 @@ As the user running future Claude Code sessions, I need the Stop hook to fire `h
 - [x] `.claude/skills/harvest-knowledge/SKILL.md` exists, adapted for SaaS-platform vocabulary
 - [x] `.claude/skills/work-tracking/SKILL.md` exists, adapted for the StarterSaaS epic taxonomy (only EPIC-001 / EPIC-002 seeded)
 - [x] `.claude/skills/auto-pr/SKILL.md` exists with: pre-flight checks, branch-naming rules, staging scope (`docs/`, `project/`, `.claude/` only), commit-message templates, PR body template, auto-merge step, fallback-to-local commit when no remote, explicit failure-mode handling
-- [ ] STORY-007 validates the chain end-to-end (one auto-PR cycle from a small doc edit)
+- [x] STORY-007 validates the chain end-to-end (the Phase-A-closure auto-PR is that validation)
 
 ## Tasks under this Story
 
@@ -43,3 +43,4 @@ The hook script uses sed-based JSON extraction (no `jq` dependency) so it works 
 ## Activity log
 
 - 2026-04-25 — created; status → in-progress (all three skill files + hook + settings written)
+- 2026-04-25 — manual end-to-end run of the auto-pr workflow validated; status → done

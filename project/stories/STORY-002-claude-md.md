@@ -2,7 +2,7 @@
 id: STORY-002
 title: CLAUDE.md + vision capture (RAW_VISION + placeholders)
 type: story
-status: in-progress
+status: done
 priority: P0
 estimate: M
 parent: EPIC-001
@@ -19,13 +19,13 @@ As a Claude Code agent picking up future sessions, I need a single `CLAUDE.md` e
 ## Acceptance criteria
 
 - [x] `CLAUDE.md` written with mission, decisions table (D-1…D-11), where-to-find-things, auto-housekeeping, tracking-as-source-of-truth, coding standards (stubbed pending Phase B), commit style, OS notes, ADR rule, MVP gate, never-do list, collaboration cadence guardrail
-- [ ] `docs/vision/RAW_VISION.md` written with verbatim user message + transcription-artifacts footnote
-- [ ] `docs/vision/GROOMED_FEATURES.md` placeholder (filled Phase B)
-- [ ] `docs/vision/RECOMMENDED_ADDITIONS.md` placeholder
-- [ ] `docs/vision/NOVEL_IDEAS.md` placeholder
-- [ ] `docs/architecture/ARCHITECTURE.md` stub ("pending Phase B")
-- [ ] `docs/roadmap/MVP.md` stub
-- [ ] `docs/roadmap/ROADMAP.md` stub showing phases A → D
+- [x] `docs/vision/RAW_VISION.md` written with verbatim user message + transcription-artifacts footnote
+- [x] `docs/vision/GROOMED_FEATURES.md` placeholder (filled Phase B)
+- [x] `docs/vision/RECOMMENDED_ADDITIONS.md` placeholder
+- [x] `docs/vision/NOVEL_IDEAS.md` placeholder
+- [x] `docs/architecture/ARCHITECTURE.md` stub ("pending Phase B")
+- [x] `docs/roadmap/MVP.md` stub
+- [x] `docs/roadmap/ROADMAP.md` stub showing phases A → D
 
 ## Tasks under this Story
 
@@ -43,3 +43,4 @@ Per D-11, `RAW_VISION.md` body is verbatim. Transcription artifacts are flagged 
 ## Activity log
 
 - 2026-04-25 — created; status → in-progress (CLAUDE.md done, vision docs in progress)
+- 2026-04-25 — all vision + architecture stub + roadmap stubs written; status → done

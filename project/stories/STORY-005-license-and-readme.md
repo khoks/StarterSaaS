@@ -2,7 +2,7 @@
 id: STORY-005
 title: License (MIT), README, gitignore, gitattributes, .github files
 type: story
-status: in-progress
+status: done
 priority: P0
 estimate: S
 parent: EPIC-001
@@ -22,8 +22,8 @@ As a founder considering forking StarterSaaS, I need the repo to land with a cle
 - [x] `README.md` has a 1-paragraph mission, the 4-phase delivery table, and links to CLAUDE.md / BOARD / RAW_VISION
 - [x] `.gitignore` covers OS, IDE, env/secrets, Node/pnpm/Turbo, Python, Go, Terraform/Pulumi, Docker, Claude Code state — stack-agnostic since Phase B picks the stack
 - [x] `.gitattributes` enforces LF for source files and CRLF for `.bat`/`.cmd`/`.ps1`; declares binary types
-- [ ] `.github/PULL_REQUEST_TEMPLATE.md` exists with sections: Story / Epic, Summary, Test notes, Checklist
-- [ ] `.github/workflows/ci.yml` exists as a markdown-lint placeholder (no code yet, so no test/build steps)
+- [x] `.github/PULL_REQUEST_TEMPLATE.md` exists with sections: Story / Epic, Summary, Test notes, Checklist
+- [x] `.github/workflows/ci.yml` exists as a markdown-lint placeholder (no code yet, so no test/build steps)
 
 ## Tasks under this Story
 
@@ -41,3 +41,4 @@ License choice (MIT) is locked in [`docs/architecture/ADR-0001-license-mit.md`](
 ## Activity log
 
 - 2026-04-25 — created; status → in-progress (license + README + gitignore + gitattributes done; .github files pending)
+- 2026-04-25 — .github files written; status → done

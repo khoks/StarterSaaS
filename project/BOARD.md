@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-04-25 (Phase A bootstrap session)
+**Last updated:** 2026-04-25 (Phase A bootstrap session — closure PR open)
 
 ---
 
@@ -10,12 +10,8 @@
 
 | ID | Title | Owner | Notes |
 |---|---|---|---|
-| EPIC-001 | Phase A bootstrap — repo, skills, tracking, GitHub | rahul | Phase A execution underway |
-| STORY-001 | Folder skeleton + bootstrap directory tree | rahul | Folders created; awaiting `git init` to mark done |
-| STORY-002 | CLAUDE.md + vision capture | rahul | CLAUDE.md done; RAW_VISION + placeholders in progress |
-| STORY-003 | Three Claude Code skills + Stop hook | rahul | All three skill files + hook + settings written |
-| STORY-004 | In-repo tracking system | rahul | Templates + epics + stories + BOARD written this session |
-| STORY-005 | License, README, gitignore, gitattributes, .github | rahul | LICENSE + README + gitignore + gitattributes done; .github files pending |
+| EPIC-001 | Phase A bootstrap — repo, skills, tracking, GitHub | rahul | Awaits STORY-007 closure (closure PR auto-merge) |
+| STORY-007 | End-to-end auto-PR validation cycle | rahul | Branch `auto/phase-a-closure-2026-04-25` open as PR; auto-merge gated on branch protection |
 
 ---
 
@@ -23,8 +19,7 @@
 
 | ID | Title | Estimate | Why next |
 |---|---|---|---|
-| STORY-006 | GitHub remote — `gh repo create khoks/StarterSaaS --private` | S | Runs after all Phase A files are on disk |
-| STORY-007 | End-to-end auto-PR validation cycle | S | Closes Phase A by proving the three-skill chain |
+| _(empty for Phase A)_ | — | — | After STORY-007 closes, EPIC-002 grooming becomes Up Next |
 
 ---
 
@@ -43,7 +38,14 @@
 
 ## Recently done
 
-(empty — first commit hasn't landed yet)
+| ID | Title | Closed | Notes |
+|---|---|---|---|
+| STORY-006 | GitHub remote — `gh repo create khoks/StarterSaaS --private` | 2026-04-25 | Private repo at https://github.com/khoks/StarterSaaS |
+| STORY-005 | License, README, gitignore, gitattributes, .github files | 2026-04-25 | MIT license, full root meta + .github files |
+| STORY-004 | In-repo tracking system | 2026-04-25 | `project/` conventions + templates + 2 epics + 12 stories + BOARD |
+| STORY-003 | Three Claude Code skills + Stop hook | 2026-04-25 | `harvest-knowledge` + `work-tracking` + `auto-pr` chained via `.claude/settings.json` |
+| STORY-002 | CLAUDE.md + vision capture | 2026-04-25 | CLAUDE.md + RAW_VISION.md (verbatim) + placeholders |
+| STORY-001 | Folder skeleton + bootstrap directory tree | 2026-04-25 | Directory tree created; `git init` complete (commit `82ff650`) |
 
 ---
 
@@ -63,7 +65,7 @@
 
 | Epic | Status | Phase | Stories |
 |---|---|---|---|
-| [EPIC-001](./epics/EPIC-001-bootstrap.md) | in-progress | scaffolding | STORY-001 → STORY-007 |
+| [EPIC-001](./epics/EPIC-001-bootstrap.md) | in-progress | scaffolding | STORY-001 → STORY-007 (1–6 done, 7 in-progress) |
 | [EPIC-002](./epics/EPIC-002-grooming.md) | backlog | scaffolding | STORY-008 → STORY-012 |
 
 (EPIC-003+ for MVP-1 subsystems are created during STORY-012 Phase C lockdown.)
