@@ -2,16 +2,13 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-04-25 (Phase A bootstrap session — closure PR open)
+**Last updated:** 2026-04-25 (Phase A complete; Phase B ready to start)
 
 ---
 
 ## In progress
 
-| ID | Title | Owner | Notes |
-|---|---|---|---|
-| EPIC-001 | Phase A bootstrap — repo, skills, tracking, GitHub | rahul | Awaits STORY-007 closure (closure PR auto-merge) |
-| STORY-007 | End-to-end auto-PR validation cycle | rahul | Branch `auto/phase-a-closure-2026-04-25` open as PR; auto-merge gated on branch protection |
+(none — Phase A complete; Phase B (EPIC-002 grooming) hasn't been picked up yet)
 
 ---
 
@@ -19,7 +16,8 @@
 
 | ID | Title | Estimate | Why next |
 |---|---|---|---|
-| _(empty for Phase A)_ | — | — | After STORY-007 closes, EPIC-002 grooming becomes Up Next |
+| EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | (multi-story) | Phase B kickoff: starts with STORY-008 vision grooming |
+| STORY-008 | Vision grooming — persona, differentiator, kit promise | L | First Story under EPIC-002; runs as an interactive PM Q&A session |
 
 ---
 
@@ -27,8 +25,6 @@
 
 | ID | Title | Phase | Why backlog |
 |---|---|---|---|
-| EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | scaffolding | Starts after EPIC-001 closes |
-| STORY-008 | Vision grooming — persona, differentiator, kit promise | scaffolding | Phase B; blocked by EPIC-001 |
 | STORY-009 | Architecture grooming — tenancy, event bus, observability | scaffolding | Phase B; blocked by STORY-008, STORY-010 |
 | STORY-010 | Tech-stack decision — backend / frontend / polyglot | scaffolding | Phase B; blocked by STORY-008 |
 | STORY-011 | Cloud-target decision — AWS / GCP / both | scaffolding | Phase B; blocked by STORY-010 |
@@ -40,7 +36,9 @@
 
 | ID | Title | Closed | Notes |
 |---|---|---|---|
-| STORY-006 | GitHub remote — `gh repo create khoks/StarterSaaS --private` | 2026-04-25 | Private repo at https://github.com/khoks/StarterSaaS |
+| EPIC-001 | Phase A bootstrap — repo, skills, tracking, GitHub | 2026-04-25 | Repo at https://github.com/khoks/StarterSaaS; PR #1 auto-merged |
+| STORY-007 | End-to-end auto-PR validation cycle | 2026-04-25 | PR #1 squash-merged (commit `5f2ab0a`) |
+| STORY-006 | GitHub remote — `gh repo create khoks/StarterSaaS --private` | 2026-04-25 | Private repo created; bootstrap pushed |
 | STORY-005 | License, README, gitignore, gitattributes, .github files | 2026-04-25 | MIT license, full root meta + .github files |
 | STORY-004 | In-repo tracking system | 2026-04-25 | `project/` conventions + templates + 2 epics + 12 stories + BOARD |
 | STORY-003 | Three Claude Code skills + Stop hook | 2026-04-25 | `harvest-knowledge` + `work-tracking` + `auto-pr` chained via `.claude/settings.json` |
@@ -65,7 +63,7 @@
 
 | Epic | Status | Phase | Stories |
 |---|---|---|---|
-| [EPIC-001](./epics/EPIC-001-bootstrap.md) | in-progress | scaffolding | STORY-001 → STORY-007 (1–6 done, 7 in-progress) |
+| [EPIC-001](./epics/EPIC-001-bootstrap.md) | done | scaffolding | STORY-001 → STORY-007 (all done) |
 | [EPIC-002](./epics/EPIC-002-grooming.md) | backlog | scaffolding | STORY-008 → STORY-012 |
 
 (EPIC-003+ for MVP-1 subsystems are created during STORY-012 Phase C lockdown.)
@@ -80,3 +78,13 @@ See [`README.md`](./README.md) for full conventions. Quick reference:
 - **Priorities**: P0 (critical) / P1 (important) / P2 (nice) / P3 (low)
 - **Phases**: `scaffolding` / `mvp` / `v1` / `v2` / `v3`
 - **Find in-progress items**: `grep -l "status: in-progress" project/{epics,stories,tasks}/*.md`
+
+---
+
+## Phase A retrospective notes
+
+- Bootstrap commit landed directly on `main` (per D-10): `82ff650` (40 files, 2325 insertions)
+- First auto-PR (#1, commit `5f2ab0a`) closed STORY-001…STORY-006 + progressed STORY-007 to `in-progress`
+- Phase A retrospective: scope held — no source code touched, no tech-stack speculation, no scope creep
+- Branch protection on `main` is **not yet configured** (auto-merge succeeded immediately because no required checks are gating). Recommended Phase B kickoff action: enable branch protection in the GitHub UI to require the `markdown-lint` workflow before merge
+- Plan filename `i-want-to-build-happy-cocke.md` (speech-to-text artifact) can be safely deleted from `~/.claude/plans/`
