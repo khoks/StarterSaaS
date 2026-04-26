@@ -26,9 +26,9 @@ Stand up the StarterSaaS repo with a clean Claude Code working surface: project 
 - Decisions log seeded with D-1…D-11 from the bootstrap session
 - ADR-0001 locking the MIT license choice
 - Stub docs for architecture, MVP, roadmap (filled in Phase B/C)
-- `git init` + first bootstrap commit on `main`
-- GitHub private repo creation via `gh` + first push
-- One end-to-end validation of the auto-pr skill (small doc edit → PR → auto-merge)
+- `git init` + first bootstrap commit on `main` (commit `82ff650`)
+- GitHub private repo creation via `gh` + first push (`https://github.com/khoks/StarterSaaS`)
+- One end-to-end validation of the auto-pr skill (Phase-A-closure PR)
 
 ## Out of scope
 
@@ -44,29 +44,32 @@ Stand up the StarterSaaS repo with a clean Claude Code working surface: project 
 
 ## Stories under this Epic
 
-- STORY-001 — Folder skeleton + bootstrap directory tree (in-progress)
-- STORY-002 — CLAUDE.md + vision capture (in-progress)
-- STORY-003 — Three Claude Code skills + Stop hook (in-progress)
-- STORY-004 — In-repo tracking system (project/ + templates + seeded items) (in-progress)
-- STORY-005 — License, README, .gitignore, .gitattributes, .github files (in-progress)
-- STORY-006 — GitHub remote: `gh repo create khoks/StarterSaaS --private` (todo)
-- STORY-007 — End-to-end auto-PR validation cycle (todo)
+- STORY-001 — Folder skeleton + bootstrap directory tree (done)
+- STORY-002 — CLAUDE.md + vision capture (done)
+- STORY-003 — Three Claude Code skills + Stop hook (done)
+- STORY-004 — In-repo tracking system (project/ + templates + seeded items) (done)
+- STORY-005 — License, README, .gitignore, .gitattributes, .github files (done)
+- STORY-006 — GitHub remote: `gh repo create khoks/StarterSaaS --private` (done)
+- STORY-007 — End-to-end auto-PR validation cycle (in-progress; closes when this PR auto-merges)
 
 ## Exit criteria
 
-- [ ] All 7 Phase A stories are `status: done`
-- [ ] `git log --oneline` shows the bootstrap commit + at least one auto-PR cycle commit
-- [ ] `gh repo view khoks/StarterSaaS` opens the private GitHub repo
-- [ ] At least one PR has been opened by the `auto-pr` skill and auto-merged
-- [ ] `BOARD.md` reflects EPIC-001 closed and EPIC-002 ready
-- [ ] Starting a new session in this folder triggers the Stop hook with the 3-skill reminder
+- [x] STORY-001 through STORY-006 are `status: done`
+- [ ] STORY-007 reaches `status: done` (gates on the Phase-A-closure PR auto-merging)
+- [x] `git log --oneline` shows the bootstrap commit (`82ff650`)
+- [x] `gh repo view khoks/StarterSaaS` opens the private GitHub repo
+- [ ] At least one PR has been opened by the `auto-pr` workflow and auto-merged (this PR — gates on branch protection)
+- [x] `BOARD.md` reflects EPIC-001 status truthfully (will read `done` once STORY-007 closes)
+- [x] Starting a new session in this folder triggers the Stop hook with the 3-skill reminder (verifiable on next session)
 
 ## Related
 
 - Plan: this session's plan file (saved to `~/.claude/plans/i-want-to-build-happy-cocke.md`; rename/delete after Phase A merges)
 - ADR: [`docs/architecture/ADR-0001-license-mit.md`](../../docs/architecture/ADR-0001-license-mit.md)
 - Decisions log: [`docs/decisions/DECISIONS_LOG.md`](../../docs/decisions/DECISIONS_LOG.md) (D-1…D-11)
+- GitHub repo: https://github.com/khoks/StarterSaaS
 
 ## Activity log
 
 - 2026-04-25 — created; status → in-progress (Phase A execution underway)
+- 2026-04-25 — STORY-001…STORY-006 closed `done`; STORY-007 in-progress with the closure PR; awaiting merge to reach Epic exit

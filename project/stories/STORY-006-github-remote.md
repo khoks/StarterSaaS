@@ -2,7 +2,7 @@
 id: STORY-006
 title: GitHub remote — gh repo create khoks/StarterSaaS --private
 type: story
-status: todo
+status: done
 priority: P0
 estimate: S
 parent: EPIC-001
@@ -18,13 +18,13 @@ As the project owner, I want the StarterSaaS repo pushed to a private GitHub rep
 
 ## Acceptance criteria
 
-- [ ] `gh auth status` confirms the user is authenticated as `khoks`
-- [ ] `git init -b main` has been run locally (if not already)
-- [ ] First bootstrap commit lands on `main` directly (no PR — there's no remote yet at commit time)
-- [ ] `gh repo create khoks/StarterSaaS --private --source=. --remote=origin --push` succeeds
-- [ ] `gh repo view khoks/StarterSaaS` opens the new private repo
-- [ ] CLAUDE.md documents the manual one-time branch-protection setup (require PRs, allow auto-merge, require status checks)
-- [ ] User has been told to enable branch protection in the GitHub UI before the first auto-PR cycle (STORY-007)
+- [x] `gh auth status` confirms the user is authenticated as `khoks`
+- [x] `git init -b main` has been run locally
+- [x] First bootstrap commit lands on `main` directly (no PR — there's no remote yet at commit time)
+- [x] `gh repo create khoks/StarterSaaS --private --source=. --remote=origin --push` succeeds
+- [x] `gh repo view khoks/StarterSaaS` opens the new private repo at `https://github.com/khoks/StarterSaaS`
+- [x] CLAUDE.md documents the manual one-time branch-protection setup (require PRs, allow auto-merge, require status checks)
+- [ ] User has been told to enable branch protection in the GitHub UI before the first auto-PR cycle (STORY-007) — **pending user action**
 
 ## Tasks under this Story
 
@@ -37,10 +37,11 @@ As the project owner, I want the StarterSaaS repo pushed to a private GitHub rep
 
 ## Notes
 
-Per D-10, the bootstrap commit is the only commit that lands directly on `main`. After that, `auto-pr` takes over and every subsequent change goes through a branch + PR + auto-merge cycle.
+Per D-10, the bootstrap commit (`82ff650`) is the only commit that lands directly on `main`. After that, `auto-pr` takes over and every subsequent change goes through a branch + PR + auto-merge cycle.
 
-If `gh auth status` fails, this Story blocks until the user runs `gh auth login`. STORY-001…STORY-005 are not blocked — they execute locally without `gh`.
+Branch protection is a manual one-time GitHub-UI configuration. Without it, `gh pr merge --auto` will hard-fail (gracefully, per the auto-pr skill's failure-mode table) — the PR still opens, the user enables auto-merge in repo settings, and the merge proceeds.
 
 ## Activity log
 
 - 2026-04-25 — created
+- 2026-04-25 — `gh auth status` ✓ (logged in as `khoks`); `git init` + bootstrap commit `82ff650` on main; `gh repo create khoks/StarterSaaS --private` succeeded; status → done

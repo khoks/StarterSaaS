@@ -2,7 +2,7 @@
 id: STORY-001
 title: Folder skeleton + bootstrap directory tree
 type: story
-status: in-progress
+status: done
 priority: P0
 estimate: S
 parent: EPIC-001
@@ -22,7 +22,7 @@ As a developer bootstrapping StarterSaaS, I need the full directory skeleton (`d
 - [x] `project/{epics,stories,tasks,TEMPLATES}/` exist
 - [x] `.claude/{hooks,skills}/` exist with `.claude/skills/{harvest-knowledge,work-tracking,auto-pr}/` subfolders
 - [x] `.github/workflows/` exists
-- [ ] `git init -b main` has been run (covered by STORY-006 pre-step; folder skeleton is a prerequisite)
+- [x] `git init -b main` has been run (root-commit `82ff650`)
 
 ## Tasks under this Story
 
@@ -41,3 +41,4 @@ The skeleton was created as the very first action of the bootstrap session, befo
 
 - 2026-04-25 — created; status → in-progress (folders created during bootstrap)
 - 2026-04-25 — folders verified; awaiting `git init` to mark done
+- 2026-04-25 — git init complete (commit `82ff650`); status → done

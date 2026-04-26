@@ -2,7 +2,7 @@
 id: STORY-004
 title: In-repo tracking system (project/ + templates + seeded items)
 type: story
-status: in-progress
+status: done
 priority: P0
 estimate: M
 parent: EPIC-001
@@ -20,12 +20,12 @@ As a developer (and as a future Claude Code session), I need the in-repo JIRA-st
 
 - [x] `project/README.md` documents conventions (IDs, frontmatter, status values, lifecycle rules, find-things grep recipes)
 - [x] `project/TEMPLATES/EPIC.md`, `STORY.md`, `TASK.md` exist and match the conventions
-- [x] `project/epics/EPIC-001-bootstrap.md` written, `status: in-progress`
+- [x] `project/epics/EPIC-001-bootstrap.md` written, then closed as `done`
 - [x] `project/epics/EPIC-002-grooming.md` written, `status: backlog`
 - [x] `project/stories/STORY-001` through `STORY-007` written for Phase A bootstrap work
 - [x] `project/stories/STORY-008` through `STORY-012` written as Phase B/C placeholders, `status: backlog`
-- [x] `project/BOARD.md` written, seeded with current Phase A state
-- [ ] BOARD reflects all status changes through end of Phase A (final update lands as part of STORY-007)
+- [x] `project/BOARD.md` written, seeded with current Phase A state, then refreshed at Phase A closure
+- [x] BOARD reflects all status changes through end of Phase A
 
 ## Tasks under this Story
 
@@ -45,3 +45,4 @@ We follow LearnPro's conventions exactly except:
 ## Activity log
 
 - 2026-04-25 — created; status → in-progress (templates + epics + stories + BOARD written this session)
+- 2026-04-25 — BOARD refreshed for Phase A closure; status → done
