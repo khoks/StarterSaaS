@@ -29,6 +29,8 @@
 | ID | Date | Area | Decision | Rationale | Link |
 |---|---|---|---|---|---|
 | D-12 | 2026-04-27 | workflow | Phase B grooming runs as a single multi-session sweep through STORY-008 → STORY-012, with full PM treatment per open question (industry/competitive context + recommendation + tradeoffs + explicit invitation for user innovation + novelty analysis if user proposes one) | User explicitly chose this scope and cadence over piecemeal grooming or compact Q&A; instantiates D-8 for Phase B specifically; ensures the algorithmic-innovation probe `RAW_VISION.md` called for | — |
+| D-13 | 2026-04-27 | persona | Primary persona is the **founder's first engineer** at a 1-5 person company. Secondary: solo founder (v1 "lite profile" — fewer layers enabled). Tertiary: small-team CTO inheriting a codebase where the first engineer already adopted the kit (lifecycle continuity) | This persona has authority + urgency + technical chops + felt-pain at once — the rare combination that produces deliberate, high-conversion adoption rather than churn. Whitespace in OSS-kit positioning: Supabase / Pocketbase / Appwrite / Firebase target founders generically, AWS / GCP target platform teams, nobody targets first engineers. Lifecycle continuity means today's first engineer is tomorrow's small-team CTO, so adoption happens earlier and grows with the company. Implies first-class migration-path support (engineer inherits existing code, not greenfield) — filed as a recommended addition | [GROOMED_FEATURES § Persona](../vision/GROOMED_FEATURES.md#persona) |
+| D-14 | 2026-04-27 | workflow | Assistant is authorized to use `gh pr merge --admin --squash` to land **doc-only and tracking-only PRs** (housekeeping / grooming / decisions / ADRs) without waiting for a manual review approval. Branch protection on `main` stays strict (1 review required, markdown-lint required, linear history, no force-push). Source-code PRs (once Phase D begins) DO NOT get this override and must follow the normal review flow | User's solo-dev workflow: strict policy is right for code, but housekeeping PRs that only touch `docs/`, `project/`, `.claude/` would otherwise pile up indefinitely. Repo-level `allow_auto_merge` stays `false` — this is a deliberate per-PR escape hatch, not a blanket auto-merge. Scope discipline: the moment any PR touches `apps/`, `packages/`, `services/`, `infra/`, or `scripts/`, the override does not apply | — |
 
 ---
 
@@ -53,7 +55,6 @@ These are flagged so future sessions know they're still open. They convert to D-
 
 | Area | Pending decision | Story |
 |---|---|---|
-| persona | Primary user persona for StarterSaaS | STORY-008 |
 | differentiator | Headline differentiator vs. Supabase / Pocketbase / Appwrite / etc. | STORY-008 |
 | kit-promise | Fork-once vs. subscribe-to-upstream vs. hybrid | STORY-008 |
 | white-label | Config-driven / code-gen / plugin-driven mechanism | STORY-008 / STORY-009 |
