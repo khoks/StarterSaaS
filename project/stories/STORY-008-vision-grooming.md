@@ -2,14 +2,14 @@
 id: STORY-008
 title: Vision grooming — persona, differentiator, kit promise
 type: story
-status: backlog
+status: in-progress
 priority: P0
 estimate: L
 parent: EPIC-002
 phase: scaffolding
 tags: [grooming, vision, phase-b]
 created: 2026-04-25
-updated: 2026-04-25
+updated: 2026-04-27
 ---
 
 ## Description
@@ -41,3 +41,5 @@ Question list in the plan file. The assistant surfaces each question with its re
 ## Activity log
 
 - 2026-04-25 — created (Phase B placeholder)
+- 2026-04-27 — picked up; Phase B grooming session — full sweep planned (STORY-008 → STORY-012); first question: primary persona
+- 2026-04-27 — Q1 (primary persona) posted with full PM treatment — competitive context (Supabase / Pocketbase / Appwrite / Firebase / Strapi / Medusa / Saleor / Bubble / Retool), 3 candidates analyzed (solo founder / small-team CTO / mid-stage platform team) + 4 alternatives surfaced (founder's first engineer / white-label agencies / vertical-SaaS in regulated industries / internal-platform team at non-tech companies); recommendation = small-team CTO primary; **session paused before user answered**; next session resumes by collecting the user's persona pick, then proceeds to Q2 (headline differentiator)
