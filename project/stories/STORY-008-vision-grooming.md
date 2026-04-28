@@ -18,7 +18,7 @@ As a product manager (the user's PM hat), I need to lock the foundational vision
 
 ## Acceptance criteria
 
-- [ ] Primary persona decided and documented in `docs/vision/GROOMED_FEATURES.md` § Persona
+- [x] Primary persona decided and documented in `docs/vision/GROOMED_FEATURES.md` § Persona — *locked 2026-04-27 as D-13*
 - [ ] Headline differentiator articulated in one sentence in `docs/vision/GROOMED_FEATURES.md` § Differentiator
 - [ ] Kit-promise model (fork-once vs. subscribe-to-upstream vs. hybrid) decided and documented
 - [ ] Pre-auth marketing site placement decided (same repo / sibling repo) — feeds into STORY-012
@@ -42,4 +42,5 @@ Question list in the plan file. The assistant surfaces each question with its re
 
 - 2026-04-25 — created (Phase B placeholder)
 - 2026-04-27 — picked up; Phase B grooming session — full sweep planned (STORY-008 → STORY-012); first question: primary persona
-- 2026-04-27 — Q1 (primary persona) posted with full PM treatment — competitive context (Supabase / Pocketbase / Appwrite / Firebase / Strapi / Medusa / Saleor / Bubble / Retool), 3 candidates analyzed (solo founder / small-team CTO / mid-stage platform team) + 4 alternatives surfaced (founder's first engineer / white-label agencies / vertical-SaaS in regulated industries / internal-platform team at non-tech companies); recommendation = small-team CTO primary; **session paused before user answered**; next session resumes by collecting the user's persona pick, then proceeds to Q2 (headline differentiator)
+- 2026-04-27 — Q1 (primary persona) posted with full PM treatment — competitive context (Supabase / Pocketbase / Appwrite / Firebase / Strapi / Medusa / Saleor / Bubble / Retool), 3 candidates analyzed (solo founder / small-team CTO / mid-stage platform team) + 4 alternatives surfaced (founder's first engineer / white-label agencies / vertical-SaaS in regulated industries / internal-platform team at non-tech companies); recommendation = small-team CTO primary
+- 2026-04-27 — **Q1 locked**: user picked **founder's first engineer** as primary (overrode my recommendation with a sharper framing). Stack: primary = founder's first engineer / secondary = solo founder (v1 lite profile) / tertiary = small-team CTO (lifecycle continuity). Logged as D-13. AC #1 ticked. Persona section in `GROOMED_FEATURES.md` populated. Migration-path implication filed to `RECOMMENDED_ADDITIONS.md`. Next: Q2 — headline differentiator

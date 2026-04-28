@@ -18,7 +18,13 @@ Each entry has:
 
 ## Proposed additions
 
-(empty — populated during Phase B grooming and ongoing sessions)
+### Migration path: graft existing app onto StarterSaaS
+
+- **Why:** The primary persona ([D-13](../decisions/DECISIONS_LOG.md), founder's first engineer) typically inherits a half-built codebase rather than starting greenfield. Fresh-install flows aren't enough — adoption requires: importing an existing Postgres schema with FK preservation, wrapping an existing auth provider (e.g., a hand-rolled JWT or a Firebase auth they're trying to leave), retrofitting RBAC over a running app's models, and gradual subsystem-by-subsystem adoption (e.g., adopt notifications subsystem first, defer the gateway). Without this, "adopt StarterSaaS" effectively means "rewrite," which the first engineer can't sell to the founder.
+- **Cost estimate:** L
+- **Phase fit:** v1 (MVP-1 is fresh-install only; migration tooling lands once the core kit is stable)
+- **Status:** proposed
+- **Source:** STORY-008 Q1 lock discussion (2026-04-27)
 
 <!--
 Example template (uncomment when adding entries):
