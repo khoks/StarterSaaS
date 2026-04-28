@@ -2,12 +2,12 @@
 id: EPIC-002
 title: Phase B grooming — vision, requirements, architecture, tech stack
 type: epic
-status: backlog
+status: in-progress
 priority: P0
 phase: scaffolding
 tags: [grooming, phase-b]
 created: 2026-04-25
-updated: 2026-04-25
+updated: 2026-04-27
 ---
 
 ## Goal
@@ -58,3 +58,5 @@ Run heavy interactive PM + engineer Q&A sessions to lock the foundational decisi
 ## Activity log
 
 - 2026-04-25 — created (Phase B placeholder, executes after EPIC-001 closes)
+- 2026-04-27 — picked up; full Phase B sweep started with STORY-008
+- 2026-04-27 — workflow lock recorded as D-12 in `docs/decisions/DECISIONS_LOG.md` (full sweep + full PM treatment per question); STORY-008 paused mid-Q1 awaiting user's persona decision

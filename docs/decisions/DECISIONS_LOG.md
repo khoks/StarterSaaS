@@ -24,6 +24,14 @@
 
 ---
 
+## Phase B grooming
+
+| ID | Date | Area | Decision | Rationale | Link |
+|---|---|---|---|---|---|
+| D-12 | 2026-04-27 | workflow | Phase B grooming runs as a single multi-session sweep through STORY-008 → STORY-012, with full PM treatment per open question (industry/competitive context + recommendation + tradeoffs + explicit invitation for user innovation + novelty analysis if user proposes one) | User explicitly chose this scope and cadence over piecemeal grooming or compact Q&A; instantiates D-8 for Phase B specifically; ensures the algorithmic-innovation probe `RAW_VISION.md` called for | — |
+
+---
+
 ## How to add a new decision
 
 The `harvest-knowledge` skill appends here automatically when sessions surface decisions. Manual additions follow the same row format:

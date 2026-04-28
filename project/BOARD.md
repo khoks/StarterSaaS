@@ -2,13 +2,16 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-04-25 (Phase A complete; Phase B ready to start)
+**Last updated:** 2026-04-27 (Phase B kickoff — STORY-008 in progress)
 
 ---
 
 ## In progress
 
-(none — Phase A complete; Phase B (EPIC-002 grooming) hasn't been picked up yet)
+| ID | Title | Owner | Notes |
+|---|---|---|---|
+| EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | user (PM) + assistant | Full Phase B sweep started 2026-04-27 (D-12); paused mid-STORY-008 |
+| STORY-008 | Vision grooming — persona, differentiator, kit promise | user (PM) + assistant | Q1 (primary persona) posted with full PM treatment; awaiting user pick. Resume here next session. |
 
 ---
 
@@ -16,19 +19,16 @@
 
 | ID | Title | Estimate | Why next |
 |---|---|---|---|
-| EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | (multi-story) | Phase B kickoff: starts with STORY-008 vision grooming |
-| STORY-008 | Vision grooming — persona, differentiator, kit promise | L | First Story under EPIC-002; runs as an interactive PM Q&A session |
+| STORY-010 | Tech-stack decision — backend / frontend / polyglot | M | Picks up after STORY-008 closes |
+| STORY-011 | Cloud-target decision — AWS / GCP / both | M | Blocked by STORY-010 |
+| STORY-009 | Architecture grooming — tenancy, event bus, observability | L | Blocked by STORY-008 + STORY-010 |
+| STORY-012 | MVP-1 scope lockdown — pick ~6 subsystems | L | Blocked by STORY-008…STORY-011; closes Phase B |
 
 ---
 
 ## Backlog (Phase B grooming)
 
-| ID | Title | Phase | Why backlog |
-|---|---|---|---|
-| STORY-009 | Architecture grooming — tenancy, event bus, observability | scaffolding | Phase B; blocked by STORY-008, STORY-010 |
-| STORY-010 | Tech-stack decision — backend / frontend / polyglot | scaffolding | Phase B; blocked by STORY-008 |
-| STORY-011 | Cloud-target decision — AWS / GCP / both | scaffolding | Phase B; blocked by STORY-010 |
-| STORY-012 | MVP-1 scope lockdown — pick ~6 subsystems | scaffolding | Phase C; blocked by STORY-008…STORY-011 |
+(none — all five Phase B stories are either in progress or queued in "Up next")
 
 ---
 
@@ -64,7 +64,7 @@
 | Epic | Status | Phase | Stories |
 |---|---|---|---|
 | [EPIC-001](./epics/EPIC-001-bootstrap.md) | done | scaffolding | STORY-001 → STORY-007 (all done) |
-| [EPIC-002](./epics/EPIC-002-grooming.md) | backlog | scaffolding | STORY-008 → STORY-012 |
+| [EPIC-002](./epics/EPIC-002-grooming.md) | in-progress | scaffolding | STORY-008 → STORY-012 (008 in progress) |
 
 (EPIC-003+ for MVP-1 subsystems are created during STORY-012 Phase C lockdown.)
 
