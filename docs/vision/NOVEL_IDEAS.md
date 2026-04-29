@@ -80,6 +80,18 @@ For each idea, capture:
 - **Novelty assessment:** medium. Individual mechanisms aren't novel — they're well-known products. The composition into a unified subsystem of an OSS SaaS kit IS moderately novel because no existing kit ships this layer at all.
 - **Recommended next step:** **MVP-1 candidate** (foundational; without it the other AI systems can't be safely operated). Minimum MVP-1: LLM gateway + safety/guardrails + cost dashboard. v1: eval + feedback + model hub. ADR in STORY-009 covering provider adapter spec + safety policy framework.
 
+### Idea — AI-assisted upstream merge (subscribe-to-upstream agent)
+
+- **Domain:** kit-promise / internal ops / dev productivity
+- **Date raised:** 2026-04-28
+- **Source:** session 495b8223, Q3 kit-promise discussion (STORY-008); assistant-surfaced angle, user confirmed in scope
+- **Idea (assistant-surfaced, user-confirmed):** "OSS kit ships an AI agent that helps you upgrade as a first-class feature." The agent detects upstream package updates, examines user customizations via adapter usage signatures, proposes a merge plan minimizing friction, tests the proposed merge against the user's test suite, and surfaces conflicts to a human only when AI confidence is low. Lives at the intersection of AI Subsystem 5 (Internal Ops Agent) and the kit-promise mechanism (D-16).
+- **Best-known production approach:** Manual git merge / `package update` (the universal default — engineer reads release notes, runs the update, fixes the fallout). Dependabot / Renovate auto-PR for dependency bumps but with no semantic understanding of user customizations. GitHub Copilot Workspace / Cursor / Devin can help merge if explicitly asked but aren't integrated with a kit's customization model. LLM-assisted merge tools are emerging (early POCs for merge-conflict resolution) but none ship as a first-class feature of an OSS SaaS kit.
+- **Advantages of approach:** Direct attack on the "first engineer doesn't want to maintain platform code" pain (D-13) — even the act of staying current is automated. Combines two competitive moats (AI-first + subscribe-to-upstream) into one feature. Adapter usage signatures give the agent semantic context that generic dev agents lack — it knows what's a kit-supplied path vs. a user-customized path. Confidence-scored escalation preserves engineer time for the genuinely-hard merges.
+- **Disadvantages of approach:** Trust ladder is steep — engineers need to verify the agent before trusting it autonomously. Test-suite quality determines agent confidence; if user tests are weak, the agent's "high confidence" signal becomes meaningless. Misaligned merges in subtle paths (e.g., adapter contract drift between minor versions) are exactly the bugs hardest to catch. Liability if the agent breaks production — careful guardrails needed.
+- **Novelty assessment:** medium-high. Component mechanisms exist (LLM merge POCs, Dependabot, Devin-style agents) but the composition — kit-aware agent that understands adapter usage + surfaces only low-confidence conflicts + integrated as a first-class kit feature, not a third-party add-on — isn't documented in any OSS kit I'm aware of.
+- **Recommended next step:** **MVP-1+ feature.** Basic version (detect + propose + test) ships with MVP-1 LLM Gateway (AI Subsystem 4). Full version (confidence scoring + autonomous-mode toggle) lands in v1 alongside the merge-helper subset of AI Subsystem 5. Design ADR in STORY-009 covering: adapter usage signature spec, agent confidence scoring methodology, autonomous-mode authorization model, rollback / circuit-breaker behavior.
+
 ### Idea — AI Coworker Platform for Internal Ops with full local-architecture awareness
 
 - **Domain:** internal ops / AIOps / dev productivity

@@ -97,9 +97,67 @@ These are user-proposed (D-15 source). Filed in [`NOVEL_IDEAS.md`](NOVEL_IDEAS.m
 
 (Final marketing copy locked outside Phase B; these are starting points.)
 
-## Kit-promise model (TBD in STORY-008)
+## Kit-promise model
 
-Fork-once-and-modify, subscribe-to-upstream, or hybrid? This determines how breaking changes propagate.
+**Locked 2026-04-28 in [STORY-008](../../project/stories/STORY-008-vision-grooming.md). Logged as [D-16](../decisions/DECISIONS_LOG.md), [D-17](../decisions/DECISIONS_LOG.md).**
+
+### Hybrid: subscribe-to-upstream + thin-shell
+
+**Subscribe-to-upstream** for:
+
+- All 30+ platform layers (auth, RBAC, gateway, observability, event bus, etc.)
+- All 5 AI subsystems
+- Adapter interfaces + reference adapters
+- Deploy script
+
+**Fork-once** for:
+
+- White-label brand layer (logo, colors, fonts, copy)
+- Product-specific business logic
+- Custom UI screens beyond the default kit
+
+### Mechanism: packages + thin shell
+
+Kit code ships as versioned packages. The user's repo is a thin shell that imports them and adds product code.
+
+```text
+user-repo/
+├── package.json              # subscribes to @starter-saas/* packages
+├── shell/                    # USER OWNS — brand, product, custom screens
+│   ├── brand/
+│   ├── routes/
+│   └── adapters/             # user's custom adapter implementations
+└── starter.config.ts         # config-driven layer enable/disable + white-label
+```
+
+Concrete package manager TBD in [STORY-010](../../project/stories/STORY-010-tech-stack-decision.md).
+
+### AI-assisted upstream merge — first-class feature (D-17)
+
+Anchored by AI Subsystem 5 (Internal Ops Agent). When upstream packages update:
+
+- Agent detects the update
+- Examines user customizations via adapter usage signatures
+- Proposes a merge plan that minimizes friction
+- Tests the proposed merge against the user's test suite
+- Surfaces conflicts to a human only when AI confidence is low
+
+Combines two moats — AI-first credibility + subscribe-to-upstream practicality — into one feature: *your kit upgrades itself*. Direct response to the "first engineer doesn't want to maintain platform code" pain. **Phase fit:** MVP-1 (basic: detect + propose + test); v1 (confidence scoring + autonomous-mode toggle). Full novelty analysis in [`NOVEL_IDEAS.md`](NOVEL_IDEAS.md).
+
+### Why hybrid (not pure fork-once or pure subscribe-to-upstream)
+
+- **Pure fork-once is untenable for AI subsystems.** Models, prompts, safety techniques evolve weekly; a 6-month-old fork is 4-5 model generations stale.
+- **Pure subscribe-to-upstream removes the escape hatch.** No place to deeply customize a kit subsystem when the founder asks for something unusual. Thin shell IS the escape hatch — vendor a package and customize when needed (acknowledging the local maintenance burden until you un-vendor).
+
+### Tradeoffs
+
+| Aspect | Pro | Con |
+|---|---|---|
+| Day-1 productivity | Clean separation of concerns | Engineer must learn package interfaces |
+| Day-30 productivity | `package update` lands fixes; AI-assisted merge handles conflicts | Vendoring customized packages adds local maintenance |
+| Upstream releases | Semver discipline keeps users moving | Breaking-change releases need release-management process |
+| White-label | Lives in the shell forever | Engineer must understand shell-vs-package boundary |
+| AI subsystem currency | Subscribe ensures models / prompts stay current | Fast-moving upstream needs careful release cadence |
 
 ---
 

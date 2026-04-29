@@ -66,6 +66,14 @@ Each entry has:
 - **Status:** proposed
 - **Source:** STORY-008 Q2 differentiator discussion (2026-04-28)
 
+### AI-assisted upstream merge (kit-promise feature, D-17)
+
+- **Why:** Direct response to the founder's-first-engineer (D-13) pain "I don't want to maintain platform code." Combines AI-first credibility (D-15) with subscribe-to-upstream practicality (D-16). Agent detects upstream updates, examines user customizations via adapter signatures, proposes merge plans, tests against user tests, surfaces only low-confidence conflicts. Shares mechanism with AI Subsystem 5 (Internal Ops Agent) but ships earlier because it's foundational to the kit-promise — without it, the subscribe-to-upstream promise is theoretical. See [`NOVEL_IDEAS.md`](NOVEL_IDEAS.md).
+- **Cost estimate:** L
+- **Phase fit:** **MVP-1** (basic: detect + propose + test); v1 (confidence scoring + autonomous-mode toggle)
+- **Status:** proposed
+- **Source:** STORY-008 Q3 kit-promise lock (2026-04-28)
+
 ### AI cost management + per-tenant LLM budgeting
 
 - **Why:** AI-first kits without cost discipline go bankrupt fast. Implication of the AI-first differentiator. Per-tenant LLM budget enforcement, prompt caching with semantic-deduplication, automatic fallback to cheaper models when budget approaches threshold, cost-attribution dashboards by tenant / feature / agent. Subsumed by AI Subsystem 4's cost-dashboard scope but worth tracking separately because the per-tenant enforcement is a distinct concern.
