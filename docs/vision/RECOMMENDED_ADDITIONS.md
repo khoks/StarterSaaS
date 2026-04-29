@@ -26,6 +26,54 @@ Each entry has:
 - **Status:** proposed
 - **Source:** STORY-008 Q1 lock discussion (2026-04-27)
 
+### AI Subsystem 1: Event-driven Customer Profile Builder + AI-Native Stores
+
+- **Why:** Anchors the AI-first differentiator ([D-15](../decisions/DECISIONS_LOG.md)). Consumes UI clickstream + event-bus messages + critical API calls; synthesizes per-customer business profile, AI-chat interaction profile, session memory, feature memory into "AI-native stores" — designed for LLM consumption alongside transactional DB and data warehouse. Replaces the "where does session memory live?" question that plagues every agent-building team. Feeds AI Subsystem 2 (Context Resolver). See [`NOVEL_IDEAS.md`](NOVEL_IDEAS.md) for full novelty analysis.
+- **Cost estimate:** XL
+- **Phase fit:** v1 (depends on event-bus + analytics platform existing in MVP-1)
+- **Status:** proposed
+- **Source:** STORY-008 Q2 differentiator discussion (2026-04-28)
+
+### AI Subsystem 2: Context-Resolving Query Service
+
+- **Why:** Anchors the AI-first differentiator. NL-query layer any AI agent OR non-AI feature can call when it needs prompt context but doesn't know what data to fetch or where. Spans transactional DW + AI-native stores. Centralizes data-access governance and lifts context-supply burden from per-agent integrations. See [`NOVEL_IDEAS.md`](NOVEL_IDEAS.md) for full novelty analysis (assessed: **high novelty**).
+- **Cost estimate:** L
+- **Phase fit:** v1 (depends on AI Subsystem 1's stores existing)
+- **Status:** proposed
+- **Source:** STORY-008 Q2 differentiator discussion (2026-04-28)
+
+### AI Subsystem 3: Agent Platform + Omnichannel Orchestrator (6 registries)
+
+- **Why:** Anchors the AI-first differentiator. SaaS-enterprise-wide agent platform with 6 explicit registries (skills + subagents + tools + AI-native UI widgets + UI shell + non-UI embed); orchestrator decides which produces what result. Surfaces span web + mobile + telephonic + embedded. The 6-registry decomposition is fresh; omnichannel + non-UI-embed unified under one platform is novel. See [`NOVEL_IDEAS.md`](NOVEL_IDEAS.md).
+- **Cost estimate:** XL
+- **Phase fit:** MVP-1 (subset: skills + tools + chat UI shell) → v1 (full registries) → v2 (telephonic)
+- **Status:** proposed
+- **Source:** STORY-008 Q2 differentiator discussion (2026-04-28)
+
+### AI Subsystem 4: LLM Gateway + Safety + Model Hub + Eval/Feedback + Cost
+
+- **Why:** **Foundational** — anchors AI-first credibility. Without this, AI Subsystems 1–3 + 5 cannot be safely operated. Composition of LLM gateway (provider routing) + safety guardrails (PII / profanity / illegal-advice / prompt-injection) + model hub (proprietary + self-hosted + fine-tuned, on equal footing) + eval/feedback + cost dashboards + provisioned throughput. Each individual mechanism exists as a separate product (Portkey/Helicone/LiteLLM, Lakera/NeMo Guardrails, Hugging Face, Braintrust/LangSmith, etc.) — no OSS kit ships them unified. See [`NOVEL_IDEAS.md`](NOVEL_IDEAS.md).
+- **Cost estimate:** L
+- **Phase fit:** **MVP-1** (gateway + safety + cost minimum); v1 (eval + feedback + model hub)
+- **Status:** proposed
+- **Source:** STORY-008 Q2 differentiator discussion (2026-04-28)
+
+### AI Subsystem 5: AI Coworker Platform for Internal Ops
+
+- **Why:** AI agents that the SaaS-enterprise's own employees use to control deployment, triage, maintenance, discovery, change management, observability, dev. Aware of every kit capability + endpoint + schema + code logic + user-added product extensions. Massive productivity multiplier (5-person SaaS runs like 25-person team). Strongly differentiated — no equivalent generic AIOps tool has local architecture awareness across kit + product extensions. See [`NOVEL_IDEAS.md`](NOVEL_IDEAS.md) (assessed: **high novelty**).
+- **Cost estimate:** XL
+- **Phase fit:** v2 (depends on AI Subsystems 1–4 stable; needs careful security model — agents that deploy need approval + rollback guardrails)
+- **Status:** proposed
+- **Source:** STORY-008 Q2 differentiator discussion (2026-04-28)
+
+### AI cost management + per-tenant LLM budgeting
+
+- **Why:** AI-first kits without cost discipline go bankrupt fast. Implication of the AI-first differentiator. Per-tenant LLM budget enforcement, prompt caching with semantic-deduplication, automatic fallback to cheaper models when budget approaches threshold, cost-attribution dashboards by tenant / feature / agent. Subsumed by AI Subsystem 4's cost-dashboard scope but worth tracking separately because the per-tenant enforcement is a distinct concern.
+- **Cost estimate:** M
+- **Phase fit:** MVP-1 (basic budgets + caching); v1 (semantic dedup + auto-fallback)
+- **Status:** proposed
+- **Source:** STORY-008 Q2 differentiator discussion (2026-04-28)
+
 <!--
 Example template (uncomment when adding entries):
 

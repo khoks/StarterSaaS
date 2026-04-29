@@ -59,9 +59,43 @@ Lifecycle-continuity persona. Today's first engineer is tomorrow's small-team CT
 - **Non-coders / no-code builders**: out of scope. StarterSaaS assumes the user can read and modify code.
 - **Vertical-SaaS founders in regulated industries** (healthcare, fintech, legal): great natural fit, but compliance/audit features are not MVP-1; revisit when those subsystems stabilize in v2+.
 
-## Differentiator (TBD in STORY-008)
+## Differentiator
 
-What's the one-sentence reason a founder picks StarterSaaS over assembling Supabase + Stripe + Auth0 + Posthog themselves?
+**Locked 2026-04-28 in [STORY-008](../../project/stories/STORY-008-vision-grooming.md). Logged as [D-15](../decisions/DECISIONS_LOG.md).**
+
+### Headline pitch
+
+> **AI-first, production-grade SaaS platform — 30+ integrated layers you will eventually need, white-labelable, one-command deployable.**
+
+### Why this framing wins
+
+| Dimension | Competitive position |
+|---|---|
+| **AI-first** | Whitespace. No OSS kit (Supabase / Pocketbase / Appwrite / Firebase / Strapi) is positioned AI-first. AWS / Firebase have AI extensions but they're not the headline. |
+| **Production-grade** | Differentiates from "weekend toy" kits and from OSS-grade-only options. Signals safety, observability, RBAC, audit out of the box. |
+| **30+ integrated layers** | The breadth that nobody else attempts. Names the moat — coordination cost is high, so competitors won't replicate easily. |
+| **White-labelable** | Surfaces the agency / vertical-SaaS angle without being niche-only. |
+| **One-command deployable** | The demoable proof point — the first engineer shows the founder a working SaaS in minutes. |
+
+### Five AI subsystems anchor the AI-first claim
+
+These are user-proposed (D-15 source). Filed in [`NOVEL_IDEAS.md`](NOVEL_IDEAS.md) for novelty review and in [`RECOMMENDED_ADDITIONS.md`](RECOMMENDED_ADDITIONS.md) for STORY-012 MVP-1-scope evaluation.
+
+| # | Subsystem | Phase fit |
+|---|---|---|
+| 1 | Event-driven Customer Profile Builder + AI-Native Stores | v1 |
+| 2 | Context-Resolving Query Service | v1 |
+| 3 | Agent Platform + Omnichannel Orchestrator | MVP-1 subset → v1 full |
+| 4 | LLM Gateway + Safety + Model Hub + Eval/Cost | **MVP-1 (foundational)** |
+| 5 | AI Coworker Platform for Internal Ops | v2 |
+
+### Tagline-length compressions for marketing
+
+- *"Compete on your product, not on rebuilding 30 layers — AI-first, production-grade, one command deploy."*
+- *"The AI-first SaaS platform your first engineer adopts to stop rebuilding."*
+- *"30+ integrated layers. AI-first. One command. Yours to white-label."*
+
+(Final marketing copy locked outside Phase B; these are starting points.)
 
 ## Kit-promise model (TBD in STORY-008)
 

@@ -1,6 +1,6 @@
 # CLAUDE.md — Project context for Claude Code sessions
 
-> **Phase: A — Bootstrap (active since 2026-04-25).** No product code yet. Tech stack, cloud target, and MVP-1 surface are locked during Phase B grooming.
+> **Phase: B — Grooming (active since 2026-04-27).** No product code yet. Tech stack, cloud target, and MVP-1 surface are locked during Phase B. STORY-008 in progress — Q1 (persona) and Q2 (differentiator) locked; Q3-Q5 pending.
 
 This file is the entry point for any Claude Code session working in this repo. Read it first. Read [`project/BOARD.md`](./project/BOARD.md) second.
 
@@ -8,7 +8,11 @@ This file is the entry point for any Claude Code session working in this repo. R
 
 ## Mission (one paragraph)
 
-StarterSaaS is a generic, white-label **SaaS starter kit** that any founder can clone, white-label, run a one-shot deploy script against AWS or GCP, and have a working multi-cloud SaaS up end-to-end. It bundles the layers every modern SaaS provider re-builds from scratch — auth, RBAC, gateway, API marketplace, app developer portal, multi-tenant data stores, CRM, subscriptions/tiering, notifications (email/SMS/push/WhatsApp), event bus + saga choreography, conversational support agent, campaigns, upsell/recommendation models, observability (logs/metrics/traces, paging, ticketing), feedback, customer-care chatbot, analytics platform, ML platform, ETL, pre-auth marketing site, post-auth in-app help, per-capability data stores, and data-quality plumbing — behind clean adapter interfaces so every concrete implementation is swappable. The thesis: founders should compete on their actual product, not on rebuilding the 30+ undifferentiated layers underneath.
+StarterSaaS is an **AI-first, production-grade, white-label SaaS starter kit** any founder can clone, white-label, and run a one-shot deploy script against AWS or GCP — bringing up a working multi-cloud SaaS end-to-end. It integrates **30+ layers every modern SaaS provider re-builds from scratch** — auth, RBAC, gateway, API marketplace, app-developer portal, multi-tenant data stores, CRM, subscriptions/tiering, notifications (email/SMS/push/WhatsApp), event bus + saga choreography, conversational support agent, campaigns, upsell/recommendation models, observability (logs/metrics/traces, paging, ticketing), feedback, customer-care chatbot, analytics platform, ETL, pre-auth marketing site, post-auth in-app help, per-capability data stores, data-quality plumbing — and **five AI subsystems** anchoring the AI-first claim: (1) event-driven Customer Profile Builder + AI-native stores, (2) Context-Resolving Query Service for AI and non-AI clients, (3) Agent Platform + Omnichannel Orchestrator with 6 registries, (4) LLM Gateway + Safety + Model Hub + Eval/Feedback + Cost (foundational; MVP-1), and (5) AI Coworker Platform for Internal Ops. Everything sits behind clean adapter interfaces so every concrete implementation is swappable.
+
+**Headline pitch (D-15):** *"AI-first, production-grade SaaS platform — 30+ integrated layers you will eventually need, white-labelable, one-command deployable."*
+
+**Thesis:** founders should compete on their actual product, not on rebuilding the layers underneath.
 
 ---
 
