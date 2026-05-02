@@ -1,6 +1,6 @@
 # CLAUDE.md — Project context for Claude Code sessions
 
-> **Phase: B — Grooming (active since 2026-04-27).** No product code yet. Cloud target and MVP-1 surface still pending. **STORY-008 done** (12 decisions D-12..D-23); **STORY-010 in progress** (backend stack locked: TypeScript + Node + Fastify per D-24; frontend / ORM / package-mgr / monorepo-tooling / AI providers / vector DB pending).
+> **Phase: B — Grooming (active since 2026-04-27).** No product code yet. Cloud target and MVP-1 surface still pending. **STORY-008 done** (12 decisions D-12..D-23); **STORY-010 in progress** (backend = TS + Node + Fastify per D-24; frontend = Next App Router + Astro + framework-agnostic React per D-27; ORM / package-mgr / monorepo-tooling / AI providers / vector DB pending).
 
 This file is the entry point for any Claude Code session working in this repo. Read it first. Read [`project/BOARD.md`](./project/BOARD.md) second.
 
@@ -34,6 +34,10 @@ StarterSaaS is an **AI-first, production-grade, white-label SaaS starter kit** a
 | D-24 | Backend stack | **TypeScript + Node.js + Fastify** on a modular monolith (workspace packages within the monorepo); polyglot allowed v1+ per D-26 | Best fit for D-13 (TS is universal) + D-15 (best AI SDK ecosystem) + D-16 (npm maturity) + D-21 (monorepo tooling) + D-23 (structural types for plugin compat). Bun excluded for now — re-evaluate v1+ |
 | D-25 | Coding standard | **TS strict mode + Zod schemas on every public boundary** (HTTP routes / plugin extension points / event-bus messages / adapter interfaces / config schema / AI agent I/O). Internal code keeps TS-only types | Backbone of D-23 AI-validated plugin compat — agents reason about machine-readable shapes. Industry-validated by tRPC, Hono, Fastify-Zod, Effect Schema |
 | D-26 | Polyglot rule | Subsystem extracts to Go/Rust only with ALL THREE: ≥10× perf benefit + clear contract boundary (gRPC/HTTP/queue) + bilingual maintainer commitment. MVP-1 stays pure TS | Without a written rule, polyglot creep produces worst-of-all-worlds. 10× threshold is high on purpose; small wins don't justify operational tax |
+| D-27 | Frontend frameworks | **Next.js App Router** for `apps/starter/`; **Astro** for `packages/marketing-template/`; **framework-agnostic React** for `packages/ui/`; RSC enforced default + SPA opt-in | D-13 fit (Next is what first engineers know); D-15 fit (Vercel ai-sdk Next-first); D-18 fit (Astro best for marketing SEO + non-engineer editors); D-16 fit (UI components stay framework-portable for v1+ adapters) |
+| D-28 | Frontend supporting libs | **Zustand** + **shadcn-ui pattern** + **Tailwind** + **react-hook-form + Zod** | Industry defaults for the persona; shadcn-ui pattern preserves D-16 (adopters own code); Zod usage feeds D-25 boundary discipline |
+| D-29 | `packages/ai-ui` | Ships **MVP-1**: streaming-message / agent-step / token-counter / RAG-source-citation / prompt-input / tool-call-card React primitives | AI-first claim (D-15) needs visible AI UI primitives at MVP-1 — otherwise the differentiator is hollow at first contact |
+| D-30 | i18n scope | **v1+** (MVP-1 English only); v1 lands `next-intl` + `astro-i18n` adapters in `@starter-saas/i18n` | Keeps MVP-1 tight; matches Vercel / Next-auth / Stripe English-first pattern; D-13 persona is US-centric |
 | Cloud target | TBD | Locked during Phase B (STORY-011) |
 | Multi-tenancy model | TBD | Locked during Phase B (STORY-009) |
 
