@@ -1,6 +1,6 @@
 # CLAUDE.md — Project context for Claude Code sessions
 
-> **Phase: B — Grooming (active since 2026-04-27).** No product code yet. Tech stack, cloud target, and MVP-1 surface are locked during Phase B. STORY-008 in progress — Q1 (persona) and Q2 (differentiator) locked; Q3-Q5 pending.
+> **Phase: B — Grooming (active since 2026-04-27).** No product code yet. Cloud target and MVP-1 surface still pending. **STORY-008 done** (12 decisions D-12..D-23); **STORY-010 in progress** (backend stack locked: TypeScript + Node + Fastify per D-24; frontend / ORM / package-mgr / monorepo-tooling / AI providers / vector DB pending).
 
 This file is the entry point for any Claude Code session working in this repo. Read it first. Read [`project/BOARD.md`](./project/BOARD.md) second.
 
@@ -31,7 +31,9 @@ StarterSaaS is an **AI-first, production-grade, white-label SaaS starter kit** a
 | D-9 | MVP-1 shape | Thin vertical slice end-to-end (~6 subsystems) — exact 6 chosen during grooming | Avoids broad-but-shallow stub-everything trap |
 | D-10 | Bootstrap commit | First commit lands directly on `main` (no PR) | The bootstrap *is* the PR-able infrastructure; can't PR before it exists |
 | D-11 | RAW vision capture | User's voice-transcribed brain-dump goes verbatim into `docs/vision/RAW_VISION.md` | Source-of-truth for *intent*; transcription artifacts noted separately |
-| Tech stack | TBD | Locked during Phase B (STORY-010) |
+| D-24 | Backend stack | **TypeScript + Node.js + Fastify** on a modular monolith (workspace packages within the monorepo); polyglot allowed v1+ per D-26 | Best fit for D-13 (TS is universal) + D-15 (best AI SDK ecosystem) + D-16 (npm maturity) + D-21 (monorepo tooling) + D-23 (structural types for plugin compat). Bun excluded for now — re-evaluate v1+ |
+| D-25 | Coding standard | **TS strict mode + Zod schemas on every public boundary** (HTTP routes / plugin extension points / event-bus messages / adapter interfaces / config schema / AI agent I/O). Internal code keeps TS-only types | Backbone of D-23 AI-validated plugin compat — agents reason about machine-readable shapes. Industry-validated by tRPC, Hono, Fastify-Zod, Effect Schema |
+| D-26 | Polyglot rule | Subsystem extracts to Go/Rust only with ALL THREE: ≥10× perf benefit + clear contract boundary (gRPC/HTTP/queue) + bilingual maintainer commitment. MVP-1 stays pure TS | Without a written rule, polyglot creep produces worst-of-all-worlds. 10× threshold is high on purpose; small wins don't justify operational tax |
 | Cloud target | TBD | Locked during Phase B (STORY-011) |
 | Multi-tenancy model | TBD | Locked during Phase B (STORY-009) |
 
@@ -85,7 +87,7 @@ Conventions are documented in [`project/README.md`](./project/README.md). Templa
 
 ## Coding standards (apply once code lands — Phase D onward)
 
-The full standards finalize after Phase B grooming locks the stack. The universal rules below survive any stack choice:
+### Universal rules
 
 - **No premature abstraction.** Three similar lines is better than a generic helper. Don't introduce adapters/interfaces beyond what's documented in the architecture doc.
 - **No dead code.** If you remove a feature, delete it. No `// removed` comments, no commented-out blocks.
@@ -93,7 +95,15 @@ The full standards finalize after Phase B grooming locks the stack. The universa
 - **Validate at boundaries, trust internal code.** No defensive try/catch for impossible cases.
 - **No SaaS plumbing in the core kit beyond the layers we're shipping.** Each subsystem has a clear interface; all advanced features hang off optional extension points.
 
-Stack-specific standards (TypeScript strict mode? Zod everywhere? Go gofmt?) are written when the stack is chosen in Phase B.
+### TypeScript stack rules (locked via D-24, D-25, D-26 — STORY-010 in progress)
+
+- **`"strict": true`** in every package's `tsconfig.json`. No `any` without a `// reason: ...` comment. Prefer `unknown` over `any` at boundaries.
+- **Zod schemas on every public boundary**: HTTP route inputs/outputs (Fastify-Zod or equivalent), plugin extension-point signatures, event-bus message schemas, adapter interface contracts, `starter.config.ts` schema, AI agent input/output contracts. Internal-only code keeps structural TS types without Zod (Zod has runtime cost; only validate where data crosses a trust boundary).
+- **No `enum`s** — use string-literal unions (`"a" | "b" | "c"`) or `as const` objects. Better tree-shaking, plays well with Zod.
+- **`import type`** for type-only imports. Side-effect-free imports must stay tree-shakable.
+- **No barrel files in package public exports** beyond a single `index.ts` per package. Adopters import from `@starter-saas/auth`, not `@starter-saas/auth/internal/something`.
+- **Polyglot rule (D-26):** non-TS code lives in its own subsystem with a TS-side adapter; never inline. Three required gates per D-26 (10× perf + clear contract + bilingual maintainer).
+- ESLint config + Prettier specifics finalized when the first source file lands (Phase D, deferred from STORY-010 closure).
 
 ---
 
