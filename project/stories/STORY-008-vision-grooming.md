@@ -2,14 +2,14 @@
 id: STORY-008
 title: Vision grooming — persona, differentiator, kit promise
 type: story
-status: in-progress
+status: done
 priority: P0
 estimate: L
 parent: EPIC-002
 phase: scaffolding
 tags: [grooming, vision, phase-b]
 created: 2026-04-25
-updated: 2026-04-27
+updated: 2026-04-28
 ---
 
 ## Description
@@ -22,8 +22,8 @@ As a product manager (the user's PM hat), I need to lock the foundational vision
 - [x] Headline differentiator articulated in one sentence in `docs/vision/GROOMED_FEATURES.md` § Differentiator — *locked 2026-04-28 as D-15: AI-first, production-grade SaaS platform — 30+ integrated layers, white-labelable, one-command deployable*
 - [x] Kit-promise model (fork-once vs. subscribe-to-upstream vs. hybrid) decided and documented — *locked 2026-04-28 as D-16 (hybrid + thin-shell + packages) and D-17 (AI-assisted upstream merge as MVP-1+ feature)*
 - [x] Pre-auth marketing site placement decided (same repo / sibling repo) — feeds into STORY-012 — *locked 2026-04-28 as D-18 (sibling repo default + monorepo alternative + brand-as-package) and D-19 (status page = separate repo / managed service)*
-- [ ] White-label mechanism direction picked (config-driven / code-gen / plugin-driven), even if final form is locked in STORY-009
-- [ ] Any novel ideas surfaced during the discussion land in `docs/vision/NOVEL_IDEAS.md`
+- [x] White-label mechanism direction picked (config-driven / code-gen / plugin-driven), even if final form is locked in STORY-009 — *locked 2026-04-28 as D-20 (layered: config + adapter + plugin); code-gen explicitly rejected*
+- [x] Any novel ideas surfaced during the discussion land in `docs/vision/NOVEL_IDEAS.md` — *7 entries filed: 5 AI subsystems (D-15), AI-assisted upstream merge (D-17), AI-assisted config generation (D-22), AI-validated plugin compatibility (D-23)*
 
 ## Tasks under this Story
 
@@ -50,3 +50,9 @@ Question list in the plan file. The assistant surfaces each question with its re
 - 2026-04-28 — **Q3 locked**: kit-promise = **hybrid + thin-shell + packages**. Subscribe-to-upstream for platform layers + AI subsystems + adapters + deploy script; fork-once for white-label brand + product code + custom UI. Logged as D-16. AC #3 ticked. Section in `GROOMED_FEATURES.md` populated
 - 2026-04-28 — **D-17 logged**: **AI-assisted upstream merge** confirmed as a first-class MVP-1+ feature anchoring the AI-first + subscribe-to-upstream story. Agent detects upstream updates, examines user customizations via adapter usage signatures, proposes merge plans, tests against user tests, surfaces only low-confidence conflicts. Combines AI Subsystem 5's mechanism with the kit-promise. Filed in `NOVEL_IDEAS.md` (medium-high novelty) and `RECOMMENDED_ADDITIONS.md` (MVP-1 phase fit). Implies AI Subsystem 5 needs a "lite" boundary — full Subsystem 5 is v2, but the merge-helper subset ships MVP-1. STORY-009 ADR queue grows: 5 (per AI subsystem) + 1 (kit-promise architecture) + 1 (AI-assisted merge mechanism) + STORY-009's existing slate (tenancy, event bus, observability, auth, ML platform, data quality) = STORY-009 may need to split. Next: Q4 — pre-auth marketing site placement (same repo / sibling repo)
 - 2026-04-28 — **Q4 locked**: marketing site = **sibling repo** (default) + monorepo with separate deploys (documented alternative) + brand as third `@starter-saas/brand` package. Status page = **separate** (D-19): own repo or managed service (Statuspage / Instatus). Logged as D-18 + D-19. AC #4 ticked. Section "Site topology" added to `GROOMED_FEATURES.md`. User raised polyrepo question — clarified as two distinct topologies (publishing already locked as polyrepo-shaped via D-16; development topology = monorepo with workspaces, preliminary; final lock in STORY-010 alongside package-manager pick). Added `repo-topology` and `package-manager` rows to DECISIONS_LOG open/pending. Removed `marketing-site` row. Next: Q5 — white-label mechanism direction (config-driven / code-gen / plugin-driven)
+- 2026-04-28 — **Q5 locked**: white-label = **layered** (config-driven primary 90% + adapter overrides 8% + plugin extensions 2%). Code-gen explicitly rejected (would break D-16 subscribe-to-upstream + D-17 AI-assisted merge); used only for initial scaffolding (`npx create-starter-saas`) which produces a minimal thin shell. Config entry point: `starter.config.ts` (TypeScript, type-safe). Logged as D-20. AC #5 ticked.
+- 2026-04-28 — **D-21 locked**: kit development repo topology = **monorepo with workspaces** (one `khoks/StarterSaaS` repo with `packages/<capability>/` workspaces). Publishing topology stays polyrepo-shaped (D-16). Final package-manager + monorepo-tooling pick deferred to STORY-010. Removed `repo-topology` from DECISIONS_LOG open/pending. Updated `GROOMED_FEATURES § Site topology` from preliminary to locked.
+- 2026-04-28 — **D-22 + D-23 locked**: 2 new MVP-1 features confirmed. **D-22**: AI-assisted config generation (NL → `starter.config.ts`) — first engineer describes SaaS in plain English, AI generates starting config + adapter picks + scaffold; demo time drops from 30 min to 5 min. Filed in NOVEL_IDEAS (medium-high novelty). **D-23**: AI-validated plugin compatibility — same agent as D-17, different surface; simulates kit upgrades against plugin hook signatures, surfaces breakage before merge. Filed in NOVEL_IDEAS (medium-high novelty). Both target MVP-1.
+- 2026-04-28 — **Side-decision**: admin UI for non-engineer config edits → v1 as an adapter (NOT a primary mechanism, NOT a replacement for `starter.config.ts`). Filed in RECOMMENDED_ADDITIONS.
+- 2026-04-28 — **AC #6 ticked**: 7 NOVEL_IDEAS entries filed during STORY-008 — 5 AI subsystems (D-15), AI-assisted upstream merge (D-17), AI-assisted config generation (D-22), AI-validated plugin compatibility (D-23).
+- 2026-04-28 — **STORY-008 done**. All 6 ACs ticked. 12 decisions locked (D-12 through D-23). 7 NOVEL_IDEAS entries. 4 RECOMMENDED_ADDITIONS entries. CLAUDE.md mission updated. STORY-009 ADR queue: ~13. STORY-012 MVP-1 candidate count: 14+. EPIC-002 progresses to STORY-010 (tech-stack decision) per dependency order.

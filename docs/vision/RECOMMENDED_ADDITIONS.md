@@ -66,6 +66,15 @@ Each entry has:
 - **Status:** proposed
 - **Source:** STORY-008 Q2 differentiator discussion (2026-04-28)
 
+### Admin UI adapter for non-engineer config edits (v1+ adapter)
+
+- **Why:** D-20 locks `starter.config.ts` (TypeScript) as the primary config entry point — fits the founder's-first-engineer (D-13) primary persona perfectly. But white-label agencies and adopters with content/marketing teams will eventually want non-engineers to edit certain config values (brand colors, copy, marketing site content) without touching code. An optional admin-UI ADAPTER surfaces a non-engineer-friendly editor over a subset of `starter.config.ts` (the safe-to-edit subset — brand, content, feature flags; NOT adapter selections or subsystem enables). Subset is declared by the kit; adapter renders the appropriate UI.
+- **Cost estimate:** M
+- **Phase fit:** **v1** (post-MVP-1; needs the config layer to be stable first; admin-UI adapter is plug-in to that layer)
+- **Status:** proposed
+- **Source:** STORY-008 Q5 white-label lock (2026-04-28)
+- **Constraint:** NEVER replaces `starter.config.ts` as the source-of-truth — admin UI writes back to the file (with audit). Engineer can always override.
+
 ### AI-assisted upstream merge (kit-promise feature, D-17)
 
 - **Why:** Direct response to the founder's-first-engineer (D-13) pain "I don't want to maintain platform code." Combines AI-first credibility (D-15) with subscribe-to-upstream practicality (D-16). Agent detects upstream updates, examines user customizations via adapter signatures, proposes merge plans, tests against user tests, surfaces only low-confidence conflicts. Shares mechanism with AI Subsystem 5 (Internal Ops Agent) but ships earlier because it's foundational to the kit-promise — without it, the subscribe-to-upstream promise is theoretical. See [`NOVEL_IDEAS.md`](NOVEL_IDEAS.md).
