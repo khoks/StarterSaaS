@@ -161,6 +161,52 @@ Combines two moats — AI-first credibility + subscribe-to-upstream practicality
 
 ---
 
+## Site topology
+
+**Locked 2026-04-28 in [STORY-008](../../project/stories/STORY-008-vision-grooming.md). Logged as [D-18](../decisions/DECISIONS_LOG.md), [D-19](../decisions/DECISIONS_LOG.md).**
+
+The adopter's SaaS has **three surfaces**, each in its own repo by default:
+
+| Surface | Repo | Audience | Deploy cadence | Editors |
+|---|---|---|---|---|
+| **Pre-auth marketing site** | sibling repo (`StarterSaaS-marketing` template) | Prospects, search engines | Slow (weekly+) | Eventually non-engineers (content / marketing / design) |
+| **App** | adopter's main repo | Authenticated users | Fast (daily+) | Engineers |
+| **Status page** | separate repo *or* managed service (Statuspage / Instatus / etc.) | Customers + integrators | Driven by incidents (real-time) | Ops / engineers via adapter |
+
+Post-auth in-app help is **not** a separate surface — it lives with the app.
+
+API / developer-portal docs deferred to [STORY-009](../../project/stories/STORY-009-architecture-grooming.md) — likely co-located with the app source for code-sync, but rendered into the marketing site for browsability.
+
+### Marketing site placement (D-18)
+
+**Default: sibling repo.** Industry-standard (Supabase / Vercel / Stripe / Pocketbase all separate). Each surface evolves on its own deploy cadence; SEO optimization for marketing doesn't fight app SSR strategy; non-engineers can edit marketing without touching app PRs.
+
+**Documented alternative: monorepo with separate deploys.** Single repo with `apps/marketing` + `apps/app`, two deploy targets. Selectable via `starter.config.ts`. Serves the secondary persona (solo founder) who prefers one-repo simplicity. Not recommended for primary persona (first engineer).
+
+**Single-deploy / route-based-split** is explicitly NOT supported — every team that picks it splits later.
+
+### Brand assets (D-18)
+
+Ship as a third package: `@starter-saas/brand` (logo, colors, fonts, copy snippets, OG images). Both marketing and app import from it. Subscribe-to-upstream-style updates apply.
+
+**Opt-out:** users who prefer to duplicate brand assets in each repo can set a flag in `starter.config.ts` and bypass the brand package. Trade: simpler day-1, manual sync forever.
+
+### Status page (D-19)
+
+**Default: separate repo OR managed service.** Lives at `status.<adopter-domain>`. The kit ships an *adapter* — users plug in either a self-hosted status-page (Cachet / Atlassian Statuspage clone) or a managed service. Integrates with the observability subsystem: incidents in the kit trigger status page updates via the adapter.
+
+**Why never co-located with the app:** status page must stay up when the app goes down. Separate hosting is mandatory.
+
+### Kit development repo topology (preliminary; locked in STORY-010)
+
+**Publishing topology** is already locked by [D-16](../decisions/DECISIONS_LOG.md): each capability ships as an independent package (`@starter-saas/auth`, `@starter-saas/rbac`, etc.). Adopters get polyrepo-style independent versioning.
+
+**Development topology** (how WE build the kit) is preliminarily **monorepo with workspaces**: one `khoks/StarterSaaS` repo containing `packages/<capability>/` workspaces, each publishing its own package independently. Industry-standard for OSS kits (Saleor / Medusa / Strapi / Vercel / Stripe internal). Final lock in STORY-010 alongside package-manager pick.
+
+True polyrepo for kit development (one git repo per capability, ~40 repos) is documented as the alternative but rejected at our scale (1 active dev, modest contributor base) — cross-cutting changes, branch-protection sprawl, and skill-replication overhead would dominate. Decision can be revisited if/when contributor count and capability ownership warrant extraction.
+
+---
+
 ## MVP-1 features (TBD in STORY-012)
 
 Plan recommendation (not yet locked): **auth + RBAC + multi-tenant DB + API gateway + notifications (email + in-app) + observability (logs + metrics + traces)**. Locked during STORY-012.
