@@ -197,13 +197,75 @@ Ship as a third package: `@starter-saas/brand` (logo, colors, fonts, copy snippe
 
 **Why never co-located with the app:** status page must stay up when the app goes down. Separate hosting is mandatory.
 
-### Kit development repo topology (preliminary; locked in STORY-010)
+### Kit development repo topology (D-21 — direction locked; tooling in STORY-010)
 
-**Publishing topology** is already locked by [D-16](../decisions/DECISIONS_LOG.md): each capability ships as an independent package (`@starter-saas/auth`, `@starter-saas/rbac`, etc.). Adopters get polyrepo-style independent versioning.
+**Publishing topology** is locked by [D-16](../decisions/DECISIONS_LOG.md): each capability ships as an independent package (`@starter-saas/auth`, `@starter-saas/rbac`, etc.). Adopters get polyrepo-style independent versioning.
 
-**Development topology** (how WE build the kit) is preliminarily **monorepo with workspaces**: one `khoks/StarterSaaS` repo containing `packages/<capability>/` workspaces, each publishing its own package independently. Industry-standard for OSS kits (Saleor / Medusa / Strapi / Vercel / Stripe internal). Final lock in STORY-010 alongside package-manager pick.
+**Development topology** is locked by [D-21](../decisions/DECISIONS_LOG.md): **monorepo with workspaces**. One `khoks/StarterSaaS` repo containing:
 
-True polyrepo for kit development (one git repo per capability, ~40 repos) is documented as the alternative but rejected at our scale (1 active dev, modest contributor base) — cross-cutting changes, branch-protection sprawl, and skill-replication overhead would dominate. Decision can be revisited if/when contributor count and capability ownership warrant extraction.
+```text
+StarterSaaS/
+├── packages/
+│   ├── auth/                # publishes @starter-saas/auth
+│   ├── rbac/                # publishes @starter-saas/rbac
+│   ├── llm-gateway/         # publishes @starter-saas/llm-gateway
+│   ├── brand/               # publishes @starter-saas/brand
+│   └── ... (30+ capabilities)
+├── apps/
+│   └── starter/             # the thin-shell template adopters scaffold
+├── tools/                   # build, release, deploy scripts
+└── docs/
+```
+
+Each `packages/*` has its own `package.json`, version, changelog, semver track. Final package-manager + monorepo-tooling pick (pnpm vs. yarn vs. npm; Turborepo vs. Nx vs. Bazel) deferred to [STORY-010](../../project/stories/STORY-010-tech-stack-decision.md).
+
+Industry-validated by Saleor / Medusa / Strapi / Vercel / Stripe internal / Shopify / Cloudflare / Next.js / Tanstack. Decision can be revisited if/when contributor count and capability ownership warrant per-repo extraction — splitting later is cheap, un-splitting is near-impossible.
+
+---
+
+## White-label mechanism
+
+**Locked 2026-04-28 in [STORY-008](../../project/stories/STORY-008-vision-grooming.md). Logged as [D-20](../decisions/DECISIONS_LOG.md), [D-22](../decisions/DECISIONS_LOG.md), [D-23](../decisions/DECISIONS_LOG.md).**
+
+### Layered: config-driven primary + adapter overrides + plugin extensions
+
+| Layer | Adopters | Covers | Cognitive cost |
+|---|---|---|---|
+| **1. Config-driven** | ~90% | Brand identity (via `@starter-saas/brand`), enabled subsystems, adapter selections, deploy targets, feature flags | Read one TypeScript file; edit values |
+| **2. Adapter overrides** | ~8% | Replace a kit-supplied adapter with a custom one (auth provider, email sender, storage backend) | Implement one interface; register in config |
+| **3. Plugin extensions** | ~2% | New behaviors that don't fit existing adapter slots (custom workflow steps, new UI widgets, new AI agent skills) | Plugin manifest + extension-point handlers |
+
+Each layer is the escape hatch for the previous one. Standard for best-in-class OSS (Strapi, Saleor, Next-auth all layer config + adapter + plugin).
+
+**Code-gen is explicitly rejected** as a customization mechanism. Used only for the initial scaffolding step (`npx create-starter-saas my-app`) which produces a minimal thin shell — not a customization vector. Code-gen as a customization mechanism would break [D-16](../decisions/DECISIONS_LOG.md) (subscribe-to-upstream) and [D-17](../decisions/DECISIONS_LOG.md) (AI-assisted merge) — once generated, no upstream to subscribe to.
+
+### Config entry point: `starter.config.ts`
+
+TypeScript with full type definitions for every config key — engineer gets autocomplete + errors-at-edit-time. Configures: brand, enabled layers, adapter picks, deploy targets, feature flags, and (post-MVP-1) plugin manifest declarations.
+
+### Day-1 demo flow
+
+1. `npx create-starter-saas my-app` (scaffolds thin shell)
+2. *AI-assisted config generation (D-22)* OR manual edit of `starter.config.ts`
+3. Edit `@starter-saas/brand` overrides (logo, colors)
+4. Run deploy script
+5. Working white-labeled SaaS in ~5 minutes (with AI-assisted config gen) or ~30 (manual)
+
+### AI-assisted config generation (D-22, MVP-1)
+
+First engineer describes the SaaS in natural language; AI Subsystem 5 (lite, MVP-1 subset) generates `starter.config.ts` + suggests adapter picks + scaffolds folder layout. Trust-but-verify: engineer reviews + corrects before applying. Full novelty analysis in [`NOVEL_IDEAS.md`](NOVEL_IDEAS.md). Pulls AI-first credibility into the first interaction with the kit.
+
+### AI-validated plugin compatibility (D-23, MVP-1)
+
+When the engineer authors a plugin against extension points, AI Subsystem 5 simulates upcoming kit upgrades against the plugin's hook signatures and surfaces likely breakage before the upstream merge lands. Same agent as [D-17](../decisions/DECISIONS_LOG.md) (AI-assisted shell merge), different surface. Removes the "plugin maintenance tax" that has historically choked plugin ecosystems. Implies plugin extension-points must be machine-readable. Full novelty analysis in [`NOVEL_IDEAS.md`](NOVEL_IDEAS.md).
+
+### Plugin API stability
+
+Plugins ride a separate semver track from the kit. Breaking changes to extension points get a major plugin-API version bump. STORY-009 will design the ADR covering: extension-point machine-readable spec, plugin manifest format, plugin loading + isolation model, security model.
+
+### Admin UI for non-engineer config edits — v1+ adapter
+
+Out of scope for MVP-1. A future ADAPTER could surface an admin UI for non-engineer config edits (white-label agencies, content teams). NOT a primary mechanism, NOT a replacement for `starter.config.ts`. Filed for v1 in [`RECOMMENDED_ADDITIONS.md`](RECOMMENDED_ADDITIONS.md).
 
 ---
 
