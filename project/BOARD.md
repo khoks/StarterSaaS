@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-04-28 (STORY-008 closed; STORY-010 in progress)
+**Last updated:** 2026-05-02 (STORY-010 mid-flight at Q4; 6 of 9 ACs locked)
 
 ---
 
@@ -10,8 +10,8 @@
 
 | ID | Title | Owner | Notes |
 |---|---|---|---|
-| EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | user (PM) + assistant | Full Phase B sweep — 1 of 5 stories closed (STORY-008); now in STORY-010 |
-| STORY-010 | Tech-stack decision — backend / frontend / polyglot | user (PM) + assistant | Q1 active: backend stack (TS / Go / polyglot). ADR-0002 will reference D-13, D-15, D-16, D-21 |
+| EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | user (PM) + assistant | Full Phase B sweep — 1 of 5 stories closed (STORY-008); STORY-010 6/9 |
+| STORY-010 | Tech-stack decision — backend / frontend / polyglot | user (PM) + assistant | **Q4 posted; awaiting user pick.** Q1-Q3 locked: TS+Node+Fastify (D-24); strict+Zod (D-25); polyglot rule (D-26); Next+Astro+agnostic-React (D-27); Zustand+shadcn+Tailwind (D-28); ai-ui MVP-1 (D-29); i18n v1+ (D-30); npm+Turborepo (D-31); Drizzle+Postgres+PgBouncer (D-32); schema-per-tenant (D-33). Q4 active: AI providers + vector DB. ADR-0002 closes the story. |
 
 ---
 
@@ -86,5 +86,5 @@ See [`README.md`](./README.md) for full conventions. Quick reference:
 - Bootstrap commit landed directly on `main` (per D-10): `82ff650` (40 files, 2325 insertions)
 - First auto-PR (#1, commit `5f2ab0a`) closed STORY-001…STORY-006 + progressed STORY-007 to `in-progress`
 - Phase A retrospective: scope held — no source code touched, no tech-stack speculation, no scope creep
-- Branch protection on `main` is **not yet configured** (auto-merge succeeded immediately because no required checks are gating). Recommended Phase B kickoff action: enable branch protection in the GitHub UI to require the `markdown-lint` workflow before merge
+- Branch protection on `main` is **configured strict** (1 review required, markdown-lint required, linear history, no force-push) — discovered during STORY-008 Q1 merge attempt. Per D-14, the assistant is authorized to use `gh pr merge --admin --squash` for **doc-only / tracking-only PRs** to land grooming and housekeeping work without manual review. Source-code PRs (Phase D onward) follow normal review flow.
 - Plan filename `i-want-to-build-happy-cocke.md` (speech-to-text artifact) can be safely deleted from `~/.claude/plans/`
