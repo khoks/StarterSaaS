@@ -1,6 +1,6 @@
 # CLAUDE.md — Project context for Claude Code sessions
 
-> **Phase: B — Grooming (active since 2026-04-27).** No product code yet. Cloud target and MVP-1 surface still pending. **STORY-008 done** (12 decisions D-12..D-23); **STORY-010 in progress** (backend = TS + Node + Fastify per D-24; frontend = Next App Router + Astro + framework-agnostic React per D-27; ORM / package-mgr / monorepo-tooling / AI providers / vector DB pending).
+> **Phase: B — Grooming (active since 2026-04-27).** No product code yet. Cloud target and MVP-1 surface still pending. **STORY-008 done** (12 decisions D-12..D-23); **STORY-010 in progress** (backend = TS + Node + Fastify per D-24; frontend = Next + Astro + agnostic React per D-27; npm + Turborepo + Drizzle + Postgres + schema-per-tenant per D-31..D-33; AI providers + vector DB still pending).
 
 This file is the entry point for any Claude Code session working in this repo. Read it first. Read [`project/BOARD.md`](./project/BOARD.md) second.
 
@@ -38,6 +38,9 @@ StarterSaaS is an **AI-first, production-grade, white-label SaaS starter kit** a
 | D-28 | Frontend supporting libs | **Zustand** + **shadcn-ui pattern** + **Tailwind** + **react-hook-form + Zod** | Industry defaults for the persona; shadcn-ui pattern preserves D-16 (adopters own code); Zod usage feeds D-25 boundary discipline |
 | D-29 | `packages/ai-ui` | Ships **MVP-1**: streaming-message / agent-step / token-counter / RAG-source-citation / prompt-input / tool-call-card React primitives | AI-first claim (D-15) needs visible AI UI primitives at MVP-1 — otherwise the differentiator is hollow at first contact |
 | D-30 | i18n scope | **v1+** (MVP-1 English only); v1 lands `next-intl` + `astro-i18n` adapters in `@starter-saas/i18n` | Keeps MVP-1 tight; matches Vercel / Next-auth / Stripe English-first pattern; D-13 persona is US-centric |
+| D-31 | Package mgr + monorepo tooling | **npm + npm workspaces + Turborepo** | Zero-install ergonomics (Node ships npm). pnpm's strict semantics revisit-able v1+ if phantom-dep issues surface |
+| D-32 | Data layer | **Drizzle ORM + drizzle-kit + PostgreSQL primary**; **PgBouncer prod / native pool dev** | TS-first schema-as-data compounds with D-15 / D-23. Native pgvector. Lightweight runtime preserves D-26 polyglot option |
+| D-33 | Multi-tenancy | **Schema-per-tenant** in Postgres. Pre-locked here; full ADR-0004 in STORY-009 | Strong isolation; native Postgres ops fit; better than shared-DB-with-tenant-id for D-13 persona's security audit story |
 | Cloud target | TBD | Locked during Phase B (STORY-011) |
 | Multi-tenancy model | TBD | Locked during Phase B (STORY-009) |
 
