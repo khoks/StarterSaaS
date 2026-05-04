@@ -61,4 +61,5 @@ Run heavy interactive PM + engineer Q&A sessions to lock the foundational decisi
 - 2026-04-27 — picked up; full Phase B sweep started with STORY-008
 - 2026-04-28 — STORY-008 closed (12 decisions D-12..D-23, 7 NOVEL_IDEAS, 4 RECOMMENDED_ADDITIONS, CLAUDE.md vision updated). Picked up STORY-010 (tech-stack decision). Per dependency order: STORY-010 → STORY-011 → STORY-009 → STORY-012 to close EPIC-002.
 - 2026-05-02 — STORY-010 closed (15 decisions D-24..D-38 plus D-21 cross-cutting; ADR-0002 written). Picked up STORY-011 (cloud-target). 2 of 5 stories done.
+- 2026-05-02 — STORY-011 closed (5 decisions D-39..D-43; ADR-0003 written; 1 NOVEL_IDEAS entry — Local command portal). Picked up STORY-009 (architecture grooming) with expanded ACs absorbing ~14 queued ADRs (ADR-0004..0017). 3 of 5 stories done. STORY-009 estimate bumped L → XL; likely to split into 9A / 9B / 9C as work progresses. STORY-012 (MVP-1 scope) is the final story.
 - 2026-04-27 — workflow lock recorded as D-12 in `docs/decisions/DECISIONS_LOG.md` (full sweep + full PM treatment per question); STORY-008 paused mid-Q1 awaiting user's persona decision

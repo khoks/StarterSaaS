@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-02 (STORY-010 closed; STORY-011 in progress)
+**Last updated:** 2026-05-02 (STORY-011 closed; STORY-009 in progress, ACs expanded XL)
 
 ---
 
@@ -10,8 +10,8 @@
 
 | ID | Title | Owner | Notes |
 |---|---|---|---|
-| EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | user (PM) + assistant | Full Phase B sweep — 2 of 5 stories closed (STORY-008, STORY-010); now in STORY-011 |
-| STORY-011 | Cloud-target decision — AWS / GCP / both | user (PM) + assistant | Q1 active: cloud-target. ADR-0003 will reference D-15 (one-command deploy in headline pitch — implies both AWS + GCP from MVP-1) + D-16 (subscribe-to-upstream applies to deploy script + IaC modules) + D-32/D-33/D-37 (Postgres + schema-per-tenant + pgvector all need cloud-equivalent provisioning) |
+| EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | user (PM) + assistant | Full Phase B sweep — 3 of 5 stories closed (STORY-008, STORY-010, STORY-011); now in STORY-009 |
+| STORY-009 | Architecture grooming — tenancy, event bus, observability, ~14 ADRs | user (PM) + assistant | Picked up; ACs expanded to absorb queued ADRs. Likely-split planned: 9A core / 9B AI subsystems / 9C plugin + AI mechanisms. First Q: ADR-0004 multi-tenancy detail |
 
 ---
 
@@ -19,8 +19,7 @@
 
 | ID | Title | Estimate | Why next |
 |---|---|---|---|
-| STORY-009 | Architecture grooming — tenancy, event bus, observability + ~14 ADRs | L | Blocked by STORY-008 (done) + STORY-010 (done); will likely split given ADR queue size |
-| STORY-012 | MVP-1 scope lockdown — pick from 14+ candidates | L | Blocked by STORY-008…STORY-011; closes Phase B |
+| STORY-012 | MVP-1 scope lockdown — pick from 14+ candidates | L | Blocked by STORY-009; closes Phase B |
 
 ---
 
@@ -34,6 +33,7 @@
 
 | ID | Title | Closed | Notes |
 |---|---|---|---|
+| STORY-011 | Cloud-target decision — AWS / GCP / both | 2026-05-02 | 5 decisions locked (D-39..D-43), ADR-0003 written and accepted; both AWS + GCP MVP-1 + Pulumi TS + 10-step idempotent CLI + local command portal (NOVEL_IDEAS) |
 | STORY-010 | Tech-stack decision — backend / frontend / polyglot | 2026-05-02 | 13 decisions locked (D-24..D-38), ADR-0002 written and accepted; full TS stack: Node + Fastify + Next + Astro + npm + Turborepo + Drizzle + Postgres + schema-per-tenant + pgvector + Anthropic + OpenAI + Ollama + Opus 4.7 kit-default |
 | STORY-008 | Vision grooming — persona, differentiator, kit promise | 2026-04-28 | 12 decisions locked (D-12..D-23), 7 NOVEL_IDEAS entries, 4 RECOMMENDED_ADDITIONS, CLAUDE.md vision updated to AI-first |
 | EPIC-001 | Phase A bootstrap — repo, skills, tracking, GitHub | 2026-04-25 | Repo at https://github.com/khoks/StarterSaaS; PR #1 auto-merged |
@@ -64,7 +64,7 @@
 | Epic | Status | Phase | Stories |
 |---|---|---|---|
 | [EPIC-001](./epics/EPIC-001-bootstrap.md) | done | scaffolding | STORY-001 → STORY-007 (all done) |
-| [EPIC-002](./epics/EPIC-002-grooming.md) | in-progress | scaffolding | STORY-008 + STORY-010 done; STORY-011 in progress; STORY-009/012 queued |
+| [EPIC-002](./epics/EPIC-002-grooming.md) | in-progress | scaffolding | STORY-008 + STORY-010 + STORY-011 done; STORY-009 in progress (XL — may split); STORY-012 queued |
 
 (EPIC-003+ for MVP-1 subsystems are created during STORY-012 Phase C lockdown.)
 
