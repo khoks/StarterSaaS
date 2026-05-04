@@ -2,14 +2,14 @@
 id: STORY-011
 title: Cloud-target decision — AWS / GCP / both
 type: story
-status: backlog
+status: in-progress
 priority: P0
 estimate: M
 parent: EPIC-002
 phase: scaffolding
 tags: [grooming, cloud, phase-b]
 created: 2026-04-25
-updated: 2026-04-25
+updated: 2026-05-02
 ---
 
 ## Description
@@ -40,3 +40,4 @@ Plan recommendation: AWS-only for MVP-1, Terraform-based, GCP added in v2. Trade
 ## Activity log
 
 - 2026-04-25 — created (Phase B placeholder)
+- 2026-05-02 — picked up; STORY-010 closed (D-24..D-38 locked, ADR-0002 accepted). ADR-0003 (cloud target) will reference D-15 (one-command deploy is in the headline pitch — implies both AWS and GCP from MVP-1) + D-16 (subscribe-to-upstream applies to deploy script + IaC modules) + D-32 (Postgres) + D-33 (schema-per-tenant) + D-37 (pgvector). First question: cloud-target — AWS-only / GCP-only / both from MVP-1 / cloud-agnostic abstraction.

@@ -2,14 +2,14 @@
 id: STORY-010
 title: Tech-stack decision — backend / frontend / polyglot scope
 type: story
-status: in-progress
+status: done
 priority: P0
 estimate: M
 parent: EPIC-002
 phase: scaffolding
 tags: [grooming, tech-stack, phase-b]
 created: 2026-04-25
-updated: 2026-04-28
+updated: 2026-05-02
 ---
 
 ## Description
@@ -24,9 +24,9 @@ As an engineer, I need the tech stack locked for MVP-1: backend language + frame
 - [x] Runtime model decided (modular monolith / microservices / hybrid) — *locked 2026-05-02 as D-24: modular monolith for MVP-1; hybrid via service-extraction allowed v1+ per D-26*
 - [x] Polyglot rules documented (which languages allowed when) — *locked 2026-05-02 as D-26: 10× perf + clear contract + bilingual maintainer commitment; MVP-1 pure TS*
 - [x] Package manager + monorepo tooling chosen (consistent with D-21 monorepo + workspaces direction) — *locked 2026-05-02 as D-31: npm + npm workspaces + Turborepo*
-- [ ] Default LLM provider mix chosen for the LLM Gateway (consistent with D-15 AI Sub 4)
-- [ ] Vector DB chosen (consistent with D-15 AI Sub 1, AI Sub 2)
-- [ ] ADR-0002 written, status: accepted
+- [x] Default LLM provider mix chosen for the LLM Gateway (consistent with D-15 AI Sub 4) — *locked 2026-05-02 as D-34 (Anthropic + OpenAI + Ollama MVP-1) + D-35 (Opus 4.7 kit-default) + D-36 (OpenAI 3-small + Voyage + Ollama embeddings) + D-38 (cost dashboards + per-tenant budget + prompt caching + adopter-config routing all MVP-1)*
+- [x] Vector DB chosen (consistent with D-15 AI Sub 1, AI Sub 2) — *locked 2026-05-02 as D-37: pgvector primary; Qdrant + Pinecone + Weaviate adapters v1+*
+- [x] ADR-0002 written, status: accepted — *2026-05-02; lives at [`docs/architecture/ADR-0002-tech-stack.md`](../../docs/architecture/ADR-0002-tech-stack.md); references D-13, D-15, D-16, D-21, D-24..D-38*
 
 ## Tasks under this Story
 
@@ -49,3 +49,5 @@ The plan's recommendation is TS+Fastify+Next.js for MVP-1 (operational simplicit
 - 2026-05-02 — **Q2 locked**: frontend = **Next.js App Router** for `apps/starter/` + **Astro** for `packages/marketing-template/` + **framework-agnostic React** for `packages/ui/` (no Next-specific imports; Remix / Vite SPA adapters v1+). RSC enforced default; SPA opt-in. Logged as D-27. Supporting libs (D-28): Zustand + shadcn-ui pattern + Tailwind + react-hook-form + Zod. **D-29**: `packages/ai-ui` (streaming-message, agent-step, token-counter, RAG-source-citation, prompt-input, tool-call-card) ships MVP-1 — anchors AI-first UI claim. **D-30**: i18n deferred to v1+ (MVP-1 English only). AC #2 ticked (4 of 9). Next: Q3 — package manager + monorepo tooling + ORM (3 picks bundled — all foundational infra)
 - 2026-05-02 — **Q3 locked** (with user clarification on the npm/pnpm-workspaces incompatibility): **D-31** — npm + npm workspaces + Turborepo (zero-install ergonomics; revisit pnpm v1+ if phantom-dep issues surface). **D-32** — Drizzle ORM + drizzle-kit migrations + PostgreSQL primary; PgBouncer prod / native pool dev. **D-33** — schema-per-tenant tenancy (pre-locked from STORY-009 territory; ADR-0004 multi-tenancy in STORY-009 will reference this). ACs ticked: ORM ✓, Package manager + monorepo tooling ✓ (6 of 9). Removed `package-manager`, `monorepo-tooling`, `orm`, `tenancy` from DECISIONS_LOG open/pending. Next: Q4 — AI providers default mix + vector DB (the AI-first stack closeouts).
 - 2026-05-02 — **Q4 posted** (AI providers default mix + vector DB + side picks). Recommendation: Anthropic + OpenAI + Ollama in MVP-1 + Sonnet 4.6 as kit-default for AI-assistance features (D-17/D-22/D-23) + pgvector + OpenAI text-embedding-3-small + cost dashboards MVP-1 + per-tenant LLM budget MVP-1 + prompt caching MVP-1. Disclosed Anthropic-employment bias on the kit-default model pick. **Session paused before user answered**; next session resumes by collecting Q4 pick, then closes STORY-010 with ADR-0002 write-up. STORY-010 ACs status: 6 of 9 (Backend ✓, Frontend ✓, ORM ✓, Runtime model ✓, Polyglot rules ✓, Package manager + monorepo tooling ✓ — remaining: AI providers, Vector DB, ADR-0002).
+- 2026-05-02 — **Q4 locked**: user picked Anthropic + OpenAI + Ollama MVP-1 (matches rec) + **Opus 4.7** as kit-default (overrode Sonnet 4.6 rec — quality over cost) + OpenAI text-embedding-3-small primary + Voyage adapter + Ollama embedding adapter (matches rec) + pgvector primary + v1+ adapters Qdrant/Pinecone/Weaviate (matches rec). Side picks: cost dashboards + per-tenant LLM budget + prompt caching + adopter-config routing all MVP-1 (matches rec). Logged as D-34 (LLM provider adapters), D-35 (kit-default Opus 4.7), D-36 (embedding adapters), D-37 (vector DB), D-38 (AI observability + cost). All 3 remaining ACs ticked. **ADR-0002 written** at `docs/architecture/ADR-0002-tech-stack.md` (status: accepted) — synthesizing ADR referencing D-13, D-15, D-16, D-21, D-24..D-38.
+- 2026-05-02 — **STORY-010 done.** All 9 ACs ticked. 13 decisions locked (D-24 through D-38, plus D-21 cross-cutting). 1 ADR written (ADR-0002). EPIC-002 progresses to STORY-011 (cloud-target decision) per dependency order.
