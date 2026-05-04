@@ -18,10 +18,10 @@ As the project owner, I need the cloud target for MVP-1 locked: AWS-only, GCP-on
 
 ## Acceptance criteria
 
-- [ ] Primary cloud target decided (AWS / GCP / both for MVP-1)
-- [ ] IaC tool decided (Terraform / Pulumi / Crossplane / custom)
-- [ ] Module structure sketched (`infra/aws/*`, `infra/gcp/*`, `infra/shared/*` or similar)
-- [ ] Multi-cloud strategy documented if both clouds are MVP-1 (or deferred to v2 if only one is MVP-1)
+- [x] Primary cloud target decided (AWS / GCP / both for MVP-1) — *locked 2026-05-02 as D-39: both AWS + GCP from MVP-1, one-cloud-per-deploy*
+- [x] IaC tool decided (Terraform / Pulumi / Crossplane / custom) — *locked 2026-05-02 as D-40: Pulumi (TypeScript)*
+- [x] Module structure sketched (`infra/aws/*`, `infra/gcp/*`, `infra/shared/*` or similar) — *locked 2026-05-02 as D-41: `packages/infra-shared/` + `packages/infra-aws/` + `packages/infra-gcp/`; default regions us-west-2 / us-west1 prompted*
+- [x] Multi-cloud strategy documented if both clouds are MVP-1 (or deferred to v2 if only one is MVP-1) — *locked 2026-05-02 as D-39: one-cloud-per-deploy at MVP-1; multi-region / multi-cloud-per-adopter v1+*
 - [ ] ADR-0003 written, status: accepted
 
 ## Tasks under this Story
@@ -41,3 +41,4 @@ Plan recommendation: AWS-only for MVP-1, Terraform-based, GCP added in v2. Trade
 
 - 2026-04-25 — created (Phase B placeholder)
 - 2026-05-02 — picked up; STORY-010 closed (D-24..D-38 locked, ADR-0002 accepted). ADR-0003 (cloud target) will reference D-15 (one-command deploy is in the headline pitch — implies both AWS and GCP from MVP-1) + D-16 (subscribe-to-upstream applies to deploy script + IaC modules) + D-32 (Postgres) + D-33 (schema-per-tenant) + D-37 (pgvector). First question: cloud-target — AWS-only / GCP-only / both from MVP-1 / cloud-agnostic abstraction.
+- 2026-05-02 — **Q1 locked**: cloud target = **both AWS + GCP from MVP-1** (D-39). IaC = **Pulumi TypeScript** (D-40). Module structure = `packages/infra-shared/` + `packages/infra-aws/` + `packages/infra-gcp/` (D-41). Default regions us-west-2 / us-west1 (geographically aligned) prompted-not-silent. Managed Postgres MVP-1; self-hosted Ollama in VPC pod (opt-in); one-cloud-per-deploy at MVP-1 (multi-region / multi-cloud per adopter v1+). 4 of 5 ACs ticked — only ADR-0003 write-up remains. Next: Q2 — deploy-script architecture (one-command flow + secrets bootstrap + idempotency + rollback + AI-assisted setup).

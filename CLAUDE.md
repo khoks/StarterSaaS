@@ -1,6 +1,6 @@
 # CLAUDE.md — Project context for Claude Code sessions
 
-> **Phase: B — Grooming (active since 2026-04-27).** No product code yet. Cloud target and MVP-1 surface still pending. **STORY-008 + STORY-010 done** (27 decisions D-12..D-38; ADR-0002 accepted — full TS stack: Node + Fastify + Next + Astro + npm + Turborepo + Drizzle + Postgres + schema-per-tenant + pgvector + Anthropic + OpenAI + Ollama; Opus 4.7 kit-default for AI-assistance). **STORY-011 in progress** (cloud target — AWS / GCP / both).
+> **Phase: B — Grooming (active since 2026-04-27).** No product code yet. MVP-1 surface still pending. **STORY-008 + STORY-010 done** (27 decisions D-12..D-38; ADR-0002 accepted — full TS stack: Node + Fastify + Next + Astro + npm + Turborepo + Drizzle + Postgres + schema-per-tenant + pgvector + Anthropic + OpenAI + Ollama; Opus 4.7 kit-default for AI-assistance). **STORY-011 in progress** — cloud target locked: both AWS + GCP MVP-1, Pulumi TypeScript IaC (D-39..D-41); deploy-script architecture (Q2) and ADR-0003 still pending.
 
 This file is the entry point for any Claude Code session working in this repo. Read it first. Read [`project/BOARD.md`](./project/BOARD.md) second.
 
@@ -42,6 +42,7 @@ StarterSaaS is an **AI-first, production-grade, white-label SaaS starter kit** a
 | D-32 | Data layer | **Drizzle ORM + drizzle-kit + PostgreSQL primary**; **PgBouncer prod / native pool dev** | TS-first schema-as-data compounds with D-15 / D-23. Native pgvector. Lightweight runtime preserves D-26 polyglot option |
 | D-33 | Multi-tenancy | **Schema-per-tenant** in Postgres. Pre-locked here; full ADR-0004 in STORY-009 | Strong isolation; native Postgres ops fit; better than shared-DB-with-tenant-id for D-13 persona's security audit story |
 | D-34..D-38 | AI stack | **Anthropic + OpenAI + Ollama** providers MVP-1; **Claude Opus 4.7** as kit-default for AI-assistance features (D-17 / D-22 / D-23); **OpenAI text-embedding-3-small + Voyage + Ollama** embeddings; **pgvector** primary; **cost dashboards + per-tenant budget + prompt caching + adopter-config routing** all MVP-1 | Anchors AI-first claim with visible MVP-1 features; Opus 4.7 chosen by user over Sonnet 4.6 — quality over cost for the kit's first impression; pgvector zero-additional-deploy. Full rationale in [ADR-0002](./docs/architecture/ADR-0002-tech-stack.md) |
+| D-39..D-41 | Cloud + IaC | **Both AWS + GCP from MVP-1** (D-39, honors D-15 headline pitch); **Pulumi (TypeScript)** as IaC (D-40, TS-native + AI-introspectable); module structure `packages/infra-{shared,aws,gcp}/`; default regions us-west-2 (AWS) / us-west1 (GCP) prompted; managed Postgres MVP-1; self-hosted Ollama VPC pod opt-in; one-cloud-per-deploy MVP-1 (D-41) | One-command deploy to AWS or GCP requires both adapters at MVP-1; ~150% scope on infra accepted to honor headline pitch. Pulumi TS unifies stack with D-24. Full rationale in ADR-0003 (in flight) |
 | Cloud target | TBD | Locked during Phase B (STORY-011) |
 | Multi-tenancy model | TBD | Locked during Phase B (STORY-009) |
 
