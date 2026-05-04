@@ -20,7 +20,7 @@ As an engineer (the user's eng hat), I need the cross-cutting architecture decis
 
 ### Original ACs (from STORY-009 spec)
 
-- [ ] **ADR-0004** multi-tenancy detail accepted (per-schema migration runner + cross-schema query primitives + tenant-provisioning flow; extends D-33)
+- [x] **ADR-0004** multi-tenancy detail accepted (per-schema migration runner + cross-schema query primitives + tenant-provisioning flow; extends D-33) — *locked 2026-05-02 as D-44; ADR-0004 written and accepted*
 - [ ] **ADR-0005** event bus selection accepted (Postgres NOTIFY / Redis Streams / Kafka)
 - [ ] **ADR-0006** observability stack accepted (OTel + backend default + LLM-trace extension; extends D-38)
 - [ ] Saga choreography pattern documented in `docs/architecture/ARCHITECTURE.md`
@@ -66,3 +66,5 @@ These decisions interact: tenancy choice constrains event-bus throughput require
 
 - 2026-04-25 — created (Phase B placeholder)
 - 2026-05-02 — picked up; STORY-008 + STORY-010 + STORY-011 closed (32 decisions D-12..D-43; 3 ADRs accepted: ADR-0001 license, ADR-0002 tech stack, ADR-0003 cloud target). ACs expanded to absorb the ADR queue accumulated during prior stories — ADR-0004 (multi-tenancy) through ADR-0018 (deploy command portal mechanism). Story estimate bumped L → XL. **Likely-split planned**: STORY-009A core architecture (ADR-0004..0007 + saga + data-quality), STORY-009B AI subsystems (ADR-0008..0012), STORY-009C plugin + AI-mechanisms + cross-cutting (ADR-0013..0018). First question: **ADR-0004 multi-tenancy detail** — per-schema migration runner + cross-schema query primitives + tenant provisioning flow (D-33 already locked schema-per-tenant; this fleshes out the *how*).
+- 2026-05-02 — **Pacing strategy locked** via AskUserQuestion: tight bundling (5-7 broader Qs grouping related ADRs) over per-ADR full treatment or split-now.
+- 2026-05-02 — **Q1 locked** (ADR-0004 multi-tenancy detail): all 4 sub-areas + 6 side picks per assistant recommendation. Migration runner = `@starter-saas/cli tenant migrate` with default-5 parallelism + continue-on-error. Cross-schema queries = `platform` schemas + `withTenants()` wrapper (federated views rejected). Connection pool = PgBouncer transaction mode + per-tenant 100 q/s rate-limit middleware. Tenant provisioning = 9-step idempotent + compensating saga (drives ADR-0005 event-bus design). Archival = 2-stage (soft archive immediate + 30-day default hard-delete retention) with `legal_hold` flag for GDPR. Side picks: UUIDv7 tenant ID, `tenant_{uuid}` schema names, co-resident `platform` schemas, all configurables tunable in `starter.config.ts`. Logged as **D-44**; **ADR-0004 written and accepted** at `docs/architecture/ADR-0004-multi-tenancy.md`. ACs ticked: ADR-0004 ✓ (1 of ~14). Next: **Q2 — ADR-0005 event bus + saga choreography pattern** (Postgres NOTIFY / Redis Streams / Kafka).
