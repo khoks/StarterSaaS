@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-05 (STORY-009 closed; STORY-012 in progress — Phase B finale)
+**Last updated:** 2026-05-05 (STORY-012 Q1 locked — MVP-1 surface = 19 caps in 6 Epics; Q2 drafts Stories)
 
 ---
 
@@ -10,8 +10,8 @@
 
 | ID | Title | Owner | Notes |
 |---|---|---|---|
-| EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | user (PM) + assistant | Full Phase B sweep — 4 of 5 stories closed; only STORY-012 remains |
-| STORY-012 | MVP-1 scope lockdown — pick from 18+ candidates | user (PM) + assistant | Picked up; final Phase B story. Ranks the 18+ candidates emerged through Q1-Q6 of STORY-009 + prior stories. Output: `docs/roadmap/MVP.md` v1 + EPIC-003+ subsystem Epics with ≥3 Stories each |
+| EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | user (PM) + assistant | Full Phase B sweep — 4 of 5 stories closed; STORY-012 Q1 done; Q2 closes Phase B |
+| STORY-012 | MVP-1 scope lockdown — 19 capabilities in 6 Epics | user (PM) + assistant | Q1 locked (D-56): MVP-1 surface + MVP.md v1 + 6 Epic stubs. Q2 next: ≥3 Stories per Epic, then close. |
 
 ---
 
@@ -63,9 +63,13 @@
 | Epic | Status | Phase | Stories |
 |---|---|---|---|
 | [EPIC-001](./epics/EPIC-001-bootstrap.md) | done | scaffolding | STORY-001 → STORY-007 (all done) |
-| [EPIC-002](./epics/EPIC-002-grooming.md) | in-progress | scaffolding | STORY-008 + STORY-010 + STORY-011 + STORY-009 done; STORY-012 in progress (Phase B finale) |
-
-(EPIC-003+ for MVP-1 subsystems are created during STORY-012 Phase C lockdown.)
+| [EPIC-002](./epics/EPIC-002-grooming.md) | in-progress | scaffolding | STORY-008 + STORY-010 + STORY-011 + STORY-009 done; STORY-012 in progress (Phase B finale; Q1 locked, Q2 = Story decomposition) |
+| [EPIC-003](./epics/EPIC-003-identity-tenancy.md) | backlog | mvp | Identity + Tenancy: Auth + Tenancy infra + Multi-tenant DB |
+| [EPIC-004](./epics/EPIC-004-communication-plumbing.md) | backlog | mvp | Communication Plumbing: API gateway + Event bus & saga + Notifications |
+| [EPIC-005](./epics/EPIC-005-observability-ai-cost.md) | backlog | mvp | Observability + AI Cost: OTel + Langfuse + cost dashboards + budgets + status page |
+| [EPIC-006](./epics/EPIC-006-ai-foundation.md) | backlog | mvp | AI Foundation: LLM Gateway + ai-ui primitives + architecture registry |
+| [EPIC-007](./epics/EPIC-007-ai-first-features.md) | backlog | mvp | AI-First Features: AI config gen + AI-assisted merge + AI plugin compat + Agent Platform MVP-1 |
+| [EPIC-008](./epics/EPIC-008-ux-deploy.md) | backlog | mvp | UX + Deploy: Brand package + Marketing-template + Deploy CLI & command portal |
 
 ---
 
