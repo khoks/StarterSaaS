@@ -46,7 +46,9 @@ Ship the **AI-first foundation** that EPIC-007 (AI-First Features) builds on: LL
 
 ## Stories under this Epic
 
-(Drafted in [STORY-012](../stories/STORY-012-mvp1-scope-lockdown.md) Q2; ≥3 expected.)
+- [STORY-022](../stories/STORY-022-llm-gateway.md) — LLM Gateway core + Anthropic / OpenAI / Ollama provider adapters + Safety filters (estimate: XL)
+- [STORY-023](../stories/STORY-023-ai-ui-streaming-primitives.md) — packages/ai-ui — 6 React primitives + SSE streaming protocol + WCAG 2.1 AA (estimate: L)
+- [STORY-024](../stories/STORY-024-architecture-registry-foundation.md) — Architecture registry foundation — auto-discovery + queryable API (estimate: L)
 
 ## Exit criteria
 
