@@ -42,7 +42,9 @@ Ship the **identity + isolation foundation** for MVP-1: auth flows + tenant-awar
 
 ## Stories under this Epic
 
-(Drafted in [STORY-012](../stories/STORY-012-mvp1-scope-lockdown.md) Q2; ≥3 expected. Phase D expands each.)
+- [STORY-013](../stories/STORY-013-auth-flows-mvp1.md) — Auth.js v5 integration with Drizzle adapter — MVP-1 sign-in flows (estimate: L)
+- [STORY-014](../stories/STORY-014-tenancy-provisioning-saga.md) — Tenancy schema + 9-step provisioning saga + multi-tenant query primitives (estimate: XL)
+- [STORY-015](../stories/STORY-015-tenant-migration-archival-rbac.md) — Tenant migration runner + 2-stage archival + RBAC sketch (estimate: L)
 
 ## Exit criteria
 

@@ -44,7 +44,9 @@ Ship the **observability + cost-discipline foundation** for MVP-1: OTel + GenAI 
 
 ## Stories under this Epic
 
-(Drafted in [STORY-012](../stories/STORY-012-mvp1-scope-lockdown.md) Q2; ≥3 expected.)
+- [STORY-019](../stories/STORY-019-otel-langfuse-pino-foundation.md) — OTel SDK + GenAI semconv + Pino + Langfuse — observability foundation (estimate: L)
+- [STORY-020](../stories/STORY-020-cost-dashboard-budget-enforcement.md) — AI cost dashboards + per-tenant LLM budget enforcement (estimate: L)
+- [STORY-021](../stories/STORY-021-status-page-alerts.md) — Built-in lightweight status page + Instatus adapter + default alerts (estimate: M)
 
 ## Exit criteria
 

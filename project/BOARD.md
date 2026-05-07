@@ -2,22 +2,26 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-05 (STORY-012 Q1 locked — MVP-1 surface = 19 caps in 6 Epics; Q2 drafts Stories)
+**Last updated:** 2026-05-06 (Phase B DONE — EPIC-002 closed; Phase D Epics EPIC-003..008 ready)
 
 ---
 
 ## In progress
 
-| ID | Title | Owner | Notes |
-|---|---|---|---|
-| EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | user (PM) + assistant | Full Phase B sweep — 4 of 5 stories closed; STORY-012 Q1 done; Q2 closes Phase B |
-| STORY-012 | MVP-1 scope lockdown — 19 capabilities in 6 Epics | user (PM) + assistant | Q1 locked (D-56): MVP-1 surface + MVP.md v1 + 6 Epic stubs. Q2 next: ≥3 Stories per Epic, then close. |
+(none — Phase B done; Phase D Epics ready to begin)
 
 ---
 
 ## Up next
 
-(none — STORY-012 closes Phase B; Phase D Epics begin after)
+| ID | Title | Estimate | Why next |
+|---|---|---|---|
+| EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | (3 Stories: STORY-013/014/015) | Foundational; nothing else can ship without identity + tenant isolation |
+| EPIC-004 | Communication Plumbing — API gateway + Event bus & saga + Notifications | (3 Stories: STORY-016/017/018) | Foundational; depends on EPIC-003 partially |
+| EPIC-005 | Observability + AI Cost — OTel + Langfuse + dashboards + budgets + status page | (3 Stories: STORY-019/020/021) | Foundational; depends on EPIC-004 |
+| EPIC-006 | AI Foundation — LLM Gateway + ai-ui primitives + architecture registry | (3 Stories: STORY-022/023/024) | Depends on EPIC-003/004/005 |
+| EPIC-007 | AI-First Features — AI config gen + AI-assisted merge + AI plugin compat + Agent Platform MVP-1 | (4 Stories: STORY-025/026/027/028) | Depends on EPIC-006 |
+| EPIC-008 | UX + Deploy — Brand package + Marketing-template + Deploy CLI + command portal | (3 Stories: STORY-029/030/031) | Parallel; integrates with all |
 
 ---
 
@@ -31,6 +35,8 @@
 
 | ID | Title | Closed | Notes |
 |---|---|---|---|
+| EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | 2026-05-06 | All 5 Stories closed (STORY-008/010/011/009/012); 45 decisions D-12..D-56; 18 ADRs ADR-0001..ADR-0018; MVP-1 surface locked; 6 MVP-1 Epics + 19 Phase D Stories drafted |
+| STORY-012 | MVP-1 scope lockdown — 19 capabilities in 6 Epics | 2026-05-06 | D-56 MVP-1 surface + docs/roadmap/MVP.md v1 + 6 Epic stubs (EPIC-003..008) + 19 Stories drafted (STORY-013..031) |
 | STORY-009 | Architecture grooming — tenancy / event bus / observability / auth / AI subsystems / plugin / AI mechanisms / ml platform / data quality | 2026-05-05 | 12 decisions locked (D-44..D-55), 12 ADRs accepted (ADR-0004..ADR-0018); 6 Q-bundles (multi-tenancy + event bus & saga + observability & LLM Gateway + auth & status/brand/admin + 4 AI subsystems + 5 cross-cutting + ML/data-quality); architecture registry foundation MVP-1 |
 | STORY-011 | Cloud-target decision — AWS / GCP / both | 2026-05-02 | 5 decisions locked (D-39..D-43), ADR-0003 written and accepted; both AWS + GCP MVP-1 + Pulumi TS + 10-step idempotent CLI + local command portal (NOVEL_IDEAS) |
 | STORY-010 | Tech-stack decision — backend / frontend / polyglot | 2026-05-02 | 13 decisions locked (D-24..D-38), ADR-0002 written and accepted; full TS stack: Node + Fastify + Next + Astro + npm + Turborepo + Drizzle + Postgres + schema-per-tenant + pgvector + Anthropic + OpenAI + Ollama + Opus 4.7 kit-default |
@@ -63,7 +69,7 @@
 | Epic | Status | Phase | Stories |
 |---|---|---|---|
 | [EPIC-001](./epics/EPIC-001-bootstrap.md) | done | scaffolding | STORY-001 → STORY-007 (all done) |
-| [EPIC-002](./epics/EPIC-002-grooming.md) | in-progress | scaffolding | STORY-008 + STORY-010 + STORY-011 + STORY-009 done; STORY-012 in progress (Phase B finale; Q1 locked, Q2 = Story decomposition) |
+| [EPIC-002](./epics/EPIC-002-grooming.md) | done | scaffolding | All 5 Stories done; 45 decisions, 18 ADRs, MVP-1 surface locked, Phase D Epics ready |
 | [EPIC-003](./epics/EPIC-003-identity-tenancy.md) | backlog | mvp | Identity + Tenancy: Auth + Tenancy infra + Multi-tenant DB |
 | [EPIC-004](./epics/EPIC-004-communication-plumbing.md) | backlog | mvp | Communication Plumbing: API gateway + Event bus & saga + Notifications |
 | [EPIC-005](./epics/EPIC-005-observability-ai-cost.md) | backlog | mvp | Observability + AI Cost: OTel + Langfuse + cost dashboards + budgets + status page |

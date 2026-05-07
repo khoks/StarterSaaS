@@ -42,7 +42,9 @@ Ship the **communication backbone** for MVP-1: HTTP gateway with Zod-validated b
 
 ## Stories under this Epic
 
-(Drafted in [STORY-012](../stories/STORY-012-mvp1-scope-lockdown.md) Q2; ≥3 expected.)
+- [STORY-016](../stories/STORY-016-fastify-gateway.md) — Fastify gateway + Zod boundary discipline + plugin extension points (estimate: L)
+- [STORY-017](../stories/STORY-017-event-bus-saga-primitives.md) — pg-outbox event bus adapter + saga primitives package + DLQ replay (estimate: XL)
+- [STORY-018](../stories/STORY-018-email-notifications-adapter.md) — Email notification adapter + per-tenant template system (estimate: M)
 
 ## Exit criteria
 

@@ -52,7 +52,10 @@ Ship the **visible AI-first value** at MVP-1 first contact: AI-assisted config g
 
 ## Stories under this Epic
 
-(Drafted in [STORY-012](../stories/STORY-012-mvp1-scope-lockdown.md) Q2; ≥3 expected.)
+- [STORY-025](../stories/STORY-025-ai-config-generation.md) — AI-assisted config generation pipeline (NL → starter.config.ts) (estimate: L)
+- [STORY-026](../stories/STORY-026-ai-assisted-merge-basic.md) — AI-assisted upstream merge — basic version (detect + propose + test) (estimate: XL)
+- [STORY-027](../stories/STORY-027-ai-validated-plugin-compat.md) — AI-validated plugin compatibility check + sandbox sim (estimate: L)
+- [STORY-028](../stories/STORY-028-agent-platform-mvp1.md) — Agent Platform MVP-1 subset (web + 4 of 6 registries + LangGraph orchestrator) (estimate: XL)
 
 ## Exit criteria
 

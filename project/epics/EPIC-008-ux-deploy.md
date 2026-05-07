@@ -57,7 +57,9 @@ Ship the **adopter-facing surfaces** for MVP-1: brand package + marketing-templa
 
 ## Stories under this Epic
 
-(Drafted in [STORY-012](../stories/STORY-012-mvp1-scope-lockdown.md) Q2; ≥3 expected.)
+- [STORY-029](../stories/STORY-029-brand-package.md) — @starter-saas/brand package + Tailwind tokens + adopter customization (estimate: M)
+- [STORY-030](../stories/STORY-030-marketing-template.md) — packages/marketing-template Astro site (sibling repo template) (estimate: M)
+- [STORY-031](../stories/STORY-031-deploy-cli-and-portal.md) — @starter-saas/cli + 10-step deploy flow + command portal (web/TUI with AI narration) (estimate: XL)
 
 ## Exit criteria
 

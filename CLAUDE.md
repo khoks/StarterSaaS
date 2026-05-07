@@ -1,6 +1,6 @@
 # CLAUDE.md — Project context for Claude Code sessions
 
-> **Phase: B — Grooming (active since 2026-04-27).** No product code yet. **STORY-012 Q1 locked 2026-05-05**: MVP-1 surface = **19 capabilities organized as 6 thematic Epics** (EPIC-003 Identity + Tenancy / EPIC-004 Communication Plumbing / EPIC-005 Observability + AI Cost / EPIC-006 AI Foundation / EPIC-007 AI-First Features / EPIC-008 UX + Deploy); `docs/roadmap/MVP.md` v1 written; Epic stub files created. **STORY-008 + STORY-010 + STORY-011 + STORY-009 done** (45 decisions D-12..D-56; 18 ADRs accepted ADR-0001..ADR-0018). **STORY-012 Q2 next**: ≥3 Stories per Epic (~18+ Stories), then close STORY-012, EPIC-002, and Phase B. Phase D Epics begin after.
+> **Phase: B DONE — Grooming closed 2026-05-06.** No product code yet. **EPIC-002 done.** Phase B output: **45 decisions** D-12..D-56; **18 ADRs accepted** ADR-0001..ADR-0018; **MVP-1 surface = 19 capabilities organized as 6 Epics** (EPIC-003 Identity + Tenancy / EPIC-004 Communication Plumbing / EPIC-005 Observability + AI Cost / EPIC-006 AI Foundation / EPIC-007 AI-First Features / EPIC-008 UX + Deploy); **`docs/roadmap/MVP.md` v1 locked**; **19 Phase D Stories drafted** (STORY-013..STORY-031). **Phase D Epics ready to begin** — start with EPIC-003 (foundational; STORY-013/014/015).
 
 This file is the entry point for any Claude Code session working in this repo. Read it first. Read [`project/BOARD.md`](./project/BOARD.md) second.
 
