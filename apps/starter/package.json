@@ -1,0 +1,13 @@
+{
+  "name": "@starter-saas/starter",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Thin-shell adopter template. Adopters scaffold via `npx create-starter-saas`. Real implementation lands progressively across EPIC-003..EPIC-008.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b",
+    "test": "echo 'No tests yet — real surface lands progressively' && exit 0",
+    "typecheck": "tsc --noEmit"
+  }
+}

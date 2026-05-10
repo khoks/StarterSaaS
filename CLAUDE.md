@@ -1,6 +1,6 @@
 # CLAUDE.md — Project context for Claude Code sessions
 
-> **Phase: B DONE — Grooming closed 2026-05-06.** No product code yet. **EPIC-002 done.** Phase B output: **45 decisions** D-12..D-56; **18 ADRs accepted** ADR-0001..ADR-0018; **MVP-1 surface = 19 capabilities organized as 6 Epics** (EPIC-003 Identity + Tenancy / EPIC-004 Communication Plumbing / EPIC-005 Observability + AI Cost / EPIC-006 AI Foundation / EPIC-007 AI-First Features / EPIC-008 UX + Deploy); **`docs/roadmap/MVP.md` v1 locked**; **19 Phase D Stories drafted** (STORY-013..STORY-031). **Phase D Epics ready to begin** — start with EPIC-003 (foundational; STORY-013/014/015).
+> **Phase: D — MVP-1 build (started 2026-05-07).** Phase A + B + C done. **Monorepo bootstrap in progress** via STORY-032 (npm workspaces + Turborepo + TS strict + tsconfig.base.json + 2 placeholder packages `@starter-saas/auth` and `@starter-saas/starter`). Phase D Story queue: STORY-032 (bootstrap, in progress) → STORY-013 (Auth.js + Drizzle) → STORY-014 (tenancy + provisioning saga) → STORY-015 (migration runner + archival + RBAC sketch) closes EPIC-003; then EPIC-004 → EPIC-005 → EPIC-006 → EPIC-007 → EPIC-008 per dependency map in [`docs/roadmap/MVP.md`](./docs/roadmap/MVP.md). **Source-code PRs follow normal review** (per D-14, admin override is doc-only).
 
 This file is the entry point for any Claude Code session working in this repo. Read it first. Read [`project/BOARD.md`](./project/BOARD.md) second.
 

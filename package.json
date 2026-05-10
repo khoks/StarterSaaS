@@ -1,0 +1,31 @@
+{
+  "name": "@starter-saas/monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "StarterSaaS — AI-first, production-grade SaaS starter kit. Monorepo root.",
+  "license": "MIT",
+  "homepage": "https://github.com/khoks/StarterSaaS",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khoks/StarterSaaS.git"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "dev": "turbo run dev"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0",
+    "typescript": "^5.5.0"
+  }
+}
