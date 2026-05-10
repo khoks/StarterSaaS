@@ -1,6 +1,6 @@
 # CLAUDE.md — Project context for Claude Code sessions
 
-> **Phase: D — MVP-1 build (started 2026-05-07).** Phase A + B + C done. **Monorepo bootstrap in progress** via STORY-032 (npm workspaces + Turborepo + TS strict + tsconfig.base.json + 2 placeholder packages `@starter-saas/auth` and `@starter-saas/starter`). Phase D Story queue: STORY-032 (bootstrap, in progress) → STORY-013 (Auth.js + Drizzle) → STORY-014 (tenancy + provisioning saga) → STORY-015 (migration runner + archival + RBAC sketch) closes EPIC-003; then EPIC-004 → EPIC-005 → EPIC-006 → EPIC-007 → EPIC-008 per dependency map in [`docs/roadmap/MVP.md`](./docs/roadmap/MVP.md). **Source-code PRs follow normal review** (per D-14, admin override is doc-only).
+> **Phase: D — MVP-1 build (started 2026-05-07).** Phase A + B + C done. **Monorepo bootstrap in progress** via STORY-032 (npm workspaces + Turborepo + TS strict + tsconfig.base.json + 2 placeholder packages `@starter-saas/auth` and `@starter-saas/starter`). Phase D Story queue: STORY-032 (bootstrap, in progress) → STORY-013 (Auth.js + Drizzle) → STORY-014 (tenancy + provisioning saga) → STORY-015 (migration runner + archival + RBAC sketch) closes EPIC-003; then EPIC-004 → EPIC-005 → EPIC-006 → EPIC-007 → EPIC-008 per dependency map in [`docs/roadmap/MVP.md`](./docs/roadmap/MVP.md). **All PRs admin-merged per D-57** (user-authorized 2026-05-07; safety guardrails in `Things to never do`).
 
 This file is the entry point for any Claude Code session working in this repo. Read it first. Read [`project/BOARD.md`](./project/BOARD.md) second.
 
@@ -54,6 +54,7 @@ StarterSaaS is an **AI-first, production-grade, white-label SaaS starter kit** a
 | D-54..D-55 | ML platform + data quality | **D-54 ML platform**: pluggable adapter pattern; LLM Gateway is the ONLY AI infrastructure MVP-1; SageMaker / Vertex AI / MLflow / Weights & Biases adapters slated v1+. **D-55 data quality**: Zod schemas (D-25) ARE the contract-based foundation MVP-1; Great Expectations / Soda / custom adapters v1+ for declarative-rules / data-at-rest checks | Most D-13 adopters at MVP-1 don't need traditional ML; pluggable v1+ keeps MVP-1 scope. Zod-everywhere already covers contract-level data quality; richer rules adapter v1+ for adopters who outgrow Zod-only. STORY-009 cross-cutting closeouts |
 | ADRs 0013-0018 | 5 cross-cutting + AI mechanism ADRs | **ADR-0013** plugin spec + AI-validated compat methodology (extends D-23). **ADR-0014** AI-assisted upstream merge mechanism (extends D-17) — adapter usage signatures + test-first verification + confidence scoring + autonomous-mode toggle v1. **ADR-0015** AI-assisted config generation mechanism (extends D-22) — NL → Zod-validated pipeline with repair-and-retry + adapter verification + iteration loop. **ADR-0016** AI-streaming UI primitives integration (extends D-29) — SSE primary + WCAG 2.1 AA floor + component-orchestrator decoupling. **ADR-0018** deploy portal mechanism (extends D-43) — port allocation + resource-boundary pause/resume + AI narration with prompt caching + headless mode | All extend earlier MVP-1 commitments with implementation detail. Architecture registry from ADR-0012 is foundational to ADRs 0013/0014/0015. Full designs in respective ADR files |
 | D-56 | MVP-1 surface | **19 capabilities organized as 6 thematic Epics**: EPIC-003 Identity + Tenancy / EPIC-004 Communication Plumbing / EPIC-005 Observability + AI Cost / EPIC-006 AI Foundation / EPIC-007 AI-First Features / EPIC-008 UX + Deploy. Foundation-only for AI Sub 1 + Sub 2 (full subsystems v1). ~30 deferrals to v1 / v1+ / v2 explicitly listed | The original "~6 subsystems" plan was insufficient against the AI-first vision (D-15) which expanded the candidate set to 18+; thematic clustering matches the original AC count while honoring the breadth. Full surface in [`docs/roadmap/MVP.md`](./docs/roadmap/MVP.md) |
+| D-57 | Admin-merge authorization | **Admin-merge expanded to ALL PRs** (including source-code), superseding D-14's doc-only scope. Safety guardrails preserved: never `--no-verify`, never `--no-gpg-sign`, never force-push to `main`, never push direct to `main`, never skip CI failures. Assistant self-reviews every PR before admin-merge | User-authorized 2026-05-07 to unblock Phase D pacing. Trust delegation justified by Phase B track record (45 decisions, careful documentation). Audit trail preserved via PR history + DECISIONS_LOG + commit messages |
 | Cloud target | TBD | Locked during Phase B (STORY-011) |
 | Multi-tenancy model | TBD | Locked during Phase B (STORY-009) |
 
@@ -222,11 +223,13 @@ The user wants **design / requirements / algorithm / tech-stack discussions to h
 
 - `git push --force` to any branch (linear history enforced; ask first if you genuinely need a force-push elsewhere)
 - `git remote add` (origin is `khoks/StarterSaaS`; do not add additional remotes)
-- Direct push to `main` once branch protection is enabled (use the PR workflow / `auto-pr` skill)
-- Run `pnpm install`, `npm install`, `pip install`, etc. before Phase B locks the stack
-- Install Docker images or run docker-compose before Phase B
+- Direct push to `main` (PR workflow stays mandatory even under D-57 admin-merge authorization — go through a branch + PR + `gh pr merge --admin`)
+- `gh pr merge --admin` with `--no-verify` or any hook bypass (D-57 expands admin scope but preserves safety guardrails)
+- `gh pr merge --admin` while CI checks are failing (investigate the failure, don't override it)
+- Install Docker images or run docker-compose without explicit approval
 - Use `--privileged` on any Docker invocation, ever
 - Commit with `--no-verify` or any hook bypass
+- `--no-gpg-sign` to bypass signing if/when signing is required
 
 ---
 

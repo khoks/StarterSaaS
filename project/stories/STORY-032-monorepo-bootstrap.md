@@ -44,7 +44,7 @@ This is **not in the original Phase B Story plan** — it surfaced when Phase D 
 - ESLint + Prettier configs deferred to STORY-013 (per [D-25](../../docs/decisions/DECISIONS_LOG.md)) — they configure for real code
 - No `npm install` run in this PR; lockfile generated when user (or CI) first runs install
 - The `@starter-saas/auth` and `@starter-saas/starter` placeholders validate workspace + Turborepo wiring without committing to implementation choices
-- This Story's PR is the first **source-code-adjacent** PR; per [D-14](../../docs/decisions/DECISIONS_LOG.md) admin override does NOT apply — normal review flow required
+- This Story's PR was opened initially as the first **source-code-adjacent** PR with normal-review-required (per D-14, admin override was doc-only). **User authorized admin-merge for all PRs (D-57) before this PR was merged**, so this PR was admin-merged after self-review with the D-57 entry included in the diff
 
 ## Related
 
@@ -54,3 +54,4 @@ This is **not in the original Phase B Story plan** — it surfaced when Phase D 
 ## Activity log
 
 - 2026-05-07 — created as the Phase D bootstrap prerequisite for STORY-013; scoped tightly to monorepo skeleton + 2 placeholder packages
+- 2026-05-07 — PR #24 opened (normal-review per D-14); user expanded admin-merge authorization to all PRs (D-57 logged in this PR); PR admin-merged after self-review
