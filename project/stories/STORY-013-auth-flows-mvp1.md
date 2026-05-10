@@ -2,14 +2,14 @@
 id: STORY-013
 title: Auth.js v5 integration with Drizzle adapter — MVP-1 sign-in flows
 type: story
-status: backlog
+status: in-progress
 priority: P0
 estimate: L
 parent: EPIC-003
 phase: mvp
 tags: [mvp, auth, identity]
 created: 2026-05-06
-updated: 2026-05-06
+updated: 2026-05-10
 ---
 
 ## Description
@@ -45,3 +45,4 @@ Integrate Auth.js v5+ with the kit's Drizzle data layer per [ADR-0007](../../doc
 ## Activity log
 
 - 2026-05-06 — created as part of [STORY-012](./STORY-012-mvp1-scope-lockdown.md) Q2 Story decomposition
+- 2026-05-10 — picked up after STORY-032 (monorepo bootstrap) closed. Sub-PR plan: (1) Drizzle schemas + Zod contracts + ESLint/Prettier configs scaffolds the data layer + boundary types; (2) Auth.js v5 wiring + email+pwd flow; (3) magic link + OAuth flows; (4) TOTP 2FA + audit-log writer + RBAC middleware. Each sub-PR self-contained + admin-merged per D-57.
