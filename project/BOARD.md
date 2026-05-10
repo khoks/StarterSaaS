@@ -11,7 +11,7 @@
 | ID | Title | Owner | Notes |
 |---|---|---|---|
 | EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | user (PM) + assistant | First Phase D Epic. STORY-032 done; STORY-013 sub-PR #1 in flight |
-| STORY-013 | Auth.js v5 integration with Drizzle adapter — MVP-1 sign-in flows | user (PM) + assistant | Sub-PR #1: Drizzle schemas + Zod contracts + ESLint/Prettier. Sub-PRs #2-4: Auth.js wiring + email+pwd, magic link + OAuth, TOTP + audit log + RBAC |
+| STORY-013 | Auth.js v5 integration with Drizzle adapter — MVP-1 sign-in flows | user (PM) + assistant | Sub-PR #1 + #2 landed: schemas + contracts + lint, email+pwd flow (sign-up + sign-in + sign-out + verify-email + password reset) + bcrypt + tokens + email-sender interface, 30 tests green. Sub-PRs #3-4: magic link + OAuth, TOTP + audit log + RBAC |
 
 ---
 

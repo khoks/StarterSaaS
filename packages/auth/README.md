@@ -12,37 +12,57 @@ See [ADR-0007 — Auth provider](../../docs/architecture/ADR-0007-auth-provider.
 - Flows MVP-1: email + password / magic link / OAuth (Google / GitHub / Apple) / TOTP 2FA
 - v1+ adapters: Clerk / Auth0 / AWS Cognito / GCP Identity Platform / WorkOS / Authelia / Ory Kratos
 
-## Current shape (STORY-013 sub-PR #1)
+## Current shape (STORY-013 sub-PRs #1 + #2)
 
 ```text
 src/
 ├── db/
 │   └── schema.ts            # Drizzle schemas for the 7 platform auth tables
-├── contracts/
-│   ├── session.ts           # Zod: session shape (user + activeTenant + expires)
-│   ├── user.ts              # Zod: signup / signin / password-reset / magic-link inputs
-│   ├── audit.ts             # Zod: audit-log entry shape + AuditAction union
-│   └── index.ts             # Public contract re-exports
-└── index.ts                 # Public entry — exports schema + contracts
+├── contracts/               # Zod boundary contracts (D-25)
+│   ├── session.ts
+│   ├── user.ts
+│   ├── audit.ts
+│   └── index.ts
+├── crypto/
+│   ├── password.ts          # bcrypt hash + verify (cost 12 default per ADR-0007)
+│   └── tokens.ts            # CSPRNG token generation + expiry helpers
+├── email/
+│   ├── email-sender.ts      # EmailSender interface + noopEmailSender default
+│   └── templates.ts         # verification + password-reset email templates
+├── flows/                   # pure dependency-injected flow functions
+│   ├── sign-up.ts           # validate → check email-unique → hash → insert user → verification token → send email
+│   ├── sign-in.ts           # validate → verify password → TOTP check → email-verified check → create session
+│   ├── sign-out.ts          # idempotent session delete
+│   ├── verify-email.ts      # consume one-time verification token + mark emailVerified
+│   └── password-reset.ts    # requestPasswordReset (enum-safe) + completePasswordReset
+├── config/
+│   └── defaults.ts          # defaultAuthConfig matching ADR-0007 / D-48
+├── types.ts                 # AuthDeps, AuthResult, AuthError, EmailSender, AuthConfig
+└── index.ts                 # public entry
 ```
 
-## Public API (this PR)
+## Public API
 
 ```typescript
-import { schema, SessionSchema, SignUpInputSchema } from "@starter-saas/auth";
-import { users, accounts } from "@starter-saas/auth/db/schema";
-import { AuditActionSchema } from "@starter-saas/auth/contracts";
+import {
+  signUp, signIn, signOut, verifyEmail,
+  requestPasswordReset, completePasswordReset,
+  hashPassword, verifyPassword,
+  generateToken, isStillValid,
+  noopEmailSender, defaultAuthConfig,
+  SessionSchema, SignUpInputSchema, AuditActionSchema,
+  type AuthDeps, type AuthConfig, type EmailSender,
+} from "@starter-saas/auth";
 ```
 
-All schemas / contracts are **Zod-validated boundary types** per [D-25](../../docs/decisions/DECISIONS_LOG.md). Internal code is strict TypeScript without runtime Zod validation; only public boundaries enforce.
+Every flow takes `AuthDeps = { db, emailSender, config }`. The package is framework-agnostic; HTTP routes / RSC actions in the adopter shell wire these into Fastify or Next App Router as needed.
 
 ## Coming in subsequent sub-PRs
 
 | Sub-PR | Scope |
 |---|---|
-| #2 | Auth.js v5 wiring + email + password flow (sign-up + sign-in + sign-out + verification + password reset) |
-| #3 | Magic link + OAuth (Google / GitHub / Apple) flows |
-| #4 | TOTP 2FA + audit-log writer + RBAC middleware |
+| #3 | OAuth (Google / GitHub / Apple) flows + `@auth/core` integration for provider wiring + magic link |
+| #4 | TOTP 2FA enrollment + verification + audit-log writer + account lockout + RBAC middleware |
 
 ## Test
 
