@@ -14,7 +14,13 @@ export const PasswordSchema = z
   .string()
   .min(MIN_PASSWORD_LENGTH, `Password must be at least ${MIN_PASSWORD_LENGTH} characters`);
 
-export const EmailSchema = z.string().email().toLowerCase().trim();
+// Trim + lowercase BEFORE email-format validation: Zod's .email() rejects
+// leading/trailing whitespace, so transform must happen first via .pipe().
+export const EmailSchema = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .pipe(z.string().email());
 
 export const SignUpInputSchema = z.object({
   email: EmailSchema,
