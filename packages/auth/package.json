@@ -2,13 +2,15 @@
   "name": "@starter-saas/auth",
   "version": "0.0.0",
   "private": true,
-  "description": "Auth subsystem for StarterSaaS — Auth.js v5 wrapper + tenant-aware sessions + RBAC sketch (per ADR-0007). Real implementation lands in STORY-013.",
+  "description": "Auth subsystem for StarterSaaS — Auth.js v5 wrapper + tenant-aware sessions + RBAC sketch (per ADR-0007). STORY-013 ships schemas + Zod contracts + Auth.js wiring + flows progressively.",
   "license": "MIT",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./contracts": "./src/contracts/index.ts",
+    "./db/schema": "./src/db/schema.ts"
   },
   "files": [
     "src",
@@ -17,7 +19,18 @@
   ],
   "scripts": {
     "build": "tsc -b",
-    "test": "echo 'No tests yet — implementation lands in STORY-013' && exit 0",
-    "typecheck": "tsc --noEmit"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --max-warnings=0"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.36.0",
+    "drizzle-zod": "^0.5.1",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "vitest": "^2.0.0"
   }
 }

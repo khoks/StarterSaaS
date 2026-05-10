@@ -2,14 +2,14 @@
 id: STORY-032
 title: Phase D monorepo workspace bootstrap (npm + Turborepo + TS strict)
 type: story
-status: in-progress
+status: done
 priority: P0
 estimate: M
 parent: EPIC-003
 phase: mvp
 tags: [mvp, phase-d-bootstrap, monorepo, scaffolding]
 created: 2026-05-07
-updated: 2026-05-07
+updated: 2026-05-10
 ---
 
 ## Description
@@ -20,15 +20,15 @@ This is **not in the original Phase B Story plan** — it surfaced when Phase D 
 
 ## Acceptance criteria
 
-- [ ] Root `package.json` with `"workspaces": ["packages/*", "apps/*"]` declaration; `"engines": { "node": ">=20.0.0" }`
-- [ ] `tsconfig.base.json` with `"strict": true` + `"noUncheckedIndexedAccess": true` + `"exactOptionalPropertyTypes": true` + ES2022 target + module bundler resolution
-- [ ] `turbo.json` with `build` / `test` / `lint` / `typecheck` / `dev` pipeline definitions (per [D-31](../../docs/decisions/DECISIONS_LOG.md))
-- [ ] `packages/auth/` placeholder package: `package.json` declaring `@starter-saas/auth` + extending `tsconfig.base.json` + empty `src/index.ts` (real impl in STORY-013)
-- [ ] `apps/starter/` placeholder app: `package.json` declaring `@starter-saas/starter` + extending `tsconfig.base.json` + empty `src/index.ts` (real impl progressive across EPIC-003..008)
-- [ ] `README.md` updated with monorepo conventions section
-- [ ] CLAUDE.md phase status updated to reflect Phase D start
-- [ ] BOARD.md reflects EPIC-003 in-progress + STORY-032 in-progress
-- [ ] CI typecheck job is **NOT** added in this PR (would require lockfile; lands with STORY-013 alongside real source)
+- [x] Root `package.json` with `"workspaces": ["packages/*", "apps/*"]` declaration; `"engines": { "node": ">=20.0.0" }` — *PR #24*
+- [x] `tsconfig.base.json` with `"strict": true` + `"noUncheckedIndexedAccess": true` + `"exactOptionalPropertyTypes": true` + ES2022 target + module bundler resolution — *PR #24*
+- [x] `turbo.json` with `build` / `test` / `lint` / `typecheck` / `dev` pipeline definitions (per [D-31](../../docs/decisions/DECISIONS_LOG.md)) — *PR #24*
+- [x] `packages/auth/` placeholder package: `package.json` declaring `@starter-saas/auth` + extending `tsconfig.base.json` + empty `src/index.ts` (real impl in STORY-013) — *PR #24*
+- [x] `apps/starter/` placeholder app: `package.json` declaring `@starter-saas/starter` + extending `tsconfig.base.json` + empty `src/index.ts` (real impl progressive across EPIC-003..008) — *PR #24*
+- [x] `README.md` updated with monorepo conventions section — *PR #24*
+- [x] CLAUDE.md phase status updated to reflect Phase D start — *PR #24*
+- [x] BOARD.md reflects EPIC-003 in-progress + STORY-032 in-progress — *PR #24*
+- [x] CI typecheck job is **NOT** added in this PR (would require lockfile; lands with STORY-013 alongside real source) — *PR #24*
 
 ## Tasks under this Story
 

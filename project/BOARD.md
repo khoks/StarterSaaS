@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-07 (Phase D started — STORY-032 monorepo bootstrap in progress)
+**Last updated:** 2026-05-10 (STORY-032 done; STORY-013 sub-PR #1 in progress)
 
 ---
 
@@ -10,8 +10,8 @@
 
 | ID | Title | Owner | Notes |
 |---|---|---|---|
-| EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | user (PM) + assistant | First Phase D Epic. STORY-032 (monorepo bootstrap prereq) in progress; then STORY-013/014/015 |
-| STORY-032 | Phase D monorepo workspace bootstrap | user (PM) + assistant | npm workspaces + Turborepo + TS strict + tsconfig.base + 2 placeholder packages. First source-code-adjacent PR; **normal review required** (D-14 admin override doc-only) |
+| EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | user (PM) + assistant | First Phase D Epic. STORY-032 done; STORY-013 sub-PR #1 in flight |
+| STORY-013 | Auth.js v5 integration with Drizzle adapter — MVP-1 sign-in flows | user (PM) + assistant | Sub-PR #1: Drizzle schemas + Zod contracts + ESLint/Prettier. Sub-PRs #2-4: Auth.js wiring + email+pwd, magic link + OAuth, TOTP + audit log + RBAC |
 
 ---
 
@@ -19,7 +19,6 @@
 
 | ID | Title | Estimate | Why next |
 |---|---|---|---|
-| STORY-013 | Auth.js v5 integration with Drizzle adapter — MVP-1 sign-in flows | L | Blocked by STORY-032 (workspace must exist) |
 | STORY-014 | Tenancy schema + 9-step provisioning saga + multi-tenant query primitives | XL | Blocked by STORY-013 + STORY-017 (event bus) |
 | STORY-015 | Tenant migration runner + 2-stage archival + RBAC sketch | L | Blocked by STORY-014 |
 | EPIC-004 | Communication Plumbing — API gateway + Event bus & saga + Notifications | (3 Stories) | Foundational; depends on EPIC-003 partially |
@@ -40,6 +39,7 @@
 
 | ID | Title | Closed | Notes |
 |---|---|---|---|
+| STORY-032 | Phase D monorepo workspace bootstrap | 2026-05-10 | PR #24 landed; npm workspaces + Turborepo + TS strict + tsconfig.base + 2 placeholder packages; D-57 admin-merge expansion logged |
 | EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | 2026-05-06 | All 5 Stories closed (STORY-008/010/011/009/012); 45 decisions D-12..D-56; 18 ADRs ADR-0001..ADR-0018; MVP-1 surface locked; 6 MVP-1 Epics + 19 Phase D Stories drafted |
 | STORY-012 | MVP-1 scope lockdown — 19 capabilities in 6 Epics | 2026-05-06 | D-56 MVP-1 surface + docs/roadmap/MVP.md v1 + 6 Epic stubs (EPIC-003..008) + 19 Stories drafted (STORY-013..031) |
 | STORY-009 | Architecture grooming — tenancy / event bus / observability / auth / AI subsystems / plugin / AI mechanisms / ml platform / data quality | 2026-05-05 | 12 decisions locked (D-44..D-55), 12 ADRs accepted (ADR-0004..ADR-0018); 6 Q-bundles (multi-tenancy + event bus & saga + observability & LLM Gateway + auth & status/brand/admin + 4 AI subsystems + 5 cross-cutting + ML/data-quality); architecture registry foundation MVP-1 |
