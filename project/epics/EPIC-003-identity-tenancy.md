@@ -2,12 +2,12 @@
 id: EPIC-003
 title: Identity + Tenancy — auth, multi-tenancy infrastructure, multi-tenant DB
 type: epic
-status: backlog
+status: in-progress
 priority: P0
 phase: mvp
 tags: [mvp, identity, tenancy]
 created: 2026-05-05
-updated: 2026-05-05
+updated: 2026-05-07
 ---
 
 ## Goal
@@ -42,6 +42,7 @@ Ship the **identity + isolation foundation** for MVP-1: auth flows + tenant-awar
 
 ## Stories under this Epic
 
+- [STORY-032](../stories/STORY-032-monorepo-bootstrap.md) — Phase D monorepo workspace bootstrap (npm + Turborepo + TS strict) (estimate: M) — **prerequisite for all subsequent Stories; in progress 2026-05-07**
 - [STORY-013](../stories/STORY-013-auth-flows-mvp1.md) — Auth.js v5 integration with Drizzle adapter — MVP-1 sign-in flows (estimate: L)
 - [STORY-014](../stories/STORY-014-tenancy-provisioning-saga.md) — Tenancy schema + 9-step provisioning saga + multi-tenant query primitives (estimate: XL)
 - [STORY-015](../stories/STORY-015-tenant-migration-archival-rbac.md) — Tenant migration runner + 2-stage archival + RBAC sketch (estimate: L)
@@ -67,3 +68,4 @@ Ship the **identity + isolation foundation** for MVP-1: auth flows + tenant-awar
 ## Activity log
 
 - 2026-05-05 — created as part of MVP-1 surface lockdown ([D-56](../../docs/decisions/DECISIONS_LOG.md))
+- 2026-05-07 — picked up; Phase D begins. STORY-032 (monorepo bootstrap) added as prerequisite for STORY-013/014/015. STORY-032 in progress; first source-code-adjacent PR opened (normal review required per D-14)

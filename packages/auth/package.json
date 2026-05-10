@@ -1,0 +1,23 @@
+{
+  "name": "@starter-saas/auth",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Auth subsystem for StarterSaaS — Auth.js v5 wrapper + tenant-aware sessions + RBAC sketch (per ADR-0007). Real implementation lands in STORY-013.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src",
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "echo 'No tests yet — implementation lands in STORY-013' && exit 0",
+    "typecheck": "tsc --noEmit"
+  }
+}

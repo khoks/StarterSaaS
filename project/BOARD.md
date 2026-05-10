@@ -2,13 +2,16 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-06 (Phase B DONE — EPIC-002 closed; Phase D Epics EPIC-003..008 ready)
+**Last updated:** 2026-05-07 (Phase D started — STORY-032 monorepo bootstrap in progress)
 
 ---
 
 ## In progress
 
-(none — Phase B done; Phase D Epics ready to begin)
+| ID | Title | Owner | Notes |
+|---|---|---|---|
+| EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | user (PM) + assistant | First Phase D Epic. STORY-032 (monorepo bootstrap prereq) in progress; then STORY-013/014/015 |
+| STORY-032 | Phase D monorepo workspace bootstrap | user (PM) + assistant | npm workspaces + Turborepo + TS strict + tsconfig.base + 2 placeholder packages. First source-code-adjacent PR; **normal review required** (D-14 admin override doc-only) |
 
 ---
 
@@ -16,12 +19,14 @@
 
 | ID | Title | Estimate | Why next |
 |---|---|---|---|
-| EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | (3 Stories: STORY-013/014/015) | Foundational; nothing else can ship without identity + tenant isolation |
-| EPIC-004 | Communication Plumbing — API gateway + Event bus & saga + Notifications | (3 Stories: STORY-016/017/018) | Foundational; depends on EPIC-003 partially |
-| EPIC-005 | Observability + AI Cost — OTel + Langfuse + dashboards + budgets + status page | (3 Stories: STORY-019/020/021) | Foundational; depends on EPIC-004 |
-| EPIC-006 | AI Foundation — LLM Gateway + ai-ui primitives + architecture registry | (3 Stories: STORY-022/023/024) | Depends on EPIC-003/004/005 |
-| EPIC-007 | AI-First Features — AI config gen + AI-assisted merge + AI plugin compat + Agent Platform MVP-1 | (4 Stories: STORY-025/026/027/028) | Depends on EPIC-006 |
-| EPIC-008 | UX + Deploy — Brand package + Marketing-template + Deploy CLI + command portal | (3 Stories: STORY-029/030/031) | Parallel; integrates with all |
+| STORY-013 | Auth.js v5 integration with Drizzle adapter — MVP-1 sign-in flows | L | Blocked by STORY-032 (workspace must exist) |
+| STORY-014 | Tenancy schema + 9-step provisioning saga + multi-tenant query primitives | XL | Blocked by STORY-013 + STORY-017 (event bus) |
+| STORY-015 | Tenant migration runner + 2-stage archival + RBAC sketch | L | Blocked by STORY-014 |
+| EPIC-004 | Communication Plumbing — API gateway + Event bus & saga + Notifications | (3 Stories) | Foundational; depends on EPIC-003 partially |
+| EPIC-005 | Observability + AI Cost — OTel + Langfuse + dashboards + budgets + status page | (3 Stories) | Foundational; depends on EPIC-004 |
+| EPIC-006 | AI Foundation — LLM Gateway + ai-ui primitives + architecture registry | (3 Stories) | Depends on EPIC-003/004/005 |
+| EPIC-007 | AI-First Features — AI config gen + AI-assisted merge + AI plugin compat + Agent Platform MVP-1 | (4 Stories) | Depends on EPIC-006 |
+| EPIC-008 | UX + Deploy — Brand package + Marketing-template + Deploy CLI + command portal | (3 Stories) | Parallel; integrates with all |
 
 ---
 
