@@ -1,6 +1,6 @@
 # CLAUDE.md — Project context for Claude Code sessions
 
-> **Phase: D — MVP-1 build (started 2026-05-07).** Phase A + B + C done. **STORY-032 done** (PR #24 monorepo skeleton). **STORY-013 in progress** — Auth.js v5 + Drizzle adapter shipping in sub-PRs: (1) Drizzle schemas + Zod contracts + ESLint/Prettier; (2) Auth.js wiring + email+pwd flow; (3) magic link + OAuth; (4) TOTP + audit log + RBAC middleware. Phase D Story queue continues: STORY-014 (tenancy + provisioning saga) → STORY-015 (migration + archival + RBAC) closes EPIC-003; then EPIC-004 → EPIC-005 → EPIC-006 → EPIC-007 → EPIC-008 per dependency map in [`docs/roadmap/MVP.md`](./docs/roadmap/MVP.md). **All PRs admin-merged per D-57** (user-authorized 2026-05-07; safety guardrails in `Things to never do`).
+> **Phase: D — MVP-1 build (started 2026-05-07).** Phase A + B + C done. **STORY-032 done** (PR #24 bootstrap). **STORY-013 in progress** — sub-PRs #1 + #2 landed (schemas + contracts + lint, then email+pwd flow with bcrypt + tokens + email sender). Sub-PRs ahead: #3 magic link + OAuth, #4 TOTP + audit-log writer + RBAC middleware. Then STORY-014 (tenancy + provisioning saga) → STORY-015 (migration + archival + RBAC) closes EPIC-003; then EPIC-004 → EPIC-005 → EPIC-006 → EPIC-007 → EPIC-008 per dependency map in [`docs/roadmap/MVP.md`](./docs/roadmap/MVP.md). **All PRs admin-merged per D-57**.
 
 This file is the entry point for any Claude Code session working in this repo. Read it first. Read [`project/BOARD.md`](./project/BOARD.md) second.
 
