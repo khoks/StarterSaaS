@@ -1,19 +1,20 @@
 /**
- * Password reset flow — two phases:
+ * Password reset flow — two phases.
  *
- *   `requestPasswordReset` — accepts an email, generates a 1-hour token,
- *     sends a reset email. Per ADR-0007, the response is INTENTIONALLY
- *     uniform whether or not the email exists (no enumeration leak).
+ *   `requestPasswordReset` — accepts an email, generates a 1-hour token
+ *     (per ADR-0007), sends a reset email. Response is INTENTIONALLY uniform
+ *     whether or not the email exists (no enumeration leak).
  *
- *   `completePasswordReset` — accepts the token + new password, verifies
- *     the token is unexpired and one-time-use, hashes + writes the new
- *     password, deletes the token.
- *
- * Token TTL: 1 hour (per ADR-0007).
+ *   `completePasswordReset` — accepts the token + new password, verifies the
+ *     token is unexpired and one-time-use, hashes + writes the new password,
+ *     deletes the token, clears any lockout state.
  */
 
 import { and, eq } from "drizzle-orm";
 
+import { writeAuditLog } from "../audit/writer.js";
+import type { AuditContext } from "../audit/writer.js";
+import { EMPTY_AUDIT_CONTEXT } from "../audit/writer.js";
 import {
   PasswordResetCompleteSchema,
   PasswordResetRequestSchema,
@@ -30,16 +31,13 @@ const RESET_TOKEN_TTL_MINUTES = 60;
 const RESET_IDENTIFIER_PREFIX = "pwreset:";
 
 export interface RequestResetResult {
-  /**
-   * Always true (we don't reveal whether the email was found). The caller can
-   * always show "If an account exists for that email, you'll get a reset link."
-   */
   acknowledged: true;
 }
 
 export async function requestPasswordReset(
   deps: AuthDeps,
   rawInput: unknown,
+  auditContext: AuditContext = EMPTY_AUDIT_CONTEXT,
 ): Promise<AuthResult<RequestResetResult>> {
   const parsed = PasswordResetRequestSchema.safeParse(rawInput);
   if (!parsed.success) {
@@ -54,8 +52,8 @@ export async function requestPasswordReset(
     .limit(1);
 
   const user = found[0];
-  // Always return ok — even if user doesn't exist — to prevent enumeration.
   if (!user) {
+    // No-op — uniform acknowledgement avoids enumeration leak.
     return { ok: true, value: { acknowledged: true } };
   }
 
@@ -75,6 +73,15 @@ export async function requestPasswordReset(
     }),
   );
 
+  await writeAuditLog(deps, {
+    userId: user.id,
+    tenantId: auditContext.tenantId,
+    action: "user.password_reset_requested",
+    details: {},
+    ipAddress: auditContext.ipAddress,
+    userAgent: auditContext.userAgent,
+  });
+
   return { ok: true, value: { acknowledged: true } };
 }
 
@@ -86,6 +93,7 @@ export interface CompleteResetResult {
 export async function completePasswordReset(
   deps: AuthDeps,
   rawInput: unknown,
+  auditContext: AuditContext = EMPTY_AUDIT_CONTEXT,
 ): Promise<AuthResult<CompleteResetResult>> {
   const parsed = PasswordResetCompleteSchema.safeParse(rawInput);
   if (!parsed.success) {
@@ -122,10 +130,17 @@ export async function completePasswordReset(
   const passwordHash = await hashPassword(input.newPassword, deps.config.passwordPolicy.bcryptCost);
   const resetAt = new Date();
 
-  await deps.db
+  // Also reset any pending lockout — a successful reset is a sign of legitimate ownership.
+  const updated = await deps.db
     .update(users)
-    .set({ passwordHash, updatedAt: resetAt })
-    .where(eq(users.email, email));
+    .set({
+      passwordHash,
+      failedAttempts: 0,
+      lockedUntil: null,
+      updatedAt: resetAt,
+    })
+    .where(eq(users.email, email))
+    .returning({ id: users.id });
 
   await deps.db
     .delete(verificationTokens)
@@ -135,6 +150,15 @@ export async function completePasswordReset(
         eq(verificationTokens.identifier, row.identifier),
       ),
     );
+
+  await writeAuditLog(deps, {
+    userId: updated[0]?.id ?? null,
+    tenantId: auditContext.tenantId,
+    action: "user.password_reset_completed",
+    details: {},
+    ipAddress: auditContext.ipAddress,
+    userAgent: auditContext.userAgent,
+  });
 
   return { ok: true, value: { email, resetAt } };
 }

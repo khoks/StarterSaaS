@@ -8,7 +8,8 @@
  *   4. Insert user row.
  *   5. Generate verification token, insert into `platform.verification_tokens`.
  *   6. Send verification email via `EmailSender`.
- *   7. Return the new user's id + signal that email verification is pending.
+ *   7. Audit `user.sign_up`.
+ *   8. Return the new user's id + signal that email verification is pending.
  *
  * NB: this flow does NOT create a session — sign-up returns "verify your email
  * then sign in" by default per ADR-0007 (require_email_verification = true).
@@ -18,6 +19,9 @@
 
 import { eq } from "drizzle-orm";
 
+import { writeAuditLog } from "../audit/writer.js";
+import type { AuditContext } from "../audit/writer.js";
+import { EMPTY_AUDIT_CONTEXT } from "../audit/writer.js";
 import { SignUpInputSchema } from "../contracts/user.js";
 import { hashPassword } from "../crypto/password.js";
 import { generateToken, expiresInHours } from "../crypto/tokens.js";
@@ -36,6 +40,7 @@ const VERIFICATION_TOKEN_TTL_HOURS = 24;
 export async function signUp(
   deps: AuthDeps,
   rawInput: unknown,
+  auditContext: AuditContext = EMPTY_AUDIT_CONTEXT,
 ): Promise<AuthResult<SignUpResult>> {
   const parsed = SignUpInputSchema.safeParse(rawInput);
   if (!parsed.success) {
@@ -97,6 +102,15 @@ export async function signUp(
       expiresInHours: VERIFICATION_TOKEN_TTL_HOURS,
     }),
   );
+
+  await writeAuditLog(deps, {
+    userId: newUser.id,
+    tenantId: auditContext.tenantId,
+    action: "user.sign_up",
+    details: { email: newUser.email },
+    ipAddress: auditContext.ipAddress,
+    userAgent: auditContext.userAgent,
+  });
 
   return {
     ok: true,

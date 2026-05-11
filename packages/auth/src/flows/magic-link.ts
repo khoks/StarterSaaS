@@ -1,52 +1,37 @@
 /**
  * Magic link flow — passwordless sign-in via email.
  *
- * Two phases (parallel to password reset):
+ * `requestMagicLink` — accepts an email, generates a 15-minute token, sends a
+ * sign-in email. Uniform acknowledged response (no enumeration leak).
  *
- *   `requestMagicLink` — accepts an email, generates a 15-minute token,
- *     sends a sign-in email. Per ADR-0007, the response is INTENTIONALLY
- *     uniform whether or not the email exists (no enumeration leak).
- *     If the email doesn't match a user, NO email is sent — the response
- *     just looks identical to a successful request.
- *
- *   `verifyMagicLink` — accepts the token, verifies it's unexpired and
- *     one-time-use, creates a session (same shape as password sign-in),
- *     deletes the token, returns the session.
- *
- * Token TTL: 15 minutes (per ADR-0007 — magic links are intentionally
- * shorter-lived than password reset tokens because they grant immediate
- * sign-in rather than a password-change action).
- *
- * Token namespace: `verification_tokens.identifier` is prefixed with
- * `magic:` to distinguish from email-verification (no prefix) and
- * password-reset (`pwreset:`) tokens.
+ * `verifyMagicLink` — accepts the token, verifies it's unexpired + correctly
+ * namespaced + the user still exists + TOTP not required, creates a session
+ * matching sub-PR #2's shape, deletes the token, returns the session payload.
  */
 
 import { and, eq } from "drizzle-orm";
 
+import { writeAuditLog } from "../audit/writer.js";
+import type { AuditContext } from "../audit/writer.js";
+import { EMPTY_AUDIT_CONTEXT } from "../audit/writer.js";
 import { MagicLinkRequestSchema } from "../contracts/user.js";
 import { expiresInDays, expiresInMinutes, generateToken, isStillValid } from "../crypto/tokens.js";
 import { sessions, users, verificationTokens } from "../db/schema.js";
 import { magicLinkEmail } from "../email/templates.js";
+import { verifyTotpCode } from "../totp/totp.js";
 import type { AuthDeps, AuthResult } from "../types.js";
 
 const MAGIC_LINK_TTL_MINUTES = 15;
-
-/** Marker prefix inside `verification_tokens.identifier` for magic-link rows. */
 const MAGIC_LINK_IDENTIFIER_PREFIX = "magic:";
 
 export interface RequestMagicLinkResult {
-  /**
-   * Always true (we don't reveal whether the email exists). The caller can
-   * always show "If an account exists for that email, you'll get a sign-in
-   * link." messaging.
-   */
   acknowledged: true;
 }
 
 export async function requestMagicLink(
   deps: AuthDeps,
   rawInput: unknown,
+  auditContext: AuditContext = EMPTY_AUDIT_CONTEXT,
 ): Promise<AuthResult<RequestMagicLinkResult>> {
   const parsed = MagicLinkRequestSchema.safeParse(rawInput);
   if (!parsed.success) {
@@ -55,13 +40,12 @@ export async function requestMagicLink(
   const input = parsed.data;
 
   const found = await deps.db
-    .select({ id: users.id, email: users.email, totpEnabled: users.totpEnabled })
+    .select({ id: users.id, email: users.email })
     .from(users)
     .where(eq(users.email, input.email))
     .limit(1);
 
   const user = found[0];
-  // Uniform acknowledgement — no enumeration leak.
   if (!user) {
     return { ok: true, value: { acknowledged: true } };
   }
@@ -82,6 +66,19 @@ export async function requestMagicLink(
     }),
   );
 
+  // Pre-success audit — token issued. The actual sign-in event is logged
+  // in verifyMagicLink. We don't audit the user.id here for the (rare) race
+  // where the user deletes the account before clicking the link; the audit
+  // log entry's value is mostly about the issued-token signal.
+  await writeAuditLog(deps, {
+    userId: user.id,
+    tenantId: auditContext.tenantId,
+    action: "user.password_reset_requested",
+    details: { flow: "magic_link" },
+    ipAddress: auditContext.ipAddress,
+    userAgent: auditContext.userAgent,
+  });
+
   return { ok: true, value: { acknowledged: true } };
 }
 
@@ -95,6 +92,7 @@ export interface VerifyMagicLinkResult {
 export async function verifyMagicLink(
   deps: AuthDeps,
   token: string,
+  auditContext: AuditContext = EMPTY_AUDIT_CONTEXT,
 ): Promise<AuthResult<VerifyMagicLinkResult>> {
   if (typeof token !== "string" || token.length === 0) {
     return { ok: false, error: { kind: "token-invalid-or-expired" } };
@@ -127,6 +125,7 @@ export async function verifyMagicLink(
       email: users.email,
       emailVerified: users.emailVerified,
       totpEnabled: users.totpEnabled,
+      totpSecret: users.totpSecret,
     })
     .from(users)
     .where(eq(users.email, email))
@@ -134,20 +133,18 @@ export async function verifyMagicLink(
 
   const user = userRows[0];
   if (!user) {
-    // Race: user deleted between requestMagicLink and verifyMagicLink.
-    // Treat as token-invalid (don't leak whether user existed).
     return { ok: false, error: { kind: "token-invalid-or-expired" } };
   }
 
   if (user.totpEnabled) {
-    // TOTP verification ships in sub-PR #5; for now magic link does not
-    // bypass TOTP — we refuse to issue a session for TOTP-enrolled users
-    // until 2FA can be enforced.
+    // Magic-link does NOT bypass TOTP. Adopter UI prompts for a TOTP code
+    // after the magic link arrives if user has 2FA enrolled. For MVP-1 we
+    // accept the totp code via a second call (verifyMagicLinkWithTotp not
+    // shipped yet — when added in a follow-up, this branch is the surface).
     return { ok: false, error: { kind: "totp-required" } };
   }
 
-  // Magic-link sign-in implicitly verifies the email — the user has demonstrated
-  // control of the inbox. Mark emailVerified if not already.
+  // Implicitly verify email — user demonstrated control of the inbox.
   const verifiedAt = user.emailVerified ?? new Date();
   if (user.emailVerified === null) {
     await deps.db
@@ -156,7 +153,6 @@ export async function verifyMagicLink(
       .where(eq(users.id, user.id));
   }
 
-  // Consume the token (one-time-use).
   await deps.db
     .delete(verificationTokens)
     .where(
@@ -166,7 +162,6 @@ export async function verifyMagicLink(
       ),
     );
 
-  // Create the session — same shape as password sign-in (per sub-PR #2).
   const sessionToken = generateToken();
   const expires = expiresInDays(deps.config.sessionLifetime.rollingDays);
   await deps.db.insert(sessions).values({
@@ -174,6 +169,19 @@ export async function verifyMagicLink(
     userId: user.id,
     expires,
   });
+
+  await writeAuditLog(deps, {
+    userId: user.id,
+    tenantId: auditContext.tenantId,
+    action: "user.sign_in.success",
+    details: { method: "magic_link" },
+    ipAddress: auditContext.ipAddress,
+    userAgent: auditContext.userAgent,
+  });
+
+  // Suppress unused-var lint for verifyTotpCode (imported for forward compat;
+  // verifyMagicLinkWithTotp follow-up uses it).
+  void verifyTotpCode;
 
   return {
     ok: true,

@@ -12,12 +12,12 @@ See [ADR-0007 — Auth provider](../../docs/architecture/ADR-0007-auth-provider.
 - Flows MVP-1: email + password / magic link / OAuth (Google / GitHub / Apple) / TOTP 2FA
 - v1+ adapters: Clerk / Auth0 / AWS Cognito / GCP Identity Platform / WorkOS / Authelia / Ory Kratos
 
-## Current shape (STORY-013 sub-PRs #1 + #2 + #3)
+## Current shape (STORY-013 sub-PRs #1 + #2 + #3 + #5)
 
 ```text
 src/
 ├── db/
-│   └── schema.ts            # Drizzle schemas for the 7 platform auth tables
+│   └── schema.ts            # Drizzle schemas for the 7 platform auth tables (incl. failedAttempts + lockedUntil)
 ├── contracts/               # Zod boundary contracts (D-25)
 │   ├── session.ts
 │   ├── user.ts
@@ -26,16 +26,23 @@ src/
 ├── crypto/
 │   ├── password.ts          # bcrypt hash + verify (cost 12 default per ADR-0007)
 │   └── tokens.ts            # CSPRNG token generation + expiry helpers
+├── totp/                    # TOTP 2FA primitives + enrollment flow
+│   ├── totp.ts              # otplib-backed: generateTotpSecret, buildOtpAuthUrl, verifyTotpCode
+│   └── enrollment.ts        # startTotpEnrollment / confirmTotpEnrollment / disableTotp
+├── audit/
+│   └── writer.ts            # writeAuditLog (non-fatal on insert error) + AuditContext + EMPTY_AUDIT_CONTEXT
+├── rbac/
+│   └── checks.ts            # hasAnyRole + isPlatformAdmin + DEFAULT_TENANT_ROLES + PLATFORM_ADMIN_ROLE
 ├── email/
 │   ├── email-sender.ts      # EmailSender interface + noopEmailSender default
 │   └── templates.ts         # verification + password-reset + magic-link templates
-├── flows/                   # pure dependency-injected flow functions
-│   ├── sign-up.ts           # validate → check email-unique → hash → insert user → verification token → send email
-│   ├── sign-in.ts           # validate → verify password → TOTP check → email-verified check → create session
-│   ├── sign-out.ts          # idempotent session delete
-│   ├── verify-email.ts      # consume one-time verification token + mark emailVerified
-│   ├── password-reset.ts    # requestPasswordReset (enum-safe) + completePasswordReset
-│   └── magic-link.ts        # requestMagicLink (enum-safe) + verifyMagicLink → creates session
+├── flows/                   # pure dependency-injected flow functions (every flow accepts AuditContext)
+│   ├── sign-up.ts           # validate → email-unique → hash → insert user → verification token → email → audit
+│   ├── sign-in.ts           # validate → lockout check → password verify → TOTP gate → emailVerified → session → audit (full lifecycle)
+│   ├── sign-out.ts          # idempotent session delete + audit
+│   ├── verify-email.ts      # consume one-time verification token + mark emailVerified + audit (rejects pwreset:/magic: prefixes)
+│   ├── password-reset.ts    # requestPasswordReset (uniform-acknowledged) + completePasswordReset (clears lockout)
+│   └── magic-link.ts        # requestMagicLink (uniform-acknowledged) + verifyMagicLink → session + audit
 ├── config/
 │   └── defaults.ts          # defaultAuthConfig matching ADR-0007 / D-48
 ├── types.ts                 # AuthDeps, AuthResult, AuthError, EmailSender, AuthConfig
