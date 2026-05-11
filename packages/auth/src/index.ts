@@ -32,7 +32,11 @@ export {
 
 // Email-sender defaults
 export { noopEmailSender } from "./email/email-sender.js";
-export { passwordResetEmail, verificationEmail } from "./email/templates.js";
+export {
+  magicLinkEmail,
+  passwordResetEmail,
+  verificationEmail,
+} from "./email/templates.js";
 
 // Flow functions — pure, dependency-injected
 export { signUp } from "./flows/sign-up.js";
@@ -54,6 +58,15 @@ export type {
   CompleteResetResult,
   RequestResetResult,
 } from "./flows/password-reset.js";
+
+export {
+  requestMagicLink,
+  verifyMagicLink,
+} from "./flows/magic-link.js";
+export type {
+  RequestMagicLinkResult,
+  VerifyMagicLinkResult,
+} from "./flows/magic-link.js";
 
 // Default config
 export { defaultAuthConfig } from "./config/defaults.js";

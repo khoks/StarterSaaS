@@ -12,7 +12,7 @@ See [ADR-0007 — Auth provider](../../docs/architecture/ADR-0007-auth-provider.
 - Flows MVP-1: email + password / magic link / OAuth (Google / GitHub / Apple) / TOTP 2FA
 - v1+ adapters: Clerk / Auth0 / AWS Cognito / GCP Identity Platform / WorkOS / Authelia / Ory Kratos
 
-## Current shape (STORY-013 sub-PRs #1 + #2)
+## Current shape (STORY-013 sub-PRs #1 + #2 + #3)
 
 ```text
 src/
@@ -28,18 +28,29 @@ src/
 │   └── tokens.ts            # CSPRNG token generation + expiry helpers
 ├── email/
 │   ├── email-sender.ts      # EmailSender interface + noopEmailSender default
-│   └── templates.ts         # verification + password-reset email templates
+│   └── templates.ts         # verification + password-reset + magic-link templates
 ├── flows/                   # pure dependency-injected flow functions
 │   ├── sign-up.ts           # validate → check email-unique → hash → insert user → verification token → send email
 │   ├── sign-in.ts           # validate → verify password → TOTP check → email-verified check → create session
 │   ├── sign-out.ts          # idempotent session delete
 │   ├── verify-email.ts      # consume one-time verification token + mark emailVerified
-│   └── password-reset.ts    # requestPasswordReset (enum-safe) + completePasswordReset
+│   ├── password-reset.ts    # requestPasswordReset (enum-safe) + completePasswordReset
+│   └── magic-link.ts        # requestMagicLink (enum-safe) + verifyMagicLink → creates session
 ├── config/
 │   └── defaults.ts          # defaultAuthConfig matching ADR-0007 / D-48
 ├── types.ts                 # AuthDeps, AuthResult, AuthError, EmailSender, AuthConfig
 └── index.ts                 # public entry
 ```
+
+### Token-identifier prefixes in `platform.verification_tokens`
+
+Three distinct token namespaces share the table; flows enforce the prefix:
+
+| Prefix | Flow | TTL |
+|---|---|---|
+| *(none)* | Email verification | 24 hours |
+| `pwreset:` | Password reset | 60 minutes |
+| `magic:` | Magic-link sign-in | 15 minutes |
 
 ## Public API
 
