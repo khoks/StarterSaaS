@@ -2,14 +2,14 @@
 id: STORY-014
 title: Tenancy schema + 9-step provisioning saga + multi-tenant query primitives
 type: story
-status: backlog
+status: in-progress
 priority: P0
 estimate: XL
 parent: EPIC-003
 phase: mvp
 tags: [mvp, tenancy, saga, multi-tenant]
 created: 2026-05-06
-updated: 2026-05-06
+updated: 2026-05-11
 ---
 
 ## Description
@@ -35,7 +35,7 @@ Implement the schema-per-tenant tenancy infrastructure per [ADR-0004](../../docs
 ## Dependencies
 
 - Blocks: every other Phase D Story that needs tenant context
-- Blocked by: STORY-013 (Auth must exist for `platform.user_tenant` foreign keys); STORY-017 (event bus must exist for saga step events)
+- Blocked by: STORY-013 (Auth must exist for `platform.user_tenant` foreign keys) ✓ done. STORY-017 (event bus production adapter) is no longer a hard blocker — STORY-014 sub-PR #1 ships the minimal in-process `@starter-saas/event-bus` + `@starter-saas/saga` so the provisioning saga can be implemented + tested in isolation. STORY-017 swaps in the pg-outbox adapter later without changing saga code.
 
 ## Related
 
@@ -45,3 +45,5 @@ Implement the schema-per-tenant tenancy infrastructure per [ADR-0004](../../docs
 ## Activity log
 
 - 2026-05-06 — created as part of [STORY-012](./STORY-012-mvp1-scope-lockdown.md) Q2 Story decomposition
+- 2026-05-11 — picked up. Sub-PR plan: (1) minimal `@starter-saas/event-bus` (Kafka-shaped contract + `InMemoryEventBus`) + `@starter-saas/saga` (SagaRunner + InMemorySagaStore) so the provisioning saga can be built + tested without the full pg-outbox production adapter (which lands in STORY-017); (2) platform schemas for tenancy + DrizzleSagaStore wiring; (3) 9-step provisioning saga implementation + integration tests; (4) `withTenants()` wrapper + cross-schema query primitives. User picked this path explicitly (option 1) over implementing the saga as straight TS to be refactored later.
+- 2026-05-11 — **Sub-PR #1 in progress**: 2 new packages. `@starter-saas/event-bus` (types + `InMemoryEventBus` + 10 tests covering publish/subscribe roundtrip, consumer-group routing, per-partition ordering, retry-then-DLQ, unsubscribe, shutdown). `@starter-saas/saga` (types + `SagaRunner` + `InMemorySagaStore` + 11 tests covering happy-path, mid-saga failure with full reverse-order compensation, compensation-itself-fails → `failed` status, no-compensate-skip, store CRUD). Total test count: **69** (was 48). Typecheck green across 4 packages. Sub-PR #1 lands the contract surface + in-memory adapters; production adapters (pg-outbox via STORY-017; native Kafka via v1) swap in without changing saga code.

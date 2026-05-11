@@ -11,7 +11,7 @@
 | ID | Title | Owner | Notes |
 |---|---|---|---|
 | EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | user (PM) + assistant | First Phase D Epic. STORY-032 done; STORY-013 sub-PR #1 in flight |
-| STORY-014 | Tenancy schema + 9-step provisioning saga + multi-tenant query primitives | user (PM) + assistant | Next up — blocked on STORY-017 (event bus) for the saga but schemas + migration runner + cross-schema primitives can start independently |
+| STORY-014 | Tenancy schema + 9-step provisioning saga + multi-tenant query primitives | user (PM) + assistant | Sub-PR #1 in flight: `@starter-saas/event-bus` (Kafka-shaped + InMemoryEventBus) + `@starter-saas/saga` (SagaRunner + InMemorySagaStore). Subsequent sub-PRs: platform tenancy schemas + 9-step provisioning saga + `withTenants()` wrapper |
 
 ---
 

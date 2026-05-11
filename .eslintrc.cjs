@@ -11,6 +11,7 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     project: ["./tsconfig.base.json", "./packages/*/tsconfig.json", "./apps/*/tsconfig.json"],
+    // packages can extend their own configs by adding to this array
     tsconfigRootDir: __dirname,
     ecmaVersion: 2022,
     sourceType: "module",
