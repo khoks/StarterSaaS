@@ -34,6 +34,30 @@ If you didn't sign up, you can safely ignore this email.`;
   return { to: input.recipientEmail, subject, bodyText, bodyHtml };
 }
 
+export interface MagicLinkTemplateInput {
+  recipientEmail: string;
+  signInUrl: string;
+  expiresInMinutes: number;
+}
+
+export function magicLinkEmail(input: MagicLinkTemplateInput): EmailMessage {
+  const subject = "Your sign-in link";
+  const bodyText = `Hi,
+
+Click the link below to sign in (expires in ${input.expiresInMinutes} minutes):
+
+${input.signInUrl}
+
+If you didn't request this, you can safely ignore this email — your
+account stays unchanged.`;
+  const bodyHtml = `<p>Hi,</p>
+<p>Click the link below to sign in (expires in ${input.expiresInMinutes} minutes):</p>
+<p><a href="${input.signInUrl}">${input.signInUrl}</a></p>
+<p>If you didn't request this, you can safely ignore this email — your
+account stays unchanged.</p>`;
+  return { to: input.recipientEmail, subject, bodyText, bodyHtml };
+}
+
 export interface PasswordResetTemplateInput {
   recipientEmail: string;
   resetUrl: string;
