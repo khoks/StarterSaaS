@@ -28,6 +28,10 @@ export const users = platform.table("users", {
   totpSecret: text("totp_secret"),
   /** When 2FA is required by tenant policy or user opt-in. */
   totpEnabled: boolean("totp_enabled").notNull().default(false),
+  /** Count of consecutive failed sign-in attempts. Reset on successful sign-in. */
+  failedAttempts: integer("failed_attempts").notNull().default(0),
+  /** Account lockout — null when unlocked; timestamp of when the lock expires when locked. */
+  lockedUntil: timestamp("locked_until", { withTimezone: true, mode: "date" }),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
 });

@@ -2,7 +2,7 @@
   "name": "@starter-saas/auth",
   "version": "0.0.0",
   "private": true,
-  "description": "Auth subsystem for StarterSaaS — Drizzle-backed email+pwd flows + Zod contracts (per ADR-0007). Auth.js v5 wiring + OAuth lands in sub-PR #3; TOTP + audit-log writer + RBAC in sub-PR #4.",
+  "description": "Auth subsystem for StarterSaaS — Drizzle-backed email+pwd flows + magic link + TOTP 2FA + audit log + RBAC helpers (per ADR-0007). OAuth via @auth/core lands in a follow-up.",
   "license": "MIT",
   "type": "module",
   "main": "./src/index.ts",
@@ -28,6 +28,7 @@
     "bcryptjs": "^2.4.3",
     "drizzle-orm": "^0.36.0",
     "drizzle-zod": "^0.5.1",
+    "otplib": "^12.0.1",
     "postgres": "^3.4.0",
     "zod": "^3.23.0"
   },

@@ -5,10 +5,11 @@
  *
  * STORY-013 sub-PR scope:
  *  ✓ (#1) Drizzle schemas + Zod contracts + lint configs                    — PR #25
- *  ✓ (#2) Email + password flow (sign-up + sign-in + sign-out + verify +    — this PR
+ *  ✓ (#2) Email + password flow (sign-up + sign-in + sign-out + verify +    — PR #27
  *         password reset) + bcrypt + token helpers + email sender interface
- *    (#3) Magic link + OAuth (Google / GitHub / Apple) flows
- *    (#4) TOTP 2FA + audit-log writer + RBAC middleware
+ *  ✓ (#3) Magic-link flow                                                    — PR #28
+ *    (#4) OAuth (Google / GitHub / Apple) via @auth/core — deferred
+ *  ✓ (#5) TOTP 2FA + audit-log writer + account lockout + RBAC helpers     — this PR
  */
 
 export const PACKAGE_NAME = "@starter-saas/auth" as const;
@@ -18,7 +19,15 @@ export * as schema from "./db/schema.js";
 export * from "./contracts/index.js";
 
 // Types + dependency-injection shapes
-export type { AuthConfig, AuthDb, AuthDeps, AuthError, AuthResult, EmailMessage, EmailSender } from "./types.js";
+export type {
+  AuthConfig,
+  AuthDb,
+  AuthDeps,
+  AuthError,
+  AuthResult,
+  EmailMessage,
+  EmailSender,
+} from "./types.js";
 
 // Crypto utilities
 export { DEFAULT_BCRYPT_COST, hashPassword, verifyPassword } from "./crypto/password.js";
@@ -67,6 +76,28 @@ export type {
   RequestMagicLinkResult,
   VerifyMagicLinkResult,
 } from "./flows/magic-link.js";
+
+// Audit log writer (sub-PR #5)
+export { writeAuditLog, EMPTY_AUDIT_CONTEXT } from "./audit/writer.js";
+export type { AuditContext } from "./audit/writer.js";
+
+// TOTP 2FA (sub-PR #5)
+export { buildOtpAuthUrl, generateTotpSecret, verifyTotpCode } from "./totp/totp.js";
+export {
+  confirmTotpEnrollment,
+  disableTotp,
+  startTotpEnrollment,
+} from "./totp/enrollment.js";
+export type { StartTotpEnrollmentResult } from "./totp/enrollment.js";
+
+// RBAC helpers (sub-PR #5)
+export {
+  DEFAULT_TENANT_ROLES,
+  PLATFORM_ADMIN_ROLE,
+  hasAnyRole,
+  isPlatformAdmin,
+} from "./rbac/checks.js";
+export type { DefaultTenantRole, RoleCheckResult } from "./rbac/checks.js";
 
 // Default config
 export { defaultAuthConfig } from "./config/defaults.js";

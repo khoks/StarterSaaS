@@ -2,14 +2,14 @@
 id: STORY-013
 title: Auth.js v5 integration with Drizzle adapter — MVP-1 sign-in flows
 type: story
-status: in-progress
+status: done
 priority: P0
 estimate: L
 parent: EPIC-003
 phase: mvp
 tags: [mvp, auth, identity]
 created: 2026-05-06
-updated: 2026-05-10
+updated: 2026-05-11
 ---
 
 ## Description
@@ -49,3 +49,4 @@ Integrate Auth.js v5+ with the kit's Drizzle data layer per [ADR-0007](../../doc
 - 2026-05-10 — **Sub-PR #1 landed** (PR #25): Drizzle schemas (7 `platform` tables) + Zod contracts (session/user/audit) + ESLint/Prettier configs + 15 contract tests. PR #26 install verification: lockfile + packageManager field + EmailSchema chain-order fix.
 - 2026-05-10 — **Sub-PR #2 in progress**: email+pwd flow shipped without `@auth/core` (deferred to sub-PR #3 alongside OAuth where it actually pulls weight). Added bcryptjs + postgres + `@types/bcryptjs` deps. New modules: `src/crypto/{password,tokens}.ts`, `src/email/{email-sender,templates}.ts`, `src/flows/{sign-up,sign-in,sign-out,verify-email,password-reset}.ts`, `src/config/defaults.ts`, `src/types.ts`. Public flow API: `signUp / signIn / signOut / verifyEmail / requestPasswordReset / completePasswordReset` — each takes `AuthDeps = { db, emailSender, config }` for dependency injection. **Test count: 30 (15 contracts + 5 password + 9 tokens + 1 defaults)**; all pass. Typecheck green. Pure-function design keeps flows framework-agnostic — adopter wires into Fastify / Next App Router in their shell. TOTP-enrolled users currently get `totp-required` error (TOTP verification ships sub-PR #4).
 - 2026-05-10 — **Sub-PR #3 in progress** (PR #28): magic-link flow shipped. New module `src/flows/magic-link.ts` (`requestMagicLink` + `verifyMagicLink`); follows the same DI pure-function pattern as sub-PR #2. Token identifier prefix `magic:` distinguishes from email-verification (no prefix) + password-reset (`pwreset:`). TTL 15 minutes (intentionally short — magic link grants immediate session vs. password-reset which only enables a password change action). New `magicLinkEmail` template. Magic-link sign-in implicitly verifies the email if not already verified. TOTP-enrolled users still get `totp-required` (sub-PR #5). **Scope change vs. original sub-PR plan**: OAuth (Google / GitHub / Apple) split out to sub-PR #4 — magic-link fits the pure-function shape, OAuth needs `@auth/core` HTTP wiring and benefits from its own focused PR. Test count: 33 (15 contracts + 5 password + 9 tokens + 1 defaults + 3 templates); all pass.
+- 2026-05-11 — **Sub-PR #5 in progress**: user picked option 1 (skip OAuth, ship TOTP + audit log + lockout + RBAC; close STORY-013 with OAuth deferred). New modules: `src/totp/{totp,enrollment}.ts` (otplib-backed; `generateTotpSecret` + `buildOtpAuthUrl` + `verifyTotpCode` + `startTotpEnrollment` / `confirmTotpEnrollment` / `disableTotp`); `src/audit/writer.ts` (`writeAuditLog` is non-fatal on insert error — never blocks the user's primary action); `src/rbac/checks.ts` (`hasAnyRole` + `isPlatformAdmin` + `DEFAULT_TENANT_ROLES` + `PLATFORM_ADMIN_ROLE`). Schema migration: added `failedAttempts int` + `lockedUntil timestamp` to `platform.users`. Sign-in flow now: (a) checks lockout, (b) verifies password, (c) increments failedAttempts + locks after threshold (default 5; 15-min lockout per ADR-0007), (d) verifies TOTP for enrolled users (now wired), (e) clears lockout + creates session. All 6 flows (sign-up / sign-in / sign-out / verify-email / password-reset request+complete / magic-link request+verify) now call `writeAuditLog` with `auditContext` parameter (ip / userAgent / tenantId — adopter passes from HTTP middleware). `verifyEmail` rejects tokens with `pwreset:` / `magic:` prefixes. Sub-PR adds `otplib ^12` dep. New tests: 7 totp + 8 rbac. **Test count: 48** (was 33); all pass. Typecheck green. **OAuth (Auth.js v5 + Google/GitHub/Apple) deferred** — will be a follow-up Story under EPIC-003 once the apps/starter HTTP layer exists to wire `@auth/core` request/response into Fastify routes. **STORY-013 done** with the OAuth AC explicitly unticked + deferred.
