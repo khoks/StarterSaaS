@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-10 (STORY-032 done; STORY-013 sub-PR #1 in progress)
+**Last updated:** 2026-05-11 (STORY-014 sub-PR #2 in progress — `@starter-saas/tenancy` schemas + DrizzleSagaStore)
 
 ---
 
@@ -11,7 +11,7 @@
 | ID | Title | Owner | Notes |
 |---|---|---|---|
 | EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | user (PM) + assistant | First Phase D Epic. STORY-032 done; STORY-013 sub-PR #1 in flight |
-| STORY-014 | Tenancy schema + 9-step provisioning saga + multi-tenant query primitives | user (PM) + assistant | Sub-PR #1 in flight: `@starter-saas/event-bus` (Kafka-shaped + InMemoryEventBus) + `@starter-saas/saga` (SagaRunner + InMemorySagaStore). Subsequent sub-PRs: platform tenancy schemas + 9-step provisioning saga + `withTenants()` wrapper |
+| STORY-014 | Tenancy schema + 9-step provisioning saga + multi-tenant query primitives | user (PM) + assistant | Sub-PR #1 landed (`@starter-saas/event-bus` + `@starter-saas/saga`). **Sub-PR #2 in flight**: `@starter-saas/tenancy` (Drizzle schemas for `platform.{tenants, tenant_migrations, tenant_archive_log, saga_instances}` + Zod contracts + `DrizzleSagaStore` + 16 tests). Subsequent sub-PRs: 9-step provisioning saga + `withTenants()` wrapper |
 
 ---
 

@@ -1,0 +1,23 @@
+/**
+ * @starter-saas/tenancy — schema-per-tenant infrastructure for StarterSaaS.
+ *
+ * Locked design: ../../docs/architecture/ADR-0004-multi-tenancy.md
+ *
+ * STORY-014 sub-PR scope:
+ *  ✓ (#1) `@starter-saas/event-bus` + `@starter-saas/saga` primitives           — PR #30
+ *  ✓ (#2) tenancy schemas (`platform.tenants` etc.) + `DrizzleSagaStore`        — this PR
+ *    (#3) 9-step tenant provisioning saga
+ *    (#4) `withTenants()` cross-schema wrapper + per-tenant rate-limit middleware
+ */
+
+export const PACKAGE_NAME = "@starter-saas/tenancy" as const;
+
+// Drizzle schemas — public for both adopter app code + migration tooling
+export * as schema from "./db/schema.js";
+
+// Zod boundary contracts
+export * from "./contracts.js";
+
+// Production SagaStore backed by Drizzle
+export { DrizzleSagaStore } from "./saga-store.js";
+export type { SagaStoreDb } from "./saga-store.js";
