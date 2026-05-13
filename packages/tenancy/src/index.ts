@@ -36,3 +36,6 @@ export * from "./migrations/index.js";
 
 // 2-stage archival + tenant doctor (per ADR-0004 §4)
 export * from "./archival/index.js";
+
+// Per-tenant RBAC tables + middleware (per ADR-0004 step 4 + ADR-0007 RBAC sketch)
+export * from "./rbac/index.js";

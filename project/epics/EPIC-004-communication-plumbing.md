@@ -2,12 +2,12 @@
 id: EPIC-004
 title: Communication Plumbing — API gateway, event bus + saga, notifications
 type: epic
-status: backlog
+status: in-progress
 priority: P0
 phase: mvp
 tags: [mvp, gateway, event-bus, saga, notifications]
 created: 2026-05-05
-updated: 2026-05-05
+updated: 2026-05-11
 ---
 
 ## Goal
@@ -67,3 +67,4 @@ Ship the **communication backbone** for MVP-1: HTTP gateway with Zod-validated b
 ## Activity log
 
 - 2026-05-05 — created as part of MVP-1 surface lockdown ([D-56](../../docs/decisions/DECISIONS_LOG.md))
+- 2026-05-11 — picked up. EPIC-003 closed (all 4 Stories done). STORY-016 (Fastify gateway) is the natural starting point — its absence has been a deferred-AC magnet across STORY-013/014/015 (OAuth wiring, 410 Gone status emission, tenant switcher UI). STORY-017 (pg-outbox event bus production adapter) follows: replaces `InMemoryEventBus` from STORY-014 sub-PR #1 over the same Kafka-shaped contract; `DrizzleSagaStore` already in place. STORY-018 (email adapter) wires the saga step 9 `NotificationsSender` port to a real provider.
