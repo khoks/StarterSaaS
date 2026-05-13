@@ -33,3 +33,6 @@ export * from "./rate-limit/index.js";
 
 // Per-tenant migration runner (per ADR-0004 §1)
 export * from "./migrations/index.js";
+
+// 2-stage archival + tenant doctor (per ADR-0004 §4)
+export * from "./archival/index.js";

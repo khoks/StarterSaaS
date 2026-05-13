@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-11 (STORY-015 sub-PR #2 in flight — migration runner + DrizzleTenantMigrator + end-to-end provisioning saga against real Postgres)
+**Last updated:** 2026-05-11 (STORY-015 sub-PR #3 in flight — 2-stage archival + tenant restore/doctor/hard-delete)
 
 ---
 
@@ -11,7 +11,7 @@
 | ID | Title | Owner | Notes |
 |---|---|---|---|
 | EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | user (PM) + assistant | First Phase D Epic. STORY-013 + STORY-014 done; STORY-015 in progress |
-| STORY-015 | Tenant migration runner + 2-stage archival + RBAC sketch | user (PM) + assistant | Sub-PR #1 landed (CLI skeleton + pglite harness). **Sub-PR #2 in flight**: `runTenantMigrations` + `DrizzleTenantMigrator` (saga step 3 adapter) + `tenant migrate` CLI wiring. Cross-adapter `TenantDb` / `SagaStoreDb` types (postgres-js + pglite). 15 new integration tests including full provisioning saga end-to-end against real Postgres. Subsequent sub-PRs: archival flow / RBAC tables |
+| STORY-015 | Tenant migration runner + 2-stage archival + RBAC sketch | user (PM) + assistant | Sub-PRs #1 (CLI skeleton + pglite) + #2 (migration runner + saga end-to-end vs real Postgres) landed. **Sub-PR #3 in flight**: 2-stage archival (`archiveTenant`/`restoreTenant`/`runHardDeleteSweep`/`runTenantDoctor`) + `tenant archive`/`restore`/`hard-delete`/`doctor` CLI subcommands + legal-hold block + 30d retention default + orphan/missing schema detection. 16 new integration tests. Sub-PR #4 next: RBAC tables + middleware |
 
 ---
 

@@ -32,5 +32,10 @@ export const ArchiveTenantInputSchema = z.object({
   requestingUserId: z.string().uuid().nullable().default(null),
 });
 
+export const RestoreTenantInputSchema = z.object({
+  tenantId: z.string().uuid(),
+});
+
 export type CreateTenantInput = z.infer<typeof CreateTenantInputSchema>;
 export type ArchiveTenantInput = z.infer<typeof ArchiveTenantInputSchema>;
+export type RestoreTenantInput = z.infer<typeof RestoreTenantInputSchema>;
