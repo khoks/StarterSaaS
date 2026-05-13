@@ -2,14 +2,14 @@
 id: STORY-015
 title: Tenant migration runner + 2-stage archival + RBAC sketch
 type: story
-status: backlog
+status: in-progress
 priority: P0
 estimate: L
 parent: EPIC-003
 phase: mvp
 tags: [mvp, tenancy, migration, archival, rbac]
 created: 2026-05-06
-updated: 2026-05-06
+updated: 2026-05-11
 ---
 
 ## Description
@@ -47,3 +47,4 @@ Build the operational tooling for tenant lifecycle per [ADR-0004](../../docs/arc
 ## Activity log
 
 - 2026-05-06 — created as part of [STORY-012](./STORY-012-mvp1-scope-lockdown.md) Q2 Story decomposition
+- 2026-05-11 — picked up. STORY-014 (the blocker) is now done; all four sub-PRs (event-bus + saga primitives, tenancy schemas + DrizzleSagaStore, 9-step provisioning saga, withTenants + rate-limit middleware) shipped. STORY-015 will introduce `@starter-saas/cli` (per D-42) as the home for the `tenant migrate` / `tenant restore` / `tenant doctor` subcommands; the migration runner replaces `noopTenantMigrator` in the provisioning saga's deps. RBAC tables seeded by saga step 4 land in the same PR cycle alongside the per-tenant `requireRole` / `requirePermission` Fastify middleware. Integration tests will exercise the full lifecycle for the first time against a Postgres test instance (testcontainers / pglite — decision pending).

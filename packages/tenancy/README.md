@@ -12,6 +12,8 @@ Schema-per-tenant tenancy infrastructure for StarterSaaS. Locked design: [ADR-00
 - **Zod boundary contracts** — `CreateTenantInputSchema`, `ArchiveTenantInputSchema`, `TenantSlugSchema`, `TenantPlanSchema`, `TenantStatusSchema`
 - **`DrizzleSagaStore`** — production implementation of `SagaStore` from `@starter-saas/saga`. Adopter swaps from `InMemorySagaStore` once they have a Postgres connection.
 - **9-step tenant-provisioning saga** (sub-PR #3): `createTenantProvisioningSaga(deps)` + `runTenantProvisioning(runner, deps, input)` — the saga from ADR-0004 §3 wired up as a `SagaDefinition` over pluggable ports.
+- **`withTenants()` cross-schema wrapper** (sub-PR #4) — per ADR-0004 §2 Pattern 2; runs a per-tenant query function across N tenants with 5-parallel default + continue-on-error semantics; `partitionTenantResults()` helper splits successes/failures.
+- **Per-tenant rate-limit middleware** (sub-PR #4) — `createRateLimitMiddleware()` returns a Fastify-shaped preHandler hook; default 100 q/s per tenant per ADR-0004 §2 side-pick; structural typing for `RateLimitRequest`/`RateLimitReply` so the kit doesn't depend on Fastify directly; pluggable `RateLimitStorage` (default `InMemoryRateLimitStorage`, Redis adapter v1+).
 
 ## The provisioning saga
 
@@ -44,10 +46,6 @@ The saga depends on adapters via dependency injection:
 | `NotificationsSender` | Sends welcome email + activation token | `noopNotificationsSender` |
 
 Adopters wire concrete impls during deploy; the NoOp defaults let the saga be unit-tested + let adopters skip steps they haven't wired yet.
-
-## What's coming in later sub-PRs of STORY-014
-
-- **Sub-PR #4** — `withTenants()` cross-schema wrapper utility + per-tenant rate-limit middleware (Fastify-shaped per ADR-0004).
 
 ## Cross-package coupling discipline
 
@@ -108,4 +106,4 @@ if (result.ok) {
 
 ## Status
 
-**In progress** — [STORY-014](../../project/stories/STORY-014-tenancy-provisioning-saga.md). Schemas + `DrizzleSagaStore` (sub-PR #2) + 9-step provisioning saga (sub-PR #3). Real DB integration tests + `withTenants()` cross-schema wrapper + per-tenant rate-limit middleware land in sub-PR #4.
+**Done** — [STORY-014](../../project/stories/STORY-014-tenancy-provisioning-saga.md). All 4 sub-PRs landed: schemas + `DrizzleSagaStore` (sub-PR #2) + 9-step provisioning saga (sub-PR #3) + `withTenants()` cross-schema wrapper + per-tenant rate-limit middleware (sub-PR #4). Real DB integration tests against a Postgres test instance land with STORY-015 alongside the migration runner.
