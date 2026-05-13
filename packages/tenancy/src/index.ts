@@ -30,3 +30,6 @@ export * from "./cross-schema/index.js";
 
 // Per-tenant rate-limit middleware (per ADR-0004 §2)
 export * from "./rate-limit/index.js";
+
+// Per-tenant migration runner (per ADR-0004 §1)
+export * from "./migrations/index.js";

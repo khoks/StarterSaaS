@@ -32,12 +32,25 @@
  * compensation per ADR-0004 §3.
  */
 
-import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
+import type { ExtractTablesWithRelations } from "drizzle-orm";
+import type { PgDatabase, PgQueryResultHKT } from "drizzle-orm/pg-core";
 
 import type * as schema from "../db/schema.js";
 
-/** Drizzle DB handle the default adapters bind against. */
-export type TenantDb = PostgresJsDatabase<typeof schema>;
+/** Drizzle DB handle the default adapters bind against.
+ *
+ * Cross-adapter type: both `postgres-js` (production default per D-32) and
+ * `pglite` (test harness per STORY-015 sub-PR #1) compose `PgDatabase` with
+ * their respective query-result HKTs. We type against the base HKT so the
+ * saga + registry adapters accept either — the kit's integration tests use
+ * pglite without any cast. Adopters who swap in another driver (`node-postgres`,
+ * Neon HTTP, etc.) get the same surface.
+ */
+export type TenantDb = PgDatabase<
+  PgQueryResultHKT,
+  typeof schema,
+  ExtractTablesWithRelations<typeof schema>
+>;
 
 /** Step 1 + 7 — CRUD over `platform.tenants`. */
 export interface TenantRegistry {
