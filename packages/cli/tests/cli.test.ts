@@ -20,11 +20,35 @@ describe("buildCli() — top-level program", () => {
     expect(tenant).toBeDefined();
   });
 
-  it("registers `tenant migrate`, `tenant restore`, `tenant doctor` subcommands", () => {
+  it("registers `tenant migrate`, `archive`, `restore`, `hard-delete`, `doctor` subcommands", () => {
     const cli = buildCli();
     const tenant = cli.commands.find((c) => c.name() === "tenant");
     const subs = tenant?.commands.map((c) => c.name()) ?? [];
-    expect(subs).toEqual(expect.arrayContaining(["migrate", "restore", "doctor"]));
+    expect(subs).toEqual(
+      expect.arrayContaining(["migrate", "archive", "restore", "hard-delete", "doctor"]),
+    );
+  });
+
+  it("`tenant archive` declares --reason / --requesting-user / --config", () => {
+    const cli = buildCli();
+    const archive = cli.commands
+      .find((c) => c.name() === "tenant")
+      ?.commands.find((c) => c.name() === "archive");
+    const optionNames = archive?.options.map((o) => o.long) ?? [];
+    expect(optionNames).toEqual(
+      expect.arrayContaining(["--config", "--reason", "--requesting-user"]),
+    );
+  });
+
+  it("`tenant hard-delete` declares --retention-days / --dry-run / --config", () => {
+    const cli = buildCli();
+    const hd = cli.commands
+      .find((c) => c.name() === "tenant")
+      ?.commands.find((c) => c.name() === "hard-delete");
+    const optionNames = hd?.options.map((o) => o.long) ?? [];
+    expect(optionNames).toEqual(
+      expect.arrayContaining(["--config", "--retention-days", "--dry-run"]),
+    );
   });
 
   it("`tenant migrate` declares ADR-0004 §1 flags (--tenant / --parallelism / --fail-fast / --dry-run)", () => {
