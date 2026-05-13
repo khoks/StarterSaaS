@@ -15,8 +15,8 @@
  * persisted here is the input both runners share.
  */
 
-import { and, eq } from "drizzle-orm";
-import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
+import { and, eq, type ExtractTablesWithRelations } from "drizzle-orm";
+import type { PgDatabase, PgQueryResultHKT } from "drizzle-orm/pg-core";
 
 import type {
   SagaInstance,
@@ -28,9 +28,14 @@ import type {
 import * as schema from "./db/schema.js";
 import { sagaInstances } from "./db/schema.js";
 
-/** The Drizzle DB handle this store binds to.  Adopter constructs with the
- *  postgres-js variant — matches the rest of the kit (D-32). */
-export type SagaStoreDb = PostgresJsDatabase<typeof schema>;
+/** The Drizzle DB handle this store binds to. Cross-adapter type — accepts
+ *  both postgres-js (production default per D-32) and pglite (test harness
+ *  per STORY-015 sub-PR #1). */
+export type SagaStoreDb = PgDatabase<
+  PgQueryResultHKT,
+  typeof schema,
+  ExtractTablesWithRelations<typeof schema>
+>;
 
 export class DrizzleSagaStore implements SagaStore {
   constructor(private readonly db: SagaStoreDb) {}

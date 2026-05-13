@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-11 (STORY-015 sub-PR #1 in flight — `@starter-saas/cli` skeleton + pglite test harness)
+**Last updated:** 2026-05-11 (STORY-015 sub-PR #2 in flight — migration runner + DrizzleTenantMigrator + end-to-end provisioning saga against real Postgres)
 
 ---
 
@@ -11,7 +11,7 @@
 | ID | Title | Owner | Notes |
 |---|---|---|---|
 | EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | user (PM) + assistant | First Phase D Epic. STORY-013 + STORY-014 done; STORY-015 in progress |
-| STORY-015 | Tenant migration runner + 2-stage archival + RBAC sketch | user (PM) + assistant | **Sub-PR #1 in flight**: `@starter-saas/cli` skeleton (commander tree + tenant subcommand placeholders) + `@starter-saas/tenancy/testing` pglite harness (PGlite over testcontainers — no Docker dep + 50ms boot). 9-test sanity coverage. Subsequent sub-PRs: migration runner core / archival flow / RBAC tables |
+| STORY-015 | Tenant migration runner + 2-stage archival + RBAC sketch | user (PM) + assistant | Sub-PR #1 landed (CLI skeleton + pglite harness). **Sub-PR #2 in flight**: `runTenantMigrations` + `DrizzleTenantMigrator` (saga step 3 adapter) + `tenant migrate` CLI wiring. Cross-adapter `TenantDb` / `SagaStoreDb` types (postgres-js + pglite). 15 new integration tests including full provisioning saga end-to-end against real Postgres. Subsequent sub-PRs: archival flow / RBAC tables |
 
 ---
 
