@@ -1,0 +1,37 @@
+{
+  "name": "@starter-saas/cli",
+  "version": "0.0.0",
+  "private": true,
+  "description": "StarterSaaS CLI — `starter-saas` command for `init` / `deploy` / `tenant` / `teardown` / `doctor` per D-42 + ADR-0004 §1. STORY-015 ships the `tenant migrate` / `tenant restore` / `tenant doctor` subcommands first.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "bin": {
+    "starter-saas": "./bin/starter-saas.mjs"
+  },
+  "files": [
+    "src",
+    "bin",
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --max-warnings=0"
+  },
+  "dependencies": {
+    "@starter-saas/tenancy": "*",
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "vitest": "^2.0.0"
+  }
+}

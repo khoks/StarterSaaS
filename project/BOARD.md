@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-11 (STORY-014 done — all 4 sub-PRs landed. STORY-015 picked up — migration runner + archival + RBAC)
+**Last updated:** 2026-05-11 (STORY-015 sub-PR #1 in flight — `@starter-saas/cli` skeleton + pglite test harness)
 
 ---
 
@@ -11,7 +11,7 @@
 | ID | Title | Owner | Notes |
 |---|---|---|---|
 | EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | user (PM) + assistant | First Phase D Epic. STORY-013 + STORY-014 done; STORY-015 in progress |
-| STORY-015 | Tenant migration runner + 2-stage archival + RBAC sketch | user (PM) + assistant | Picked up. New `@starter-saas/cli` package (per D-42) — `tenant migrate` (5-parallel + continue-on-error + `--fail-fast` + `--dry-run` per ADR-0004 §1) + `tenant restore` + `tenant doctor` + 2-stage archival (soft → 30d hard delete with `legal_hold` block) + per-tenant RBAC tables seeded by saga step 4. Real DB integration tests via testcontainers / pglite land here |
+| STORY-015 | Tenant migration runner + 2-stage archival + RBAC sketch | user (PM) + assistant | **Sub-PR #1 in flight**: `@starter-saas/cli` skeleton (commander tree + tenant subcommand placeholders) + `@starter-saas/tenancy/testing` pglite harness (PGlite over testcontainers — no Docker dep + 50ms boot). 9-test sanity coverage. Subsequent sub-PRs: migration runner core / archival flow / RBAC tables |
 
 ---
 
