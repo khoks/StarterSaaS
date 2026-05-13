@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-11 (STORY-014 sub-PR #3 in progress — 9-step provisioning saga)
+**Last updated:** 2026-05-11 (STORY-014 done — all 4 sub-PRs landed. STORY-015 picked up — migration runner + archival + RBAC)
 
 ---
 
@@ -10,8 +10,8 @@
 
 | ID | Title | Owner | Notes |
 |---|---|---|---|
-| EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | user (PM) + assistant | First Phase D Epic. STORY-032 done; STORY-013 sub-PR #1 in flight |
-| STORY-014 | Tenancy schema + 9-step provisioning saga + multi-tenant query primitives | user (PM) + assistant | Sub-PR #1 + #2 landed. **Sub-PR #3 in flight**: 9-step provisioning saga per ADR-0004 §3 (ProvisioningState + 7 adapter ports w/ Drizzle defaults + 9 step factories + `runTenantProvisioning` wrapper + 15 unit tests). Sub-PR #4 next: `withTenants()` wrapper + per-tenant rate-limit middleware |
+| EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | user (PM) + assistant | First Phase D Epic. STORY-013 + STORY-014 done; STORY-015 in progress |
+| STORY-015 | Tenant migration runner + 2-stage archival + RBAC sketch | user (PM) + assistant | Picked up. New `@starter-saas/cli` package (per D-42) — `tenant migrate` (5-parallel + continue-on-error + `--fail-fast` + `--dry-run` per ADR-0004 §1) + `tenant restore` + `tenant doctor` + 2-stage archival (soft → 30d hard delete with `legal_hold` block) + per-tenant RBAC tables seeded by saga step 4. Real DB integration tests via testcontainers / pglite land here |
 
 ---
 
@@ -19,7 +19,6 @@
 
 | ID | Title | Estimate | Why next |
 |---|---|---|---|
-| STORY-015 | Tenant migration runner + 2-stage archival + RBAC sketch | L | Blocked by STORY-014 |
 | (deferred) | OAuth via @auth/core (Google / GitHub / Apple) | M | Was STORY-013 sub-PR #4; deferred until apps/starter HTTP layer exists to wire @auth/core handlers |
 | EPIC-004 | Communication Plumbing — API gateway + Event bus & saga + Notifications | (3 Stories) | Foundational; depends on EPIC-003 partially |
 | EPIC-005 | Observability + AI Cost — OTel + Langfuse + dashboards + budgets + status page | (3 Stories) | Foundational; depends on EPIC-004 |
@@ -39,6 +38,7 @@
 
 | ID | Title | Closed | Notes |
 |---|---|---|---|
+| STORY-014 | Tenancy schema + 9-step provisioning saga + multi-tenant query primitives | 2026-05-11 | 4 sub-PRs landed: (#30) `@starter-saas/event-bus` + `@starter-saas/saga` primitives; (#31) `@starter-saas/tenancy` schemas + `DrizzleSagaStore`; (#32) 9-step provisioning saga per ADR-0004 §3; (this PR) `withTenants()` cross-schema wrapper + per-tenant rate-limit middleware. 121 tests green. PgBouncer load test + signup→archive integration test deferred to STORY-015 (needs HTTP layer + Postgres test instance) |
 | STORY-013 | Auth.js v5 integration with Drizzle adapter — MVP-1 sign-in flows | 2026-05-11 | 4 sub-PRs (#25 schemas+contracts, #27 email+pwd, #28 magic-link, this PR TOTP+audit+lockout+RBAC). 48 tests green. OAuth split to a follow-up Story (deferred — waits for apps/starter HTTP layer) |
 | STORY-032 | Phase D monorepo workspace bootstrap | 2026-05-10 | PR #24 landed; npm workspaces + Turborepo + TS strict + tsconfig.base + 2 placeholder packages; D-57 admin-merge expansion logged |
 | EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | 2026-05-06 | All 5 Stories closed (STORY-008/010/011/009/012); 45 decisions D-12..D-56; 18 ADRs ADR-0001..ADR-0018; MVP-1 surface locked; 6 MVP-1 Epics + 19 Phase D Stories drafted |
