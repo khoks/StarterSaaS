@@ -5,8 +5,8 @@
  *
  * STORY-014 sub-PR scope:
  *  ✓ (#1) `@starter-saas/event-bus` + `@starter-saas/saga` primitives           — PR #30
- *  ✓ (#2) tenancy schemas (`platform.tenants` etc.) + `DrizzleSagaStore`        — this PR
- *    (#3) 9-step tenant provisioning saga
+ *  ✓ (#2) tenancy schemas (`platform.tenants` etc.) + `DrizzleSagaStore`        — PR #31
+ *  ✓ (#3) 9-step tenant provisioning saga                                       — this PR
  *    (#4) `withTenants()` cross-schema wrapper + per-tenant rate-limit middleware
  */
 
@@ -21,3 +21,6 @@ export * from "./contracts.js";
 // Production SagaStore backed by Drizzle
 export { DrizzleSagaStore } from "./saga-store.js";
 export type { SagaStoreDb } from "./saga-store.js";
+
+// 9-step tenant provisioning saga (per ADR-0004 §3)
+export * from "./provisioning/index.js";

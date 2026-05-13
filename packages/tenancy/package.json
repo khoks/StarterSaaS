@@ -24,12 +24,15 @@
     "lint": "eslint src --max-warnings=0"
   },
   "dependencies": {
+    "@starter-saas/event-bus": "*",
     "@starter-saas/saga": "*",
     "drizzle-orm": "^0.36.0",
+    "uuid": "^11.0.0",
     "zod": "^3.23.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "@types/uuid": "^10.0.0",
     "vitest": "^2.0.0"
   }
 }
