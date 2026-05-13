@@ -26,6 +26,15 @@ import type {
 export class SagaRunner {
   constructor(private readonly store: SagaStore) {}
 
+  /** Read a saga instance back from the store. Useful for saga wrappers that
+   *  need to inspect the final state (e.g. for emitting saga-level failure
+   *  events that reference fields the saga itself populated). */
+  async getInstance<State>(
+    instanceId: string,
+  ): Promise<SagaInstance<State> | null> {
+    return this.store.get<State>(instanceId);
+  }
+
   async run<State>(
     saga: SagaDefinition<State>,
     initialState: State,

@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-11 (STORY-014 sub-PR #2 in progress — `@starter-saas/tenancy` schemas + DrizzleSagaStore)
+**Last updated:** 2026-05-11 (STORY-014 sub-PR #3 in progress — 9-step provisioning saga)
 
 ---
 
@@ -11,7 +11,7 @@
 | ID | Title | Owner | Notes |
 |---|---|---|---|
 | EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | user (PM) + assistant | First Phase D Epic. STORY-032 done; STORY-013 sub-PR #1 in flight |
-| STORY-014 | Tenancy schema + 9-step provisioning saga + multi-tenant query primitives | user (PM) + assistant | Sub-PR #1 landed (`@starter-saas/event-bus` + `@starter-saas/saga`). **Sub-PR #2 in flight**: `@starter-saas/tenancy` (Drizzle schemas for `platform.{tenants, tenant_migrations, tenant_archive_log, saga_instances}` + Zod contracts + `DrizzleSagaStore` + 16 tests). Subsequent sub-PRs: 9-step provisioning saga + `withTenants()` wrapper |
+| STORY-014 | Tenancy schema + 9-step provisioning saga + multi-tenant query primitives | user (PM) + assistant | Sub-PR #1 + #2 landed. **Sub-PR #3 in flight**: 9-step provisioning saga per ADR-0004 §3 (ProvisioningState + 7 adapter ports w/ Drizzle defaults + 9 step factories + `runTenantProvisioning` wrapper + 15 unit tests). Sub-PR #4 next: `withTenants()` wrapper + per-tenant rate-limit middleware |
 
 ---
 
