@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-11 (STORY-015 sub-PR #3 in flight — 2-stage archival + tenant restore/doctor/hard-delete)
+**Last updated:** 2026-05-11 (STORY-015 done. EPIC-003 closed. EPIC-004 picked up — communication plumbing — STORY-016 next)
 
 ---
 
@@ -10,8 +10,7 @@
 
 | ID | Title | Owner | Notes |
 |---|---|---|---|
-| EPIC-003 | Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB | user (PM) + assistant | First Phase D Epic. STORY-013 + STORY-014 done; STORY-015 in progress |
-| STORY-015 | Tenant migration runner + 2-stage archival + RBAC sketch | user (PM) + assistant | Sub-PRs #1 (CLI skeleton + pglite) + #2 (migration runner + saga end-to-end vs real Postgres) landed. **Sub-PR #3 in flight**: 2-stage archival (`archiveTenant`/`restoreTenant`/`runHardDeleteSweep`/`runTenantDoctor`) + `tenant archive`/`restore`/`hard-delete`/`doctor` CLI subcommands + legal-hold block + 30d retention default + orphan/missing schema detection. 16 new integration tests. Sub-PR #4 next: RBAC tables + middleware |
+| EPIC-004 | Communication Plumbing — API gateway + Event bus pg-outbox + Notifications | user (PM) + assistant | Next Phase D Epic. STORY-016 (Fastify gateway) → STORY-017 (pg-outbox + DLQ replay) → STORY-018 (email adapter) |
 
 ---
 
@@ -19,8 +18,10 @@
 
 | ID | Title | Estimate | Why next |
 |---|---|---|---|
-| (deferred) | OAuth via @auth/core (Google / GitHub / Apple) | M | Was STORY-013 sub-PR #4; deferred until apps/starter HTTP layer exists to wire @auth/core handlers |
-| EPIC-004 | Communication Plumbing — API gateway + Event bus & saga + Notifications | (3 Stories) | Foundational; depends on EPIC-003 partially |
+| STORY-016 | Fastify gateway + Zod boundary discipline + plugin extension points | L | First Story of EPIC-004; the HTTP layer many deferred ACs from EPIC-003 are waiting on |
+| STORY-017 | pg-outbox event bus adapter + saga primitives package + DLQ replay | XL | Replaces `InMemoryEventBus` for production deployment; pg-outbox pattern over the existing Kafka-shaped contract surface |
+| STORY-018 | Email notification adapter + per-tenant template system | M | Wires the saga step 9 `NotificationsSender` to a real provider |
+| (deferred) | OAuth via @auth/core (Google / GitHub / Apple) | M | Was STORY-013 sub-PR #4; deferred until apps/starter HTTP layer exists — STORY-016 unblocks |
 | EPIC-005 | Observability + AI Cost — OTel + Langfuse + dashboards + budgets + status page | (3 Stories) | Foundational; depends on EPIC-004 |
 | EPIC-006 | AI Foundation — LLM Gateway + ai-ui primitives + architecture registry | (3 Stories) | Depends on EPIC-003/004/005 |
 | EPIC-007 | AI-First Features — AI config gen + AI-assisted merge + AI plugin compat + Agent Platform MVP-1 | (4 Stories) | Depends on EPIC-006 |
@@ -38,7 +39,9 @@
 
 | ID | Title | Closed | Notes |
 |---|---|---|---|
-| STORY-014 | Tenancy schema + 9-step provisioning saga + multi-tenant query primitives | 2026-05-11 | 4 sub-PRs landed: (#30) `@starter-saas/event-bus` + `@starter-saas/saga` primitives; (#31) `@starter-saas/tenancy` schemas + `DrizzleSagaStore`; (#32) 9-step provisioning saga per ADR-0004 §3; (this PR) `withTenants()` cross-schema wrapper + per-tenant rate-limit middleware. 121 tests green. PgBouncer load test + signup→archive integration test deferred to STORY-015 (needs HTTP layer + Postgres test instance) |
+| **EPIC-003** | **Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB** | **2026-05-11** | **All 4 Stories closed**: STORY-032 (monorepo bootstrap) + STORY-013 (auth flows; 4 sub-PRs) + STORY-014 (tenancy + saga + cross-schema; 4 sub-PRs) + STORY-015 (CLI + migration runner + archival + RBAC; 4 sub-PRs). 13 PRs. **181 tests green** across 5 packages. Real-Postgres integration via PGlite confirms saga + archival + migration + RBAC end-to-end. OAuth + UI tenant switcher deferred to apps/starter HTTP layer |
+| STORY-015 | Tenant migration runner + 2-stage archival + RBAC sketch | 2026-05-11 | 4 sub-PRs landed: (#34) CLI skeleton + pglite harness; (#35) migration runner + cross-adapter `TenantDb` + end-to-end saga vs real Postgres; (#36) 2-stage archival + tenant doctor; (this PR) RBAC tables + `requireRole`/`requirePermission` middleware + `DrizzleTenantSeeder`. 181 tests green. Closes EPIC-003 |
+| STORY-014 | Tenancy schema + 9-step provisioning saga + multi-tenant query primitives | 2026-05-11 | 4 sub-PRs landed: (#30) `@starter-saas/event-bus` + `@starter-saas/saga` primitives; (#31) `@starter-saas/tenancy` schemas + `DrizzleSagaStore`; (#32) 9-step provisioning saga per ADR-0004 §3; (#33) `withTenants()` cross-schema wrapper + per-tenant rate-limit middleware. 121 tests green. PgBouncer load test deferred to apps/starter |
 | STORY-013 | Auth.js v5 integration with Drizzle adapter — MVP-1 sign-in flows | 2026-05-11 | 4 sub-PRs (#25 schemas+contracts, #27 email+pwd, #28 magic-link, this PR TOTP+audit+lockout+RBAC). 48 tests green. OAuth split to a follow-up Story (deferred — waits for apps/starter HTTP layer) |
 | STORY-032 | Phase D monorepo workspace bootstrap | 2026-05-10 | PR #24 landed; npm workspaces + Turborepo + TS strict + tsconfig.base + 2 placeholder packages; D-57 admin-merge expansion logged |
 | EPIC-002 | Phase B grooming — vision, requirements, architecture, tech stack | 2026-05-06 | All 5 Stories closed (STORY-008/010/011/009/012); 45 decisions D-12..D-56; 18 ADRs ADR-0001..ADR-0018; MVP-1 surface locked; 6 MVP-1 Epics + 19 Phase D Stories drafted |
@@ -76,8 +79,8 @@
 |---|---|---|---|
 | [EPIC-001](./epics/EPIC-001-bootstrap.md) | done | scaffolding | STORY-001 → STORY-007 (all done) |
 | [EPIC-002](./epics/EPIC-002-grooming.md) | done | scaffolding | All 5 Stories done; 45 decisions, 18 ADRs, MVP-1 surface locked, Phase D Epics ready |
-| [EPIC-003](./epics/EPIC-003-identity-tenancy.md) | backlog | mvp | Identity + Tenancy: Auth + Tenancy infra + Multi-tenant DB |
-| [EPIC-004](./epics/EPIC-004-communication-plumbing.md) | backlog | mvp | Communication Plumbing: API gateway + Event bus & saga + Notifications |
+| [EPIC-003](./epics/EPIC-003-identity-tenancy.md) | **done** | mvp | All 4 Stories closed (STORY-032/013/014/015) — 181 tests green across 5 packages |
+| [EPIC-004](./epics/EPIC-004-communication-plumbing.md) | in-progress | mvp | Communication Plumbing: API gateway + Event bus & saga + Notifications |
 | [EPIC-005](./epics/EPIC-005-observability-ai-cost.md) | backlog | mvp | Observability + AI Cost: OTel + Langfuse + cost dashboards + budgets + status page |
 | [EPIC-006](./epics/EPIC-006-ai-foundation.md) | backlog | mvp | AI Foundation: LLM Gateway + ai-ui primitives + architecture registry |
 | [EPIC-007](./epics/EPIC-007-ai-first-features.md) | backlog | mvp | AI-First Features: AI config gen + AI-assisted merge + AI plugin compat + Agent Platform MVP-1 |

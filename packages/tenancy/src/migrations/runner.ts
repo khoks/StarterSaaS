@@ -127,11 +127,18 @@ async function applyForTenant(
       // the tenant schema (outside a transaction it's a no-op + warning).
       // The transaction also makes the migration atomic — if the SQL fails
       // mid-way the schema is reverted with the tenant_migrations success row.
+      //
+      // Split the migration SQL on `;` boundaries because pglite's underlying
+      // query() rejects multi-statement input. Adopters with complex migrations
+      // containing semicolons in string literals should pre-split into multiple
+      // TenantMigration entries (the kit's DDL-only migrations are safe).
       await db.transaction(async (tx) => {
         await tx.execute(
           sql`SET LOCAL search_path TO ${sql.identifier(schemaName)}, public`,
         );
-        await tx.execute(sql.raw(migration.sql));
+        for (const statement of splitStatements(migration.sql)) {
+          await tx.execute(sql.raw(statement));
+        }
         await tx.insert(tenantMigrations).values({
           tenantId,
           migrationId: migration.id,
@@ -166,4 +173,14 @@ async function applyForTenant(
     alreadyApplied,
     failures,
   };
+}
+
+/** Naive splitter: trims each `;`-delimited segment + drops empties. Adequate
+ *  for DDL-only migrations; adopters with statements containing string-literal
+ *  semicolons should pre-split into separate TenantMigration entries. */
+function splitStatements(sqlText: string): string[] {
+  return sqlText
+    .split(";")
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
 }
