@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-11 (STORY-016 sub-PR #1 in flight — `@starter-saas/gateway` Fastify factory + Zod boundary discipline + tenant-context plugin)
+**Last updated:** 2026-05-11 (STORY-016 sub-PR #2 in flight — authContextPlugin with session resolver + request.user/request.session decoration)
 
 ---
 
@@ -11,7 +11,7 @@
 | ID | Title | Owner | Notes |
 |---|---|---|---|
 | EPIC-004 | Communication Plumbing — API gateway + Event bus pg-outbox + Notifications | user (PM) + assistant | Active. STORY-016 in progress; STORY-017 + STORY-018 queued |
-| STORY-016 | Fastify gateway + Zod boundary discipline + plugin extension points | user (PM) + assistant | **Sub-PR #1 in flight**: `@starter-saas/gateway` package — `createGateway()` + Zod type provider + structured 400s + `/health` + `tenantContextPlugin` wiring rate-limit middleware. Sub-PRs #2 (auth-context) + #3 (`apps/starter` reference impl) follow |
+| STORY-016 | Fastify gateway + Zod boundary discipline + plugin extension points | user (PM) + assistant | Sub-PR #1 landed (`@starter-saas/gateway` factory + Zod + `tenantContextPlugin`). **Sub-PR #2 in flight**: `authContextPlugin` with adopter-supplied SessionResolver + request.user/request.session decoration + 401 in required mode + reconciliation with tenant-context. Sub-PR #3 (`apps/starter` reference impl) follows |
 
 ---
 
