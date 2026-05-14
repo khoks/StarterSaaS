@@ -2,14 +2,14 @@
 id: STORY-016
 title: Fastify gateway + Zod boundary discipline + plugin extension points
 type: story
-status: backlog
+status: in-progress
 priority: P0
 estimate: L
 parent: EPIC-004
 phase: mvp
 tags: [mvp, gateway, fastify, zod]
 created: 2026-05-06
-updated: 2026-05-06
+updated: 2026-05-11
 ---
 
 ## Description
@@ -45,3 +45,5 @@ Stand up the Fastify-based API gateway for the kit (per [D-24](../../docs/decisi
 ## Activity log
 
 - 2026-05-06 — created as part of [STORY-012](./STORY-012-mvp1-scope-lockdown.md) Q2 Story decomposition
+- 2026-05-11 — picked up. Sub-PR plan: (#1) new `@starter-saas/gateway` package — Fastify v5 factory + Zod type provider + structured 400 error formatter + kit-default `/health` route + `tenantContextPlugin` decorating `request.tenantId` and optionally wiring the per-tenant rate-limit middleware from `@starter-saas/tenancy`; (#2) auth-context plugin wiring `@starter-saas/auth` sign-in / sign-up / magic-link flows behind routes; (#3) `apps/starter` minimal entry running the gateway end-to-end. Per the story description, the gateway "lives in `apps/starter`" — but factored as a reusable `@starter-saas/gateway` package so adopters get a kit-defaults factory while `apps/starter` becomes the reference impl that calls it.
+- 2026-05-11 — **Sub-PR #1 in progress**: `@starter-saas/gateway` package with `createGateway()` factory + Zod type provider + structured 400 error formatter + Zod-schema'd `/health` (with serializer-side response validation catching handler bugs) + `tenantContextPlugin` (decorates `request.tenantId`, optional per-tenant rate-limit preHandler via `createRateLimitMiddleware` from `@starter-saas/tenancy`). Uses `fastify-plugin` for cross-encapsulation decorator visibility + `fastify-type-provider-zod` v4 for Zod-typed route schemas. 11 new tests: 6 factory (boot / `/health` default + opt-out / 400 on invalid body with structured issues / handler sees typed body / serializer catches wrong response shape) + 5 tenant-context (header extraction / null on missing / custom extractor override / rate-limit enforced after maxPerWindow / rate-limit skips when no tenant in scope). **Total test count: 192** (48 auth + 10 event-bus + 11 saga + 6 cli + 106 tenancy + 11 gateway). Typecheck + build + test green across 10 packages.

@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-11 (STORY-015 done. EPIC-003 closed. EPIC-004 picked up — communication plumbing — STORY-016 next)
+**Last updated:** 2026-05-11 (STORY-016 sub-PR #1 in flight — `@starter-saas/gateway` Fastify factory + Zod boundary discipline + tenant-context plugin)
 
 ---
 
@@ -10,7 +10,8 @@
 
 | ID | Title | Owner | Notes |
 |---|---|---|---|
-| EPIC-004 | Communication Plumbing — API gateway + Event bus pg-outbox + Notifications | user (PM) + assistant | Next Phase D Epic. STORY-016 (Fastify gateway) → STORY-017 (pg-outbox + DLQ replay) → STORY-018 (email adapter) |
+| EPIC-004 | Communication Plumbing — API gateway + Event bus pg-outbox + Notifications | user (PM) + assistant | Active. STORY-016 in progress; STORY-017 + STORY-018 queued |
+| STORY-016 | Fastify gateway + Zod boundary discipline + plugin extension points | user (PM) + assistant | **Sub-PR #1 in flight**: `@starter-saas/gateway` package — `createGateway()` + Zod type provider + structured 400s + `/health` + `tenantContextPlugin` wiring rate-limit middleware. Sub-PRs #2 (auth-context) + #3 (`apps/starter` reference impl) follow |
 
 ---
 
@@ -18,7 +19,6 @@
 
 | ID | Title | Estimate | Why next |
 |---|---|---|---|
-| STORY-016 | Fastify gateway + Zod boundary discipline + plugin extension points | L | First Story of EPIC-004; the HTTP layer many deferred ACs from EPIC-003 are waiting on |
 | STORY-017 | pg-outbox event bus adapter + saga primitives package + DLQ replay | XL | Replaces `InMemoryEventBus` for production deployment; pg-outbox pattern over the existing Kafka-shaped contract surface |
 | STORY-018 | Email notification adapter + per-tenant template system | M | Wires the saga step 9 `NotificationsSender` to a real provider |
 | (deferred) | OAuth via @auth/core (Google / GitHub / Apple) | M | Was STORY-013 sub-PR #4; deferred until apps/starter HTTP layer exists — STORY-016 unblocks |
