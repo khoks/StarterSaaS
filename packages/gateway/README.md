@@ -11,10 +11,15 @@ Fastify-based HTTP gateway for StarterSaaS — opinionated factory per [D-24](..
 - **`tenantContextPlugin`** — Fastify plugin that:
   - Decorates `request.tenantId` (string | null) via an adopter-supplied extractor (default reads `x-tenant-id` header)
   - Optionally registers the per-tenant rate-limit middleware from `@starter-saas/tenancy` as a `preHandler` (default 100 q/s per tenant)
+- **`authContextPlugin`** (sub-PR #2) — Fastify plugin that:
+  - Extracts a session token (default: `starter-saas-session` cookie OR `Authorization: Bearer <token>` header)
+  - Resolves the token via an adopter-supplied `SessionResolver` (Auth.js session table / Redis / JWT verify)
+  - Decorates `request.session` (`Session | null` from `@starter-saas/auth`) + `request.user` convenience alias
+  - When `required: true`, emits structured 401 on missing/invalid sessions
+  - Reconciles with `tenantContextPlugin`: session's `activeTenant.tenantId` overrides the header-extracted `request.tenantId`
 
 ## What's coming in later sub-PRs of STORY-016
 
-- **Sub-PR #2** — Auth-context plugin wiring the `@starter-saas/auth` flows behind routes (sign-in / sign-up / magic-link / TOTP); preHandler that extracts session → decorates `request.user` + `request.session`
 - **Sub-PR #3** — `apps/starter` minimal entry running the gateway end-to-end with the auth + tenancy + provisioning-saga subsystems wired together
 
 ## Usage
