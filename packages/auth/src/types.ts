@@ -7,15 +7,22 @@
  * binding `packages/auth` to Fastify or Next or any specific transport.
  */
 
-import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
+import type { ExtractTablesWithRelations } from "drizzle-orm";
+import type { PgDatabase, PgQueryResultHKT } from "drizzle-orm/pg-core";
 
 import type * as schema from "./db/schema.js";
 
 /**
  * Drizzle DB handle bound to our `platform` schema. Adopter constructs this
- * once at app boot and passes into every flow function.
+ * once at app boot and passes into every flow function. Cross-adapter type
+ * (postgres-js production per D-32 + pglite test harness per STORY-015
+ * sub-PR #1) so the same flows + adapters work end-to-end across both.
  */
-export type AuthDb = PostgresJsDatabase<typeof schema>;
+export type AuthDb = PgDatabase<
+  PgQueryResultHKT,
+  typeof schema,
+  ExtractTablesWithRelations<typeof schema>
+>;
 
 /**
  * Email sender adapter. Default is `noopEmailSender` (no-op + console log)
