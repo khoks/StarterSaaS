@@ -1,0 +1,34 @@
+{
+  "name": "@starter-saas/notifications",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Notifications subsystem for StarterSaaS — pluggable email sender + template registry + event-bus-driven async delivery (per ADR-0005). MVP-1 ships ConsoleEmailSender + NoopEmailSender; adopters wire SES/SendGrid/Resend/Postmark/etc via the EmailSender contract. SMS / push / WhatsApp adapters slated v1+.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src",
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --max-warnings=0"
+  },
+  "dependencies": {
+    "@starter-saas/event-bus": "*",
+    "drizzle-orm": "^0.36.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "vitest": "^2.0.0"
+  }
+}

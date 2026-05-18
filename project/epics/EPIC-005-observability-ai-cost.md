@@ -2,12 +2,12 @@
 id: EPIC-005
 title: Observability + AI Cost — OTel + Langfuse + cost dashboards + budget enforcement + status page
 type: epic
-status: backlog
+status: in-progress
 priority: P0
 phase: mvp
 tags: [mvp, observability, llm-cost, budgets, status-page]
 created: 2026-05-05
-updated: 2026-05-05
+updated: 2026-05-14
 ---
 
 ## Goal
