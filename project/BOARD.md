@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-14 (STORY-018 done. EPIC-004 closed. EPIC-005 (Observability + AI Cost) picked up next)
+**Last updated:** 2026-05-14 (STORY-019 sub-PR #1 in flight — `@starter-saas/observability` foundation)
 
 ---
 
@@ -10,7 +10,7 @@
 
 | ID | Title | Owner | Notes |
 |---|---|---|---|
-| EPIC-005 | Observability + AI Cost — OTel + Langfuse + dashboards + budgets + status page | user (PM) + assistant | Next Phase D Epic; 3 Stories queued |
+| EPIC-005 | Observability + AI Cost — OTel + Langfuse + dashboards + budgets + status page | user (PM) + assistant | Active. **STORY-019 sub-PR #1 in flight**: `@starter-saas/observability` foundation (OTel SDK + adaptive sampler + Pino with PII redactor + GenAI span helpers + tenant-context propagation). Sub-PRs #2-#3 follow (Fastify+Drizzle instrumentation, cost-rollup consumer) |
 
 ---
 
