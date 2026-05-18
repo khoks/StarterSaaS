@@ -19,6 +19,9 @@ import { resolve } from "node:path";
 
 import { Command } from "commander";
 
+import type { EventBus } from "@starter-saas/event-bus";
+import type { SagaStore } from "@starter-saas/saga";
+
 import {
   archiveTenant,
   restoreTenant,
@@ -33,13 +36,18 @@ import {
   type TenantMigrationsReport,
 } from "@starter-saas/tenancy";
 
-/** Shape of the adopter's `--config` module — default-export this object. */
+/** Shape of the adopter's `--config` module — default-export this object.
+ *  Optional fields are only required for the subcommands that consume them. */
 export interface TenantCliContext {
   db: TenantDb;
-  /** Optional — only required for `tenant migrate`. */
+  /** Required for `tenant migrate`. */
   migrations?: readonly TenantMigration[];
-  /** Optional — only required for `tenant hard-delete`. */
+  /** Required for `tenant hard-delete`. */
   schemaManager?: SchemaManager;
+  /** Required for `events replay`. */
+  eventBus?: EventBus;
+  /** Required for `sagas list` + `sagas cancel`. */
+  sagaStore?: SagaStore;
 }
 
 /** Back-compat alias for STORY-015 sub-PR #2 (`migrate`-only context shape). */

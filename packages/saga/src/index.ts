@@ -26,3 +26,5 @@ export { SagaRunner } from "./runner.js";
 export type { RunOptions } from "./runner.js";
 
 export { InMemorySagaStore } from "./in-memory-store.js";
+
+export { cancelSaga, type CancelSagaResult } from "./cancel.js";

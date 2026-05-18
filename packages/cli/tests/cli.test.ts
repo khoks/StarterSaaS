@@ -61,4 +61,40 @@ describe("buildCli() — top-level program", () => {
       expect.arrayContaining(["--tenant", "--parallelism", "--fail-fast", "--dry-run"]),
     );
   });
+
+  it("registers the `events` command group with list-dlq + replay subcommands", () => {
+    const cli = buildCli();
+    const events = cli.commands.find((c) => c.name() === "events");
+    expect(events).toBeDefined();
+    const subs = events?.commands.map((c) => c.name()) ?? [];
+    expect(subs).toEqual(expect.arrayContaining(["list-dlq", "replay"]));
+  });
+
+  it("`events replay` declares --dlq-id + --config", () => {
+    const cli = buildCli();
+    const replay = cli.commands
+      .find((c) => c.name() === "events")
+      ?.commands.find((c) => c.name() === "replay");
+    const optionNames = replay?.options.map((o) => o.long) ?? [];
+    expect(optionNames).toEqual(expect.arrayContaining(["--config", "--dlq-id"]));
+  });
+
+  it("registers the `sagas` command group with list + cancel subcommands", () => {
+    const cli = buildCli();
+    const sagas = cli.commands.find((c) => c.name() === "sagas");
+    expect(sagas).toBeDefined();
+    const subs = sagas?.commands.map((c) => c.name()) ?? [];
+    expect(subs).toEqual(expect.arrayContaining(["list", "cancel"]));
+  });
+
+  it("`sagas cancel` declares --saga-id + --reason + --config", () => {
+    const cli = buildCli();
+    const cancel = cli.commands
+      .find((c) => c.name() === "sagas")
+      ?.commands.find((c) => c.name() === "cancel");
+    const optionNames = cancel?.options.map((o) => o.long) ?? [];
+    expect(optionNames).toEqual(
+      expect.arrayContaining(["--config", "--saga-id", "--reason"]),
+    );
+  });
 });
