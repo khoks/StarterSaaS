@@ -12,6 +12,7 @@
 export { PgOutboxEventBus, type PgOutboxEventBusOptions } from "./bus.js";
 export { OutboxPoller, type OutboxPollerOptions, type PollerHandler } from "./poller.js";
 export { OutboxWriter } from "./writer.js";
+export { listDlqEntries, replayDlqEntry, type ReplayResult } from "./replay.js";
 export type { OutboxDb } from "./db-handle.js";
 export {
   eventDedupe,

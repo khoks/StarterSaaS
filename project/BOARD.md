@@ -2,7 +2,7 @@
 
 > Read this first every session. The frontmatter in [`epics/`](./epics/), [`stories/`](./stories/), and [`tasks/`](./tasks/) is the authoritative source — this file is the human-readable summary, kept in sync by the `work-tracking` skill at session end.
 
-**Last updated:** 2026-05-11 (STORY-016 done — Fastify gateway + apps/starter reference impl. STORY-017 next)
+**Last updated:** 2026-05-14 (STORY-017 done — pg-outbox event bus + DLQ replay + saga cancel. STORY-018 next)
 
 ---
 
@@ -10,8 +10,7 @@
 
 | ID | Title | Owner | Notes |
 |---|---|---|---|
-| EPIC-004 | Communication Plumbing — API gateway + Event bus pg-outbox + Notifications | user (PM) + assistant | Active. STORY-016 in progress; STORY-017 + STORY-018 queued |
-| STORY-017 | pg-outbox event bus adapter + saga primitives package + DLQ replay | user (PM) + assistant | Next. Replaces `InMemoryEventBus` from STORY-014 sub-PR #1 with production pg-outbox adapter over the same Kafka-shaped contract surface. Adds DLQ + replay CLI |
+| EPIC-004 | Communication Plumbing — API gateway + Event bus pg-outbox + Notifications | user (PM) + assistant | Active. STORY-016 + STORY-017 done; STORY-018 next |
 
 ---
 
@@ -19,7 +18,7 @@
 
 | ID | Title | Estimate | Why next |
 |---|---|---|---|
-| STORY-018 | Email notification adapter + per-tenant template system | M | Wires the saga step 9 `NotificationsSender` to a real provider |
+| STORY-018 | Email notification adapter + per-tenant template system | M | Wires the saga step 9 `NotificationsSender` to a real provider (Postmark / SES / Resend / etc.) over the now-working pg-outbox bus; closes EPIC-004 |
 | (deferred) | OAuth via @auth/core (Google / GitHub / Apple) | M | Was STORY-013 sub-PR #4; apps/starter HTTP layer now exists — picks up after EPIC-004 if not folded into one of its Stories |
 | EPIC-005 | Observability + AI Cost — OTel + Langfuse + dashboards + budgets + status page | (3 Stories) | Foundational; depends on EPIC-004 |
 | EPIC-006 | AI Foundation — LLM Gateway + ai-ui primitives + architecture registry | (3 Stories) | Depends on EPIC-003/004/005 |
@@ -38,6 +37,7 @@
 
 | ID | Title | Closed | Notes |
 |---|---|---|---|
+| STORY-017 | pg-outbox event bus adapter + saga primitives package + DLQ replay | 2026-05-14 | 2 sub-PRs landed: (#41) `PgOutboxEventBus` + `OutboxWriter` + `OutboxPoller` + `platform.{outbox, event_dedupe, event_dlq}` schema; (this PR) `events list-dlq` / `events replay` + `sagas list` / `sagas cancel` CLI subcommands + `cancelSaga` helper + `replayDlqEntry` helper. 239 tests green across 7 packages. pg_notify wakeup + exponential backoff + durable retry counter explicitly deferred to v1+ as documented enhancements |
 | STORY-016 | Fastify gateway + Zod boundary discipline + plugin extension points | 2026-05-11 | 3 sub-PRs (#38 gateway factory + tenant-context, #39 authContextPlugin + SessionResolver, this PR apps/starter reference impl). 212 tests green. First time the kit exercises a real HTTP layer end-to-end (sign-up → sign-in → /me → sign-out against PGlite). OTel + ADR-0013 plugin-spec ACs deferred to EPIC-005 + EPIC-007 |
 | **EPIC-003** | **Identity + Tenancy — Auth + Tenancy infra + Multi-tenant DB** | **2026-05-11** | **All 4 Stories closed**: STORY-032 (monorepo bootstrap) + STORY-013 (auth flows; 4 sub-PRs) + STORY-014 (tenancy + saga + cross-schema; 4 sub-PRs) + STORY-015 (CLI + migration runner + archival + RBAC; 4 sub-PRs). 13 PRs. **181 tests green** across 5 packages. Real-Postgres integration via PGlite confirms saga + archival + migration + RBAC end-to-end. OAuth + UI tenant switcher deferred to apps/starter HTTP layer |
 | STORY-015 | Tenant migration runner + 2-stage archival + RBAC sketch | 2026-05-11 | 4 sub-PRs landed: (#34) CLI skeleton + pglite harness; (#35) migration runner + cross-adapter `TenantDb` + end-to-end saga vs real Postgres; (#36) 2-stage archival + tenant doctor; (this PR) RBAC tables + `requireRole`/`requirePermission` middleware + `DrizzleTenantSeeder`. 181 tests green. Closes EPIC-003 |
