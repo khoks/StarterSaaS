@@ -35,12 +35,15 @@ describe("createTestDb() — pglite harness", () => {
     expect(rows.rows).toHaveLength(1);
   });
 
-  it("creates the four platform tables (tenants, tenant_migrations, tenant_archive_log, saga_instances)", async () => {
+  it("creates the seven platform tables (tenancy + saga + pg-outbox bus)", async () => {
     const result = await harness.client.query<{ table_name: string }>(
       `SELECT table_name FROM information_schema.tables WHERE table_schema = 'platform' ORDER BY table_name`,
     );
     const names = result.rows.map((r) => r.table_name);
     expect(names).toEqual([
+      "event_dedupe",
+      "event_dlq",
+      "outbox",
       "saga_instances",
       "tenant_archive_log",
       "tenant_migrations",

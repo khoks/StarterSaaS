@@ -2,14 +2,14 @@
 id: STORY-017
 title: pg-outbox event bus adapter + saga primitives package + DLQ replay
 type: story
-status: backlog
+status: in-progress
 priority: P0
 estimate: XL
 parent: EPIC-004
 phase: mvp
 tags: [mvp, event-bus, saga, outbox, kafka-shaped]
 created: 2026-05-06
-updated: 2026-05-06
+updated: 2026-05-14
 ---
 
 ## Description
@@ -46,3 +46,5 @@ Implement `@starter-saas/event-bus-pg-outbox` as MVP-1 default adapter per [ADR-
 ## Activity log
 
 - 2026-05-06 — created as part of [STORY-012](./STORY-012-mvp1-scope-lockdown.md) Q2 Story decomposition
+- 2026-05-14 — picked up. The Kafka-shaped contract surface + `InMemoryEventBus` + `@starter-saas/saga` (SagaRunner + InMemorySagaStore) + `DrizzleSagaStore` already shipped in STORY-014. STORY-017 lands the production `pg-outbox` adapter that implements the same `EventBus` contract over `platform.outbox` + dedupe + DLQ tables. Sub-PR plan: (1) platform schema additions (`platform.{outbox, event_dedupe, event_dlq}`) + `PgOutboxEventBus` + `OutboxWriter` (adopter-tx-aware) + `OutboxPoller` (Kafka-shaped: per-partition ordering / consumer-group fanout / dedupe / retry-then-DLQ) + 10 integration tests against pglite; (2) `cli events replay <dlq-id>` + `cli sagas cancel <saga-id>` + closeout.
+- 2026-05-14 — **Sub-PR #1 in progress**: pg-outbox adapter. Added 3 platform tables to `@starter-saas/event-bus/src/pg-outbox/schema.ts` (placed there, not in `@starter-saas/tenancy`, to avoid the `event-bus → tenancy → event-bus` cycle that would form if they lived in tenancy). Updated tenancy's testing harness DDL (`applyPlatformSchema`) to include the 3 new tables so the existing pglite test infra works unchanged. Built `OutboxWriter` (atomic-with-business-state via adopter's tx) + `OutboxPoller` (5-parallel cross-partition, serial within partition; consumer-group fanout; in-memory retry counter with `nextAttemptAt` backoff; durable DLQ row on max-retries; in-memory DLQ mirror for `EventBus.deadLetterQueue()`) + `PgOutboxEventBus` (thin `EventBus`-shape wrapper with `start()`/`tick()`/`shutdown()` lifecycle). Added drizzle-orm dep to event-bus. 10 new integration tests against PGlite: outbox writer (full envelope + tx-atomicity rollback), bus delivery (single group + fanout + idempotent re-delivery + per-partition ordering), retry+DLQ (retries → DLQ after maxRetries + backoff window + one-group-DLQ-doesn't-block-others), unsubscribe lifecycle. **Total test count: 222** (48 auth + 11 saga + 10 event-bus + 6 cli + 26 gateway + 5 starter + 116 tenancy). Typecheck + build + test green across 12 packages. **Limitations documented**: no pg_notify wakeup yet (pure polling — perf upgrade, not contract change); in-memory retry counter resets on restart (worst case = few extra retries; no events lost since outbox is durable); single-process consumer group (multi-process LB is v1+ via row-level locking).

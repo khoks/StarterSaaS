@@ -109,4 +109,47 @@ export async function applyPlatformSchema(
       completed_at       timestamptz
     )
   `);
+
+  // Pg-outbox event-bus tables per ADR-0005.
+  await db.execute(`
+    CREATE TABLE IF NOT EXISTS platform.outbox (
+      id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+      topic           text NOT NULL,
+      partition_key   text NOT NULL,
+      idempotency_key text NOT NULL,
+      payload         jsonb NOT NULL,
+      headers         jsonb NOT NULL DEFAULT '{}'::jsonb,
+      emitted_at      timestamptz NOT NULL DEFAULT now(),
+      processed_at    timestamptz
+    )
+  `);
+  await db.execute(
+    `CREATE INDEX IF NOT EXISTS outbox_processed_at_idx ON platform.outbox (processed_at, emitted_at)`,
+  );
+
+  await db.execute(`
+    CREATE TABLE IF NOT EXISTS platform.event_dedupe (
+      consumer_group  text NOT NULL,
+      idempotency_key text NOT NULL,
+      processed_at    timestamptz NOT NULL DEFAULT now(),
+      PRIMARY KEY (consumer_group, idempotency_key)
+    )
+  `);
+
+  await db.execute(`
+    CREATE TABLE IF NOT EXISTS platform.event_dlq (
+      id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+      outbox_id       uuid,
+      consumer_group  text NOT NULL,
+      topic           text NOT NULL,
+      partition_key   text NOT NULL,
+      idempotency_key text NOT NULL,
+      payload         jsonb NOT NULL,
+      headers         jsonb NOT NULL DEFAULT '{}'::jsonb,
+      last_error      text NOT NULL,
+      attempts        integer NOT NULL,
+      failed_at       timestamptz NOT NULL DEFAULT now(),
+      replayed_at     timestamptz
+    )
+  `);
 }
