@@ -1,15 +1,17 @@
 /**
- * @starter-saas/event-bus — Kafka-shaped event bus contract + in-memory adapter.
+ * @starter-saas/event-bus — Kafka-shaped event bus contract + adapters.
  *
  * Per D-45 / ADR-0005: the contract surface is Kafka-shaped from day 1. This
- * package ships the types + `InMemoryEventBus` (for tests + in-process saga
- * execution). Production adapters land in:
+ * package ships:
  *
- *   - `@starter-saas/event-bus-pg-outbox` (MVP-1 default — STORY-017)
- *   - `@starter-saas/event-bus-kafka` (v1 target — drop-in swap)
+ *   - Types + Zod contracts for the bus envelope
+ *   - `InMemoryEventBus` (in-process, for tests + small flows)
+ *   - `PgOutboxEventBus` (MVP-1 production default — STORY-017): Kafka
+ *     semantics over Postgres outbox table; writer + poller + dedupe + DLQ
  *
- * All adapters satisfy the same `EventBus` interface — adopter code is
- * unchanged across swaps.
+ * Future adapters land in subsequent packages (`@starter-saas/event-bus-kafka`
+ * v1 target, Redis Streams / EventBridge / Pub/Sub v1+). All adapters satisfy
+ * the same `EventBus` interface — adopter code is unchanged across swaps.
  */
 
 export const PACKAGE_NAME = "@starter-saas/event-bus" as const;
@@ -27,3 +29,6 @@ export type {
 export { EventSchema } from "./types.js";
 
 export { InMemoryEventBus } from "./in-memory.js";
+
+// Pg-outbox adapter (MVP-1 production default per ADR-0005).
+export * from "./pg-outbox/index.js";
